@@ -45,17 +45,17 @@
 .create-v2-palette-info{min-width:0}
 .create-v2-palette-info strong{display:block;font:700 12px ui-monospace,SFMono-Regular,Menlo,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .create-v2-palette-info span{display:block;margin-top:5px;color:#888780;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
-.create-v2-palette-actions{display:flex;align-items:center;gap:4px;padding-left:2px}
-.create-v2-palette-actions button{position:relative;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;padding:0;border:1px solid #deddd7;border-radius:9px;background:#f7f7f3;color:#5f615d;cursor:pointer;line-height:0;transition:background .16s ease,border-color .16s ease,color .16s ease,transform .16s ease,box-shadow .16s ease}
-.create-v2-palette-actions button svg{width:13px;height:13px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
-.create-v2-palette-actions button[data-up] svg,.create-v2-palette-actions button[data-down] svg{width:14px;height:14px}
-.create-v2-palette-actions button[data-up] svg{transform:translateY(-.5px)}
-.create-v2-palette-actions button[data-down] svg{transform:translateY(.5px)}
-.create-v2-palette-actions .cp-icon-button-danger{color:#777974}
-.create-v2-palette-actions button:hover{border-color:#c6c4bc;background:#efefea;color:#292b28;transform:translateY(-1px);box-shadow:0 4px 10px rgba(24,24,27,.06)}
-.create-v2-palette-actions .cp-icon-button-danger:hover{border-color:#d0c0c0;background:#f5eeee;color:#8a4545}
-.create-v2-palette-actions button:active{transform:translateY(0);box-shadow:none}
-.create-v2-palette-actions button:focus-visible{outline:2px solid #9d9c95;outline-offset:2px}
+.create-v2-palette-actions{display:flex;align-items:center;gap:2px;padding-left:4px}
+.create-v2-palette-actions button,.cp-icon-button{position:relative;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;padding:0;border:1px solid transparent;border-radius:8px;background:transparent;color:#6f716b;cursor:pointer;line-height:0;transition:background .16s ease,border-color .16s ease,color .16s ease,transform .16s ease,box-shadow .16s ease}
+.create-v2-palette-actions button svg,.cp-icon-button svg{width:15px;height:15px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;overflow:visible;shape-rendering:geometricPrecision}
+.create-v2-palette-actions button[data-up] svg,.create-v2-palette-actions button[data-down] svg{width:16px;height:16px}
+.create-v2-palette-actions button[data-up] svg{transform:translateY(-.25px)}
+.create-v2-palette-actions button[data-down] svg{transform:translateY(.25px)}
+.create-v2-palette-actions button:hover,.cp-icon-button:hover{border-color:#deddd6;background:#f4f4ef;color:#30322f;transform:translateY(-1px);box-shadow:0 3px 8px rgba(24,24,27,.05)}
+.create-v2-palette-actions button:active,.cp-icon-button:active{transform:translateY(0) scale(.96);box-shadow:none;background:#ecece7}
+.create-v2-palette-actions button:focus-visible,.cp-icon-button:focus-visible{outline:2px solid #999991;outline-offset:2px}
+.create-v2-palette-actions button.cp-icon-button-danger{color:#777973}
+.create-v2-palette-actions button.cp-icon-button-danger:hover{border-color:#d8c3c3;background:#f7efef;color:#914b4b}
 .generated-head{margin-top:7px}
 .create-v2-generated{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
 .create-v2-generated-item{position:relative;min-height:94px;padding:10px;border:1px solid #e1e1db;border-radius:13px;background:linear-gradient(to bottom,#fff 0 69%,#f7f7f3 69%);text-align:left;cursor:pointer;overflow:hidden;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
@@ -82,14 +82,16 @@ html[data-theme="dark"] .create-v2-preview-copy span,html[data-theme="dark"] .cr
 html[data-theme="dark"] .create-v2-palette-item{background:#1c2024;border-color:#353a40}
 html[data-theme="dark"] .create-v2-palette-item.is-base{border-color:#697079}
 html[data-theme="dark"] .create-v2-palette-info span{color:#959aa0}
-html[data-theme="dark"] .create-v2-palette-actions button{background:#22262b;border-color:#3b4047;color:#d0d5da}
-html[data-theme="dark"] .create-v2-palette-actions button:hover{background:#2c3136;border-color:#5f6670;color:#f1f3ef;box-shadow:0 5px 14px rgba(0,0,0,.25)}
-html[data-theme="dark"] .create-v2-palette-actions .cp-icon-button-danger:hover{background:#302527;border-color:#60494b;color:#dc9292}
-html[data-theme="dark"] .create-v2-palette-actions button:focus-visible{outline-color:#707780}
+html[data-theme="dark"] .create-v2-palette-actions button,html[data-theme="dark"] .cp-icon-button{background:transparent;border-color:transparent;color:#c4c9ce}
+html[data-theme="dark"] .create-v2-palette-actions button:hover,html[data-theme="dark"] .cp-icon-button:hover{background:#292e33;border-color:#434951;color:#f0f2ee;box-shadow:0 4px 10px rgba(0,0,0,.22)}
+html[data-theme="dark"] .create-v2-palette-actions button:active,html[data-theme="dark"] .cp-icon-button:active{background:#30363c}
+html[data-theme="dark"] .create-v2-palette-actions button:focus-visible,html[data-theme="dark"] .cp-icon-button:focus-visible{outline-color:#8a929a}
+html[data-theme="dark"] .create-v2-palette-actions button.cp-icon-button-danger{color:#adb3b8}
+html[data-theme="dark"] .create-v2-palette-actions button.cp-icon-button-danger:hover{background:#302326;border-color:#60494b;color:#e09a9a}
 html[data-theme="dark"] .create-v2-generated-item{border-color:#3b4047;background:linear-gradient(to bottom,#1d2125 0 69%,#191c20 69%)}
 html[data-theme="dark"] .create-v2-generated-item strong{color:#e1e4df}
 html[data-theme="dark"] .create-v2-generated-item small{color:#969ba2}
 html[data-theme="dark"] .create-v2-generated-item:hover{border-color:#626a73;box-shadow:0 18px 35px rgba(0,0,0,.28)}
 @media(max-width:1050px){.create-v2-layout{grid-template-columns:1fr}.create-v2-controls{position:static}.create-v2-generated{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:700px){.create-v2-main-preview{grid-template-columns:1fr}.create-v2-primary-swatch{min-height:180px}.create-v2-palette-grid{grid-template-columns:1fr}.create-v2-generated{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:480px){.create-v2-controls,.create-v2-workspace{padding:16px}.create-v2-generated{grid-template-columns:1fr 1fr}.create-v2-fields{gap:5px}.create-v2-fields input{padding-left:7px;padding-right:37px}.create-v2-fields small{right:22px}.create-v2-workspace-head h2{font-size:24px}.create-v2-palette-actions{gap:3px}.create-v2-palette-actions button{width:28px;height:28px}}
+@media(max-width:480px){.create-v2-controls,.create-v2-workspace{padding:16px}.create-v2-generated{grid-template-columns:1fr 1fr}.create-v2-fields{gap:5px}.create-v2-fields input{padding-left:7px;padding-right:37px}.create-v2-fields small{right:22px}.create-v2-workspace-head h2{font-size:24px}.create-v2-palette-actions{gap:2px;padding-left:2px}.create-v2-palette-actions button{width:28px;height:28px}}
