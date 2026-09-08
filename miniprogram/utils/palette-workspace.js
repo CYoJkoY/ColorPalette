@@ -4,6 +4,10 @@ const MAX_HISTORY = 40;
 const MAX_COLORS = 120;
 const MAX_PALETTES = 60;
 
+function createId(prefix = 'palette') {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
 function normalizeHex(hex) {
   return String(hex || '').trim().toUpperCase();
 }
@@ -11,7 +15,7 @@ function normalizeHex(hex) {
 function normalizePalette(palette = {}) {
   const colors = (palette.colors || []).map(normalizeHex).filter(Boolean).slice(0, 8);
   return {
-    id: palette.id || `palette-${Date.now()}`,
+    id: palette.id || createId(),
     name: String(palette.name || 'Untitled palette').trim() || 'Untitled palette',
     colors,
     source: palette.source || 'custom',
@@ -84,7 +88,7 @@ function duplicatePalette(id) {
   const workspace = getWorkspace();
   const source = workspace.palettes.find(item => item.id === id);
   if (!source) return null;
-  return savePalette({ ...source, id: `palette-${Date.now()}`, name: `${source.name} Copy` });
+  return savePalette({ ...source, id: createId(), name: `${source.name} Copy` });
 }
 
 function addHistory(item) {
