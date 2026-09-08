@@ -1,8 +1,8 @@
 const assert = require('assert');
-const color = require('../miniprogram/utils/color');
-const oklab = require('../miniprogram/utils/oklab');
-const advanced = require('../miniprogram/utils/advanced-palette');
-const library = require('../miniprogram/utils/color-library');
+const color = require('../core/color');
+const oklab = require('../core/oklab');
+const advanced = require('../core/advanced-palette');
+const library = require('../core/color-library');
 
 assert.deepStrictEqual(color.hexToRgb('#fff'), { r: 255, g: 255, b: 255 });
 assert.strictEqual(color.rgbToHex(255, 0, 16), '#FF0010');

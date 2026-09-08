@@ -1,2 +1,0 @@
-const {getFavorites,toggleFavorite}=require('../../utils/storage');
-Page({data:{items:[]},onShow(){this.setData({items:getFavorites()})},remove(e){toggleFavorite(e.currentTarget.dataset.item);this.setData({items:getFavorites()});wx.showToast({title:'已取消收藏',icon:'none'})},open(e){const i=e.currentTarget.dataset.item;wx.navigateTo({url:'/pages/palette/palette?name='+encodeURIComponent(i.name)+'&id='+encodeURIComponent(i.id)})}});

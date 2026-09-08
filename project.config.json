@@ -1,7 +1,0 @@
-{
-  "miniprogramRoot":"miniprogram/",
-  "projectname":"ColorPalette",
-  "description":"A lightweight color palette and image color extraction WeChat Mini Program.",
-  "appid":"",
-  "setting":{"urlCheck":true,"es6":true,"enhance":true,"postcss":true,"minified":true,"compileHotReLoad":true}
-}

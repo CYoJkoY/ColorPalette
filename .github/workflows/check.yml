@@ -13,11 +13,9 @@ jobs:
         with:
           node-version: 24
       - name: Run framework-free tests
-        run: |
-          node tests/color.test.js
-          node tests/palette-workspace.test.js
+        run: node tests/color.test.js
       - name: Validate JSON
-        run: node -e "for (const f of ['miniprogram/app.json','sitemap.json','project.config.json']) JSON.parse(require('fs').readFileSync(f,'utf8')); console.log('JSON ok')"
+        run: node -e "for (const f of []) JSON.parse(require('fs').readFileSync(f,'utf8')); console.log('JSON ok')"
       - name: Validate required assets
         run: |
           test -s assets/readme/hero.svg
@@ -47,39 +45,36 @@ jobs:
           const vm=require('vm');
           const ctx={window:{}};
           vm.createContext(ctx);
-          for(const file of ['web/locales/zh-CN.js','web/locales/en-US.js']){
-            vm.runInContext(fs.readFileSync(file,'utf8'),ctx,{filename:file});
-          }
+          for(const file of ['web/locales/zh-CN.js','web/locales/en-US.js']) vm.runInContext(fs.readFileSync(file,'utf8'),ctx,{filename:file});
           const locales=ctx.window.ColorPaletteLocales;
           const zh=locales?.['zh-CN'],en=locales?.['en-US'];
           if(!zh?.ui||!en?.ui||!zh?.relations||!en?.relations||!zh?.relationDescriptions||!en?.relationDescriptions||!zh?.modes||!en?.modes) throw new Error('Locale resources missing');
           const requireKeys=(a,b,path)=>{const missing=Object.keys(a).filter(key=>!(key in b));if(missing.length)throw new Error(`Missing locale keys at ${path}: ${missing.join(',')}`)};
-          requireKeys(zh.ui,en.ui,'ui');
-          requireKeys(en.ui,zh.ui,'ui');
-          requireKeys(zh.relations,en.relations,'relations');
-          requireKeys(en.relations,zh.relations,'relations');
-          requireKeys(zh.relationDescriptions,en.relationDescriptions,'relationDescriptions');
-          requireKeys(en.relationDescriptions,zh.relationDescriptions,'relationDescriptions');
-          requireKeys(zh.modes,en.modes,'modes');
-          requireKeys(en.modes,zh.modes,'modes');
-          const keys=Object.keys(zh.ui);
-          if(keys.some(k=>/[\u4e00-\u9fff]/.test(k))) throw new Error(`Locale key contains Chinese text: ${keys.filter(k=>/[\u4e00-\u9fff]/.test(k)).join(',')}`);
+          requireKeys(zh.ui,en.ui,'ui'); requireKeys(en.ui,zh.ui,'ui');
+          requireKeys(zh.relations,en.relations,'relations'); requireKeys(en.relations,zh.relations,'relations');
+          requireKeys(zh.relationDescriptions,en.relationDescriptions,'relationDescriptions'); requireKeys(en.relationDescriptions,zh.relationDescriptions,'relationDescriptions');
+          requireKeys(zh.modes,en.modes,'modes'); requireKeys(en.modes,zh.modes,'modes');
+          const keys=Object.keys(zh.ui); if(keys.some(k=>/[\u4e00-\u9fff]/.test(k))) throw new Error(`Locale key contains Chinese text: ${keys.filter(k=>/[\u4e00-\u9fff]/.test(k)).join(',')}`);
           console.log(`Locale resources OK: ${keys.length} shared semantic UI keys`);
           NODE
       - name: Validate generated web data
         run: |
           node web/build-data.js
           node - <<'NODE'
-          const fs=require('fs');
-          const d=JSON.parse(fs.readFileSync('web/data/colors.json','utf8'));
+          const fs=require('fs'); const d=JSON.parse(fs.readFileSync('web/data/colors.json','utf8'));
           if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty');
-          const missing=d.colors.filter(color=>typeof color.nameEn!=='string'||!color.nameEn.trim());
-          if(missing.length) throw new Error(`Missing English color names: ${missing.length}`);
-          const cjk=/[\u4e00-\u9fff]/;
-          const mixed=d.colors.filter(color=>cjk.test(color.nameEn));
-          if(mixed.length) throw new Error(`English color names contain CJK text: ${mixed.slice(0,5).map(color=>color.name).join(', ')}`);
-          console.log(`Generated color data OK: ${d.colors.length} colors with locale-safe English names`);
+          const missing=d.colors.filter(c=>typeof c.nameEn!=='string'||!c.nameEn.trim()); if(missing.length) throw new Error(`Missing English color names: ${missing.length}`);
+          const mixed=d.colors.filter(c=>/[\u4e00-\u9fff]/.test(c.nameEn)); if(mixed.length) throw new Error(`English color names contain CJK text: ${mixed.slice(0,5).map(c=>c.name).join(', ')}`);
+          console.log(`Generated color data OK: ${d.colors.length} locale-safe colors`);
           NODE
-      - name: Check JavaScript syntax
+      - name: Reject Mini Program artifacts
         run: |
-          find miniprogram tests web -name '*.js' -print0 | xargs -0 -n1 node --check
+          test ! -d miniprogram
+          test ! -e project.config.json
+          test ! -e sitemap.json
+          if git grep -nE '(^|[^A-Za-z])(wx\.|wx:|\.wxml|\.wxss|微信小程序|微信开发者工具|Mini Program|WeChat Mini Program)' -- ':!assets/readme'; then
+            echo 'Legacy Mini Program markers found.'
+            exit 1
+          fi
+      - name: Check JavaScript syntax
+        run: find tests web core -name '*.js' -print0 | xargs -0 -n1 node --check

@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const library = require('../miniprogram/utils/color-library');
+const library = require('../core/color-library');
 const out = path.join(__dirname, 'data');
 
 function englishName(item) {
