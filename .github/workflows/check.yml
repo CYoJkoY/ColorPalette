@@ -13,7 +13,9 @@ jobs:
         with:
           node-version: 20
       - name: Run framework-free tests
-        run: node tests/color.test.js
+        run: |
+          node tests/color.test.js
+          node tests/palette-workspace.test.js
       - name: Validate JSON
         run: node -e "for (const f of ['miniprogram/app.json','sitemap.json','project.config.json']) JSON.parse(require('fs').readFileSync(f,'utf8')); console.log('JSON ok')"
       - name: Validate required assets
