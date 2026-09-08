@@ -1,6 +1,6 @@
 const color = require('../../utils/color');
 const { toggleFavorite } = require('../../utils/storage');
-const { categoryNames, searchColors } = require('../../utils/color-library');
+const { categoryNames, familyNames, searchColors } = require('../../utils/color-library');
 
 const MODES = [
   { id:'analogous', name:'类似色' }, { id:'complementary', name:'互补色' }, { id:'split', name:'分裂互补' },
@@ -11,18 +11,39 @@ const MODES = [
 ];
 
 Page({
-  data: { hex:'#7C3AED', h:262, s:80, l:52, modes:MODES, modeIndex:0, colors:[], saved:false, collections:categoryNames, collectionIndex:0, library:[], query:'' },
+  data: {
+    hex:'#7C3AED', h:262, s:80, l:52, modes:MODES, modeIndex:0, colors:[], saved:false,
+    collections:['全部', ...categoryNames], collectionIndex:0, families:familyNames, familyIndex:0,
+    library:[], libraryTotal:0, query:''
+  },
 
-  onLoad() { this.refresh(); this.refreshLibrary(); },
-  refresh() { this.setData({ colors:color.generatePalette(this.data.hex, this.data.modes[this.data.modeIndex].id, 5) }); },
+  onLoad(options = {}) {
+    const incoming = color.hexToRgb(options.hex || '');
+    if (incoming) {
+      const hsl = color.rgbToHsl(incoming.r, incoming.g, incoming.b);
+      this.setData({ hex:color.rgbToHex(incoming.r, incoming.g, incoming.b), ...hsl }, () => { this.refresh(); this.refreshLibrary(); });
+      return;
+    }
+    this.refresh();
+    this.refreshLibrary();
+  },
+
+  refresh() {
+    this.setData({ colors:color.generatePalette(this.data.hex, this.data.modes[this.data.modeIndex].id, 5) });
+  },
 
   refreshLibrary() {
-    const collection = this.data.collections[this.data.collectionIndex];
-    const q = this.data.query.trim();
-    this.setData({ library:searchColors(q).filter(item => item.collection === collection) });
+    const collection = this.data.collections[this.data.collectionIndex] === '全部' ? '' : this.data.collections[this.data.collectionIndex];
+    const family = this.data.families[this.data.familyIndex];
+    const results = searchColors(this.data.query, { collection, family });
+    this.setData({ library:results.slice(0, 12), libraryTotal:results.length });
   },
 
   inputSearch(e) { this.setData({ query:e.detail.value }, () => this.refreshLibrary()); },
+  onCollectionTap(e) { this.setData({ collectionIndex:Number(e.currentTarget.dataset.index) }, () => this.refreshLibrary()); },
+  onFamilyTap(e) { this.setData({ familyIndex:Number(e.currentTarget.dataset.index) }, () => this.refreshLibrary()); },
+  openLibrary() { wx.navigateTo({ url:'/pages/library/library' }); },
+
   inputHex(e) {
     const value = String(e.detail.value || '').trim();
     const rgb = color.hexToRgb(value);
@@ -31,7 +52,6 @@ Page({
     this.setData({ hex:color.rgbToHex(rgb.r, rgb.g, rgb.b), h:hsl.h, s:hsl.s, l:hsl.l }, () => this.refresh());
   },
   onModeChange(e) { this.setData({ modeIndex:Number(e.detail.value) }, () => this.refresh()); },
-  onCollectionChange(e) { this.setData({ collectionIndex:Number(e.detail.value) }, () => this.refreshLibrary()); },
 
   onSliderChange(e) {
     const key = e.currentTarget.dataset.key;
@@ -53,7 +73,7 @@ Page({
     colors.push(e.currentTarget.dataset.hex);
     this.setData({ colors });
   },
-  copy(e) { wx.setClipboardData({ data:e.currentTarget.dataset.hex, success:() => wx.showToast({ title:'已复制', icon:'none' }) }); },
+  copy(e) { wx.setClipboardData({ data:e.currentTarget.dataset.hex, success:() => wx.showToast({ title:'HEX 已复制', icon:'none' }) }); },
 
   save() {
     if (this.data.colors.length < 2) return wx.showToast({ title:'至少需要 2 个颜色', icon:'none' });
