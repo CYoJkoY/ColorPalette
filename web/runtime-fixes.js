@@ -73,10 +73,19 @@
     while (walker.nextNode()) {
       const node = walker.currentNode;
       if (node.parentElement?.closest('script,style,noscript,template')) continue;
-      if (node.__cpLocaleOriginal == null) node.__cpLocaleOriginal = node.nodeValue;
-      node.nodeValue = translateOne(node.__cpLocaleOriginal);
+      const source = node.__cpOriginalText ?? node.__cpLocaleOriginal ?? node.nodeValue;
+      if (node.__cpLocaleOriginal == null) node.__cpLocaleOriginal = source;
+      node.nodeValue = translateOne(source);
     }
   }
+
+  // Register before i18n-runtime so this supplemental dictionary pass runs first
+  // whenever the language is changed. It uses i18n-runtime's original-text marker
+  // when that marker already exists, avoiding the common English->Chinese->English
+  // drift caused by translating an already translated text node.
+  window.addEventListener('colorpalette:localechange', () => {
+    requestAnimationFrame(() => translateWithLoadedLocale(document.body));
+  });
 
   function install() {
     window.copy = safeCopy;
@@ -96,19 +105,12 @@
       window.savePalette = wrapped;
     }
 
-    // Keep a second, locale-dictionary-driven pass so newly added UI strings that are
-    // absent from i18n-runtime's compact fallback dictionary do not leave Chinese text
-    // behind when English is selected.
     const observer = new MutationObserver(mutations => {
       if (mutations.some(m => m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length))) {
         requestAnimationFrame(() => translateWithLoadedLocale(document.body));
       }
     });
     observer.observe(document.body, { childList: true, subtree: true });
-
-    window.addEventListener('colorpalette:localechange', () => {
-      requestAnimationFrame(() => translateWithLoadedLocale(document.body));
-    });
   }
 
   if (document.readyState === 'loading') {
