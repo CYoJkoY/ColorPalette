@@ -1,0 +1,12 @@
+# WeChat Developer Tools
+node_modules/
+.DS_Store
+.idea/
+.vscode/
+.wxc-devtools/
+project.private.config.json
+
+# Local credentials / generated configuration
+*.local.json
+.env
+.env.*
