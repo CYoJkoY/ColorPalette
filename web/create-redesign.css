@@ -72,6 +72,10 @@
 .create-v2-generated-item strong{margin-top:47px;font:700 10px ui-monospace,SFMono-Regular,Menlo,monospace;color:#32332f}
 .create-v2-generated-item small{margin-top:2px;font-size:9px;color:#888780}
 .create-v2-generated-item:hover{transform:translateY(-2px);border-color:#bbb9b0;box-shadow:0 12px 24px rgba(24,24,27,.07)}
+.cp-legacy-range-control{display:none!important}
+.cp-live-parameter-panel{margin-top:10px}
+.cp-number-field{min-width:0}
+.cp-number-field>span:first-child{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 html[data-theme="dark"] .create-v2-label,html[data-theme="dark"] .create-v2-label-row{color:#d7dad6}
 html[data-theme="dark"] .create-v2-live{color:#969ba1}
 html[data-theme="dark"] .create-v2-param-card{background:#202428;border-color:#373c42}
