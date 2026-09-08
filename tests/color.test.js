@@ -26,7 +26,12 @@ assert(scale.every((hex) => /^#[0-9A-F]{6}$/.test(hex)));
 
 const unique = advanced.uniquePalette(['#FF0000', '#FF0000', '#00FF00']);
 assert.strictEqual(unique.length, 2);
-assert.strictEqual(library.colors.length, 60);
-assert.strictEqual(library.categoryNames.length, 10);
+assert.strictEqual(library.categoryNames.length, 4);
+assert.strictEqual(library.collections['中国传统色'].length, 60);
+assert.strictEqual(library.collections['日本传统色'].length, 50);
+assert(library.collections['艺术与颜料'].length >= 55);
+assert(library.colors.length >= 225);
+assert.strictEqual(library.searchColors('桜色')[0].hex, '#FEDFE1');
+assert.strictEqual(library.searchColors('#002FA7')[0].name, '国际克莱因蓝 IKB');
 
-console.log('ColorPalette tests passed.');
+console.log(`ColorPalette tests passed: ${library.colors.length} named colors.`);
