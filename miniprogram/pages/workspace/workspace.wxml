@@ -1,13 +1,16 @@
 <view class="page">
   <view class="hero"><text class="eyebrow">WORKSPACE</text><text class="title">My color workspace</text><text class="sub">Saved palettes, colors, and recent work in one place.</text></view>
+  <view class="search"><input value="{{query}}" placeholder="Search palettes or HEX" bindinput="inputSearch" confirm-type="search" /></view>
   <view class="tabs"><view class="tab {{tab === 'palettes' ? 'active' : ''}}" data-tab="palettes" bindtap="switchTab">Palettes</view><view class="tab {{tab === 'colors' ? 'active' : ''}}" data-tab="colors" bindtap="switchTab">Colors</view><view class="tab {{tab === 'history' ? 'active' : ''}}" data-tab="history" bindtap="switchTab">Recent</view></view>
 
   <view wx:if="{{tab === 'palettes'}}" class="section">
     <view wx:if="{{!palettes.length}}" class="empty"><text>No saved palettes yet.</text><text class="muted">Create a palette and save it here.</text></view>
-    <view wx:for="{{palettes}}" wx:key="id" class="palette-card" data-palette="{{item}}" bindtap="openPalette">
-      <view class="swatches"><view wx:for="{{item.colors}}" wx:key="*this" class="swatch" style="background:{{item}}"></view></view>
-      <view class="palette-info"><text class="palette-name">{{item.name}}</text><text class="muted">{{item.colors.length}} colors · {{item.source}}</text></view>
-      <view class="delete" catchtap="deletePalette" data-id="{{item.id}}">Delete</view>
+    <view wx:for="{{palettes}}" wx:key="id" class="palette-card">
+      <view class="palette-main" data-palette="{{item}}" bindtap="openPalette">
+        <view class="swatches"><view wx:for="{{item.colors}}" wx:key="*this" class="swatch" style="background:{{item}}"></view></view>
+        <view class="palette-info"><text class="palette-name">{{item.name}}</text><text class="muted">{{item.colors.length}} colors · {{item.source}}</text></view>
+      </view>
+      <view class="palette-actions"><text class="action" data-id="{{item.id}}" bindtap="duplicatePalette">Duplicate</text><text class="action danger" data-id="{{item.id}}" bindtap="deletePalette">Delete</text></view>
     </view>
   </view>
 
