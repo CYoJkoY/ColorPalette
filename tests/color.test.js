@@ -19,6 +19,10 @@ const white = oklab.rgbToOklab(255, 255, 255);
 assert(Math.abs(white.L - 1) < 0.002);
 const roundTrip = oklab.oklabToRgb(white.L, white.a, white.b);
 assert(Math.max(Math.abs(roundTrip.r - 255), Math.abs(roundTrip.g - 255), Math.abs(roundTrip.b - 255)) <= 1);
+const redLch = oklab.rgbToOklch(255, 0, 0);
+assert(redLch.L > 0.6 && redLch.C > 0.2 && redLch.H >= 20 && redLch.H <= 40);
+const redFromLch = oklab.oklchToRgb(redLch.L, redLch.C, redLch.H);
+assert(Math.max(Math.abs(redFromLch.r - 255), Math.abs(redFromLch.g), Math.abs(redFromLch.b)) <= 1);
 
 const scale = advanced.makeScale('#7C3AED');
 assert.strictEqual(scale.length, 9);
