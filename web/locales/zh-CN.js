@@ -22,5 +22,6 @@ window.ColorPaletteLocales['zh-CN']={
     '日间模式':'日间模式','夜间模式':'夜间模式','颜色工作台':'颜色工作台','颜色工具箱':'颜色工具箱','配色':'配色','取色结果':'取色结果','上传或拖入图片':'上传或拖入图片','点击图片取色':'点击图片取色','没有可用颜色':'没有可用颜色','暂无内容':'暂无内容','专业版':'专业版','升级':'升级'
   },
   relations:{analogous:'类似色',complementary:'互补色',split:'分裂互补',triadic:'三角色',tetradic:'四角色',doubleComplementary:'双互补',warm:'暖色范围',cool:'冷色范围',monochromatic:'单色阶',tints:'浅色阶',shades:'深色阶',tones:'柔和色阶'},
+  relationDescriptions:{analogous:'相邻色相，适合形成统一、平静的配色。',complementary:'色相环对置，适合形成强烈分离。',split:'基础色搭配互补色两侧的两个强调色。',triadic:'三等分色相，保持均衡的色彩对比。',tetradic:'两组互补色构成的四角色关系。',doubleComplementary:'两个邻近色分别与其对立色组合。',warm:'围绕基础色向暖色方向偏移。',cool:'围绕基础色向冷色方向偏移。',monochromatic:'保持色相，只改变明度。',tints:'降低饱和度并提高明度。',shades:'降低明度形成深色版本。',tones:'降低饱和度，适合克制型界面。'},
   modes:{analogous:'类似色',complementary:'互补色',split:'分裂互补',triadic:'三角色',tetradic:'四角色',doubleComplementary:'双互补',monochromatic:'单色阶',tints:'浅色阶',shades:'深色阶',tones:'柔和色阶',pastel:'粉彩',vivid:'鲜艳',warm:'暖色',cool:'冷色',grayscale:'灰阶'}
 };
