@@ -57,8 +57,8 @@ function paletteFromHex(hex) {
   const schemes = {
     complementary: [hsl.h, hsl.h + 180],
     analogous: [hsl.h - 30, hsl.h, hsl.h + 30],
-    triadic: [hsl.h, hsl.h + 120, hsl.h + 240],
     split: [hsl.h, hsl.h + 150, hsl.h + 210],
+    triadic: [hsl.h, hsl.h + 120, hsl.h + 240],
     tetradic: [hsl.h, hsl.h + 90, hsl.h + 180, hsl.h + 270],
     square: [hsl.h, hsl.h + 90, hsl.h + 180, hsl.h + 270],
     doubleComplementary: [hsl.h, hsl.h + 30, hsl.h + 180, hsl.h + 210]
@@ -85,4 +85,23 @@ function generatePalette(hex, mode = 'analogous', count = 5) {
   return all[mode].slice(0, Math.max(1, count));
 }
 
-module.exports = { hexToRgb, rgbToHex, rgbToHsl, hslToRgb, paletteFromHex, generatePalette };
+function relativeLuminance(rgb) {
+  return [rgb.r, rgb.g, rgb.b].map(v => v / 255).map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)).reduce((sum, v, i) => sum + v * [0.2126, 0.7152, 0.0722][i], 0);
+}
+
+function contrastRatio(hexA, hexB) {
+  const a = hexToRgb(hexA), b = hexToRgb(hexB);
+  if (!a || !b) return 1;
+  const la = relativeLuminance(a), lb = relativeLuminance(b);
+  const lighter = Math.max(la, lb), darker = Math.min(la, lb);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+function contrastGrade(ratio) {
+  if (ratio >= 7) return 'AAA text';
+  if (ratio >= 4.5) return 'AA text';
+  if (ratio >= 3) return 'Large text';
+  return 'Decorative';
+}
+
+module.exports = { hexToRgb, rgbToHex, rgbToHsl, hslToRgb, paletteFromHex, generatePalette, contrastRatio, contrastGrade };
