@@ -1,38 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="1200" height="620" role="img" aria-labelledby="title desc">
   <title id="title">ColorPalette — Extract, explore, relate, and create colors</title>
-  <desc id="desc">A clean product hero showing ColorPalette as a practical color workspace for image extraction, color exploration, analysis, and palette creation.</desc>
-
+  <desc id="desc">A light-mode product hero showing ColorPalette as a local-first color workspace for image extraction, color exploration, analysis, and palette creation.</desc>
   <rect width="1200" height="620" rx="32" fill="#F7F7F4"/>
   <circle cx="1080" cy="90" r="120" fill="#EEEAFB"/>
   <circle cx="120" cy="560" r="150" fill="#E8F1F7"/>
-
   <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" text-anchor="middle">
     <text x="600" y="68" font-size="15" font-weight="800" letter-spacing="4" fill="#77776F">COLOR WORKSPACE</text>
     <text x="600" y="126" font-size="52" font-weight="800" fill="#1D1D1B">ColorPalette</text>
     <text x="600" y="164" font-size="22" font-weight="600" fill="#44443F">Extract. Explore. Relate. Create.</text>
-    <text x="600" y="194" font-size="17" fill="#77776F">A practical color workspace for WeChat Mini Programs.</text>
+    <text x="600" y="194" font-size="17" fill="#77776F">A local-first browser workspace for practical color work.</text>
   </g>
-
   <g transform="translate(248 222)" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" text-anchor="middle">
     <rect x="0" y="0" width="210" height="48" rx="16" fill="#1D1D1B"/>
     <text x="105" y="31" font-size="16" font-weight="700" fill="#FFFFFF">Image extraction</text>
-
     <rect x="242" y="0" width="210" height="48" rx="16" fill="#FFFFFF" stroke="#D6D6D0" stroke-width="2"/>
     <text x="347" y="31" font-size="16" font-weight="700" fill="#1D1D1B">Color library</text>
-
     <rect x="484" y="0" width="210" height="48" rx="16" fill="#FFFFFF" stroke="#D6D6D0" stroke-width="2"/>
     <text x="589" y="31" font-size="16" font-weight="700" fill="#1D1D1B">Palette Studio</text>
   </g>
-
   <g transform="translate(150 300)">
     <rect width="900" height="244" rx="28" fill="#FFFFFF" stroke="#1D1D1B" stroke-width="2"/>
-
     <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" text-anchor="middle">
       <text x="450" y="40" font-size="14" font-weight="800" letter-spacing="2.5" fill="#77776F">PALETTE RELATIONSHIPS</text>
       <text x="450" y="72" font-size="21" font-weight="800" fill="#1D1D1B">One color → many useful systems</text>
       <text x="450" y="98" font-size="15" fill="#77776F">Analogous · Complementary · Triadic · Tetradic · Monochromatic</text>
     </g>
-
     <g transform="translate(70 124)">
       <rect width="170" height="72" rx="16" fill="#A78BFA"/>
       <rect x="180" width="170" height="72" rx="16" fill="#7C3AED"/>
@@ -40,8 +32,5 @@
       <rect x="540" width="170" height="72" rx="16" fill="#10B981"/>
     </g>
   </g>
-
-  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" text-anchor="middle">
-    <text x="600" y="586" font-size="14" fill="#77776F">HEX · RGB · HSL · OKLab · OKLCH · WCAG contrast</text>
-  </g>
+  <text x="600" y="586" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" text-anchor="middle" font-size="14" fill="#77776F">HEX · RGB · HSL · OKLab · OKLCH · WCAG contrast</text>
 </svg>
