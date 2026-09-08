@@ -31,6 +31,7 @@ jobs:
           test -s web/styles.css
           test -s web/app.js
           test -s web/preferences.js
+          test -s web/i18n.js
           test -s web/build-data.js
           test -s web/locales/zh-CN.js
           test -s web/locales/en-US.js
@@ -49,6 +50,7 @@ jobs:
           const zh=Object.keys(locales['zh-CN'].ui),en=Object.keys(locales['en-US'].ui);
           if(zh.length!==en.length) throw new Error(`Locale key count mismatch: ${zh.length} vs ${en.length}`);
           for(const key of zh) if(!(key in locales['en-US'].ui)) throw new Error(`Missing en-US key: ${key}`);
+          for(const code of ['zh-CN','en-US']) for(const group of ['relations','modes']) if(!locales[code][group]) throw new Error(`Missing ${code}.${group}`);
           console.log(`Locale resources OK: ${zh.length} UI keys`);
           NODE
       - name: Check JavaScript syntax
