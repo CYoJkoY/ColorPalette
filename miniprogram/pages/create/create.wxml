@@ -1,7 +1,11 @@
 <view class="page">
-  <view class="hero"><view class="eyebrow">PALETTE STUDIO</view><view class="title">自己做一张色卡</view><view class="subtitle">从基础色、图片取色或有名字的传统色、艺术色开始，再选择配色逻辑并微调。</view></view>
+  <view class="hero">
+    <view class="eyebrow">PALETTE STUDIO</view>
+    <view class="title">自己做一张色卡</view>
+    <view class="subtitle">先定一个基础色，再从清晰的色彩体系里挑选、加入和微调。常用操作尽量一步完成。</view>
+  </view>
 
-  <view class="panel">
+  <view class="panel base-panel">
     <view class="section-title">基础颜色</view>
     <view class="base-color" style="background:{{hex}}"></view>
     <view class="hex-row"><input class="hex-input" value="{{hex}}" maxlength="7" bindconfirm="inputHex" confirm-type="done" /><button class="mini-button" data-hex="{{hex}}" bindtap="copy">复制</button></view>
@@ -11,10 +15,23 @@
   </view>
 
   <view class="panel">
-    <view class="row"><view class="section-title">命名色库</view><view class="muted">{{library.length}} 个当前结果</view></view>
-    <picker mode="selector" range="{{collections}}" value="{{collectionIndex}}" bindchange="onCollectionChange"><view class="picker">{{collections[collectionIndex]}} <text>切换色彩体系 ›</text></view></picker>
-    <input class="search-input" placeholder="搜索颜色名称或 HEX…" value="{{query}}" bindinput="inputSearch" />
-    <view class="library-grid"><view wx:for="{{library}}" wx:key="hex" class="library-item" data-hex="{{item.hex}}" bindtap="selectLibraryColor"><view class="library-dot" style="background:{{item.hex}}"></view><view class="library-name">{{item.name}}</view><view class="library-hex">{{item.hex}}</view><button class="library-add" data-hex="{{item.hex}}" catchtap="addLibraryColor">加入</button></view></view>
+    <view class="row"><view class="section-title">快速找颜色</view><view class="muted">{{libraryTotal}} 个结果</view></view>
+    <scroll-view scroll-x class="chips">
+      <view wx:for="{{collections}}" wx:key="*this" class="chip {{collectionIndex===index?'active':''}}" data-index="{{index}}" bindtap="onCollectionTap">{{item}}</view>
+    </scroll-view>
+    <scroll-view scroll-x class="chips family-chips">
+      <view wx:for="{{families}}" wx:key="*this" class="chip {{familyIndex===index?'active':''}}" data-index="{{index}}" bindtap="onFamilyTap">{{item}}</view>
+    </scroll-view>
+    <view class="search-row"><text>⌕</text><input class="search-input" placeholder="搜索名称、英文名或 HEX" value="{{query}}" bindinput="inputSearch" /></view>
+    <view class="library-grid">
+      <view wx:for="{{library}}" wx:key="id" class="library-item" data-hex="{{item.hex}}" bindtap="selectLibraryColor">
+        <view class="library-dot" style="background:{{item.hex}}"></view>
+        <view class="library-name">{{item.name}}</view>
+        <view class="library-meta"><text>{{item.hex}}</text><text>{{item.collection}}</text></view>
+        <button class="library-add" data-hex="{{item.hex}}" catchtap="addLibraryColor">加入</button>
+      </view>
+    </view>
+    <button class="library-more" bindtap="openLibrary">打开完整颜色百科 →</button>
   </view>
 
   <view class="panel">
@@ -26,6 +43,6 @@
     <view class="row"><view class="section-title">生成结果</view><view class="muted">{{colors.length}} 色</view></view>
     <view class="swatches"><view wx:for="{{colors}}" wx:key="*this" class="swatch" data-hex="{{item}}" bindtap="copy"><view class="swatch-color" style="background:{{item}}"></view><view class="code">{{item}}</view></view></view>
     <view class="actions"><button class="primary" bindtap="save">{{saved?'已收藏':'收藏这张色卡'}}</button><button class="secondary" bindtap="addColor">加入当前色</button></view>
-    <view class="muted tip">点颜色名称会把它设为基础色；点击“加入”会直接加入当前色卡。搜索支持中文名称、日文名称和 HEX。</view>
+    <view class="muted tip">点颜色卡片会设为基础色；“加入”会追加到当前色卡。你也可以直接搜索 HEX、中文名或英文名。</view>
   </view>
 </view>
