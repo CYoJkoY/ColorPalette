@@ -6,73 +6,49 @@
 
 # ColorPalette
 
-**A local-first color workspace delivered as a static web application.**
-
-Extract colors from images, browse named color systems, inspect perceptual color values, generate color relationships, build palettes, save your work locally, and export it — all in the browser.
+**A local-first color workspace for extracting, understanding, relating, and creating colors.**
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 [![Platform: GitHub Pages](https://img.shields.io/badge/Platform-GitHub%20Pages-222222.svg)](https://pages.github.com/)
 [![Language: JavaScript](https://img.shields.io/badge/Language-JavaScript-F7DF1E.svg)](https://developer.mozilla.org/docs/Web/JavaScript)
 
-**Live site:** `https://cyojkoy.github.io/ColorPalette/`
+[Live site](https://cyojkoy.github.io/ColorPalette/) · [Source](https://github.com/CYoJkoY/ColorPalette) · [Support](https://cyojkoy.github.io/Payment/)
 
 </div>
 
-> ColorPalette is built around one workflow: **find a color → understand its relationships → create a palette → save it for later.**
+> **Find a color → understand its relationships → build a palette → save it locally.**
 
-## What it does
+ColorPalette is a static browser application for practical color work. It combines image sampling, a curated named-color library, color analysis, palette generation, local workspace storage, and export without requiring an account or application server.
 
-| Workflow | What you can do |
+## <img src="assets/readme/icons/palette.svg" width="22" alt="Palette"> What it is
+
+ColorPalette is designed around one continuous workflow rather than a collection of disconnected tools.
+
+| Stage | Use it for |
 | :--- | :--- |
-| **Extract** | Pick an exact pixel from an image or automatically extract representative colors. |
-| **Explore** | Search the named-color library by name, HEX, collection, and family. |
-| **Analyze** | Inspect HEX, RGB, HSL, contrast, and practical palette relationships. |
-| **Create** | Generate 15 palette modes, edit colors, reorder them, name palettes, and export them. |
-| **Workspace** | Keep palettes and recent colors in browser `localStorage` without an account. |
+| **Extract** | Sample an exact pixel or extract representative colors from a local image. |
+| **Explore** | Search named colors by name, HEX, color system, and family. |
+| **Analyze** | Inspect HEX, RGB, HSL, perceptual values, contrast, and color relationships. |
+| **Create** | Generate palettes, edit colors, reorder swatches, name palettes, and export them. |
+| **Keep** | Save palettes, favorites, and recent colors in browser `localStorage`. |
 
-The website is intentionally static. There is no application server, database, login system, or image-upload backend.
+The application is intentionally local-first: images are processed in the browser, and the workspace does not require a user account.
 
-## Static web architecture
+## <img src="assets/readme/icons/image.svg" width="22" alt="Image"> Image extraction
 
-```text
-GitHub repository
-      │
-      ├── web/index.html
-      ├── web/styles.css
-      ├── web/app.js
-      └── web/build-data.js
-               │
-               ↓
-       GitHub Actions
-               │
-       generate colors.json
-               │
-               ↓
-          GitHub Pages
-               │
-               ↓
-        Browser / localStorage
-```
+The Extract workflow uses the browser File API and Canvas API. Local image files are not sent to an application backend.
 
-GitHub Pages publishes the `web/` directory as the deployed static artifact. The named-color source remains in `miniprogram/utils/color-library.js` for now, and the Pages workflow converts it to browser-friendly JSON during deployment. This keeps the existing curated color dataset as the single source of truth while the application migrates away from the Mini Program runtime.
+It supports:
 
-## Main features
+- representative color extraction
+- dominant, secondary, accent, support, light, and dark roles
+- approximate color share
+- exact click-to-pick sampling
+- direct transfer of extracted colors into Palette Studio
 
-### Image extraction
+## <img src="assets/readme/icons/book.svg" width="22" alt="Color library"> Named color library
 
-The Extract page supports local image files through the browser File API and Canvas API. Nothing is uploaded to a server.
-
-It provides:
-
-- representative color ranking
-- dominant / secondary / accent / support / light / dark roles
-- approximate percentage share
-- exact click-to-pick color sampling
-- one-click conversion of extracted colors into Palette Studio
-
-### Named color library
-
-The current source contains 492 named colors across five collections:
+The current dataset contains **492 named colors** across five collections:
 
 - Basic colors
 - CSS named colors
@@ -80,99 +56,111 @@ The current source contains 492 named colors across five collections:
 - Traditional Japanese colors
 - Art and pigment references
 
-Historical and cultural HEX values are treated as digital reference values rather than claims of one physically exact pigment standard.
+Historical and cultural HEX values are presented as digital reference values. They should not be interpreted as one physically exact pigment standard.
 
-### Color analysis
+## <img src="assets/readme/icons/analytics.svg" width="22" alt="Analytics"> Color analysis
 
-A color detail view provides:
+A color detail view provides the data and relationships needed to move from one color to a usable palette.
 
-- HEX
-- RGB
-- HSL
-- white/black WCAG contrast ratios
-- contrast guidance
-- analogous, complementary, split complementary, triadic, tetradic, double complementary
-- monochromatic, tints, shades, tones
-- pastel, vivid, warm, cool, and grayscale sets
+**Color values**
 
-Every generated relationship can be sent directly into Palette Studio.
+HEX · RGB · HSL · OKLab · OKLCH
 
-### Palette Studio
+**Accessibility**
 
-Palette Studio supports:
+White/black WCAG contrast ratios and practical contrast guidance.
 
-- HEX input
-- HSL controls
+**Relationships**
+
+Analogous · Complementary · Split complementary · Triadic · Tetradic · Double complementary · Monochromatic · Tints · Shades · Tones · Pastel · Vivid · Warm · Cool · Grayscale
+
+Generated relationships can be sent directly into Palette Studio.
+
+## <img src="assets/readme/icons/palette.svg" width="22" alt="Palette Studio"> Palette Studio
+
+Palette Studio is the creation layer of the application.
+
+- HEX and HSL controls
 - 15 palette generation modes
-- manual color addition
-- color removal
+- manual color addition and removal
 - palette naming
+- duplicate and edit workflows
 - local persistence
-- duplicate/edit workflows
-- CSS and JSON-oriented export
+- CSS- and JSON-oriented export
 
-### Workspace
+The goal is to turn an interesting color into a reusable color system rather than stop at a single swatch.
 
-Saved palettes and recent colors are stored in browser `localStorage`.
+## <img src="assets/readme/icons/layers.svg" width="22" alt="Workspace"> Local workspace
 
-There is no account requirement. Clearing browser site data removes the local workspace.
+Saved palettes, favorites, and recent colors are stored in browser `localStorage`.
 
-## Privacy model
+No account is required, and clearing the site's browser data removes the local workspace. There is no server-side color-processing requirement.
 
-ColorPalette is local-first by design:
+## <img src="assets/readme/icons/architecture.svg" width="22" alt="Architecture"> Architecture
 
-- image files stay in the browser
-- palettes stay in `localStorage`
-- no login is required
-- no server-side color processing is required
-- no personal data needs to be sent to the application
+```text
+Repository
+   │
+   ├── web/index.html
+   ├── web/styles.css
+   ├── web/app.js
+   └── web/build-data.js
+            │
+            ▼
+      GitHub Actions
+            │
+      generate colors.json
+            │
+            ▼
+       GitHub Pages
+            │
+            ▼
+        Browser
+            │
+       localStorage
+```
 
-GitHub Pages itself is only the static delivery layer.
+The deployed application is a static site. GitHub Pages provides the delivery layer, while the browser handles interaction, image processing, color calculations, and local workspace persistence.
 
-## Run locally
+The legacy `miniprogram/` tree is retained during the migration so the curated color dataset and existing algorithms remain available while the web version becomes the target distribution platform.
 
-No package manager or framework is required for the application.
+## <img src="assets/readme/icons/installation.svg" width="22" alt="Installation"> Run locally
+
+No package manager or frontend framework is required for the application.
 
 ```bash
 git clone https://github.com/CYoJkoY/ColorPalette.git
 cd ColorPalette
 node web/build-data.js
-```
-
-Then serve the repository through any static HTTP server with `web/` as the document root. For example:
-
-```bash
 python -m http.server 8000 --directory web
 ```
 
 Open `http://localhost:8000/` in a browser.
 
-The application should be served over HTTP rather than opened directly as `file://`, because the named-color data is loaded with `fetch()`.
+Serve the project through HTTP rather than opening `web/index.html` directly as `file://`, because the named-color data is loaded with `fetch()`.
 
-## Tests
+## <img src="assets/readme/icons/check.svg" width="22" alt="Tests"> Tests and quality gates
 
-The repository retains algorithm-level Node.js tests for the existing color engine:
+The repository retains algorithm-level Node.js tests for the color engine:
 
 ```bash
 node tests/color.test.js
 ```
 
-GitHub Actions additionally validates JavaScript syntax, JSON configuration, required assets, and the workspace helpers.
+GitHub Actions additionally checks JavaScript syntax, JSON configuration, required assets, and workspace helpers. Pages deployment is handled by `.github/workflows/pages.yml`.
 
-The Pages deployment is handled by `.github/workflows/pages.yml` using GitHub's official Pages artifact/deployment actions.
-
-## Repository structure
+## <img src="assets/readme/icons/folder.svg" width="22" alt="Repository structure"> Repository structure
 
 ```text
 ColorPalette/
 ├── web/
 │   ├── index.html          # Static web entry
-│   ├── styles.css          # Web UI
+│   ├── styles.css          # Web UI and theme system
 │   ├── app.js              # Browser application
 │   ├── build-data.js       # Generates browser color data
-│   └── 404.html            # Pages fallback
+│   └── 404.html            # GitHub Pages fallback
 ├── miniprogram/            # Legacy Mini Program implementation during migration
-├── assets/readme/           # README visual assets
+├── assets/readme/           # README hero, support CTA, and semantic icons
 ├── docs/
 ├── tests/
 ├── .github/workflows/
@@ -182,48 +170,60 @@ ColorPalette/
 └── README.md
 ```
 
-The `miniprogram/` tree is retained temporarily so the migration can happen without throwing away the existing algorithms and curated data. It is no longer the target distribution platform.
-
-## Deployment
+## <img src="assets/readme/icons/download.svg" width="22" alt="Deployment"> Deployment
 
 GitHub Pages is deployed automatically from `main` through `.github/workflows/pages.yml`.
 
-In the repository's **Settings → Pages**, select **GitHub Actions** as the build and deployment source if Pages has not already been enabled for the repository. GitHub Pages then publishes the artifact generated by the Pages workflow.
+The public site is:
 
-The project site URL is:
+**https://cyojkoy.github.io/ColorPalette/**
 
-`https://cyojkoy.github.io/ColorPalette/`
+If Pages has not been configured yet, use **Settings → Pages → GitHub Actions** as the deployment source.
 
-A custom domain can be added later without changing the application architecture.
+## <img src="assets/readme/icons/contribution.svg" width="22" alt="Roadmap"> Roadmap
 
-## Roadmap
+The current web migration direction includes:
 
-### Web migration
-
-- responsive mobile-first refinement
-- installable PWA shell
+- stronger responsive and mobile-first refinement
+- installable PWA support
 - keyboard shortcuts
 - shareable palette URLs
 - drag-and-drop palette editing
 - richer OKLCH controls
-- color vision deficiency simulation
+- color-vision-deficiency simulation
 - accessibility-aware palette suggestions
-- generated palette images and downloadable files
+- palette images and downloadable files
+- more perceptual image clustering and palette scoring
 
-### Color intelligence
+The core product remains intentionally usable without a backend. Any future cloud synchronization or paid functionality should remain separated from the static core.
 
-- OKLab / OKLCH image clustering
-- spatial weighting and subject-region detection
-- stronger representative-color ranking
-- semantic color roles
-- automatic accessibility repair suggestions
-- perceptual palette scoring
+## <img src="assets/readme/icons/cloud.svg" width="22" alt="Privacy"> Privacy model
 
-### Optional future backend
+ColorPalette is local-first by design:
 
-A backend is intentionally not required for the current product. If cloud synchronization or paid entitlements are introduced later, they should be added as separate services rather than coupling the core static application to a server.
+- local image files stay in the browser
+- palettes and recent colors stay in `localStorage`
+- no login is required
+- no server-side color processing is required
+- the application does not need personal data to perform its core workflows
 
-## License
+GitHub Pages only serves the static application and generated data.
+
+## <img src="assets/readme/icons/contribution.svg" width="22" alt="Support"> Support the project
+
+ColorPalette is free to use and its core is open source under GPL-3.0. Support helps fund continued development, maintenance, documentation, and new color workflows.
+
+<div align="center">
+
+<a href="https://cyojkoy.github.io/Payment/">
+  <img src="assets/readme/support-cta.svg" alt="Support ColorPalette through the project's support page" width="620" />
+</a>
+
+**Support page:** https://cyojkoy.github.io/Payment/
+
+</div>
+
+## <img src="assets/readme/icons/license.svg" width="22" alt="License"> License
 
 ColorPalette is released under the **GNU General Public License v3.0**.
 
