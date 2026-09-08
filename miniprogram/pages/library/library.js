@@ -1,5 +1,4 @@
 const { categoryNames, familyNames, searchColors } = require('../../utils/color-library');
-const color = require('../../utils/color');
 
 Page({
   data: {
@@ -21,25 +20,16 @@ Page({
     this.setData({ results: results.slice(0, 120), total: results.length });
   },
 
-  onCollectionChange(e) { this.setData({ collectionIndex:Number(e.detail.value) }, () => this.refresh()); },
-  onFamilyChange(e) { this.setData({ familyIndex:Number(e.detail.value) }, () => this.refresh()); },
+  onCollectionTap(e) { this.setData({ collectionIndex:Number(e.currentTarget.dataset.index) }, () => this.refresh()); },
+  onFamilyTap(e) { this.setData({ familyIndex:Number(e.currentTarget.dataset.index) }, () => this.refresh()); },
   inputSearch(e) { this.setData({ query:e.detail.value }, () => this.refresh()); },
 
   useColor(e) {
     const hex = e.currentTarget.dataset.hex;
-    wx.setStorageSync('colorpalette-library-selection', hex);
     wx.navigateTo({ url:`/pages/create/create?hex=${encodeURIComponent(hex)}` });
   },
 
   copy(e) {
     wx.setClipboardData({ data:e.currentTarget.dataset.hex, success:() => wx.showToast({ title:'HEX 已复制', icon:'none' }) });
-  },
-
-  pickForPalette(e) {
-    const hex = e.currentTarget.dataset.hex;
-    const rgb = color.hexToRgb(hex);
-    if (!rgb) return;
-    wx.setStorageSync('colorpalette-library-selection', hex);
-    wx.navigateBack({ delta:1 });
   }
 });
