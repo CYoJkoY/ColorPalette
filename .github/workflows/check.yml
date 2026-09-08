@@ -25,6 +25,13 @@ jobs:
           test -s assets/readme/icons/palette.svg
           test -s assets/readme/icons/image.svg
           test -s assets/readme/icons/pro.svg
+      - name: Validate web files
+        run: |
+          test -s web/index.html
+          test -s web/styles.css
+          test -s web/app.js
+          test -s web/preferences.js
+          test -s web/build-data.js
       - name: Check JavaScript syntax
         run: |
-          find miniprogram tests -name '*.js' -print0 | xargs -0 -n1 node --check
+          find miniprogram tests web -name '*.js' -print0 | xargs -0 -n1 node --check
