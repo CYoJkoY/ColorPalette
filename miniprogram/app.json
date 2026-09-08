@@ -3,6 +3,7 @@
     "pages/home/home",
     "pages/palette/palette",
     "pages/extractor/extractor",
+    "pages/create/create",
     "pages/favorites/favorites",
     "pages/pro/pro"
   ],
@@ -19,8 +20,8 @@
     "list": [
       {"pagePath":"pages/home/home","text":"发现"},
       {"pagePath":"pages/extractor/extractor","text":"取色"},
-      {"pagePath":"pages/favorites/favorites","text":"收藏"},
-      {"pagePath":"pages/pro/pro","text":"Pro"}
+      {"pagePath":"pages/create/create","text":"创作"},
+      {"pagePath":"pages/favorites/favorites","text":"收藏"}
     ]
   },
   "sitemapLocation": "sitemap.json"
