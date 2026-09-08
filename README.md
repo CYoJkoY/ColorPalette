@@ -1,14 +1,14 @@
 <div align="center">
-  <img src="assets/readme/hero.svg" alt="ColorPalette — 微信小程序色彩工具" width="100%" />
+  <img src="assets/readme/hero.svg" alt="ColorPalette — Extract, explore, relate, and create colors" width="100%" />
 </div>
 
 <div align="center">
 
 # ColorPalette
 
-**一款真正用于“找颜色、做颜色、保存颜色”的微信小程序。**
+**A practical color workspace for finding, understanding, and building color palettes inside WeChat.**
 
-从图片取色、颜色库，到配色生成、HSL 微调、OKLab 色阶与自制色卡，ColorPalette 把常用的色彩工作流压缩进一个轻量的原生微信小程序。
+Extract colors from images, browse named color systems, inspect perceptual color values, generate color relationships, and turn a single color into a finished palette.
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 [![Platform: WeChat Mini Program](https://img.shields.io/badge/Platform-WeChat%20Mini%20Program-07C160.svg)](https://developers.weixin.qq.com/miniprogram/dev/framework/)
@@ -16,186 +16,165 @@
 
 </div>
 
-<div align="center">
+> ColorPalette is built around one simple workflow: **find a color → understand its relationships → create a palette → save it for later.**
 
-**设计师** · **前端开发者** · **游戏开发者** · **UI/UX 创作者**
+## <img src="assets/readme/icons/palette.svg" width="20" alt=""> What ColorPalette Does
 
-</div>
+ColorPalette combines four jobs that are usually split across different tools:
 
-## <img src="assets/readme/icons/palette.svg" width="20" alt=""> 核心工作流
+| Workflow | What you can do |
+| :--- | :--- |
+| **Extract** | Pick a color from an image or extract representative colors from an image. |
+| **Explore** | Search named colors across multiple color systems and filter them by hue family. |
+| **Analyze** | Inspect HEX, RGB, HSL, OKLab, OKLCH, perceptual lightness, nearby colors, and contrast. |
+| **Create** | Generate color relationships, tune a base color, combine library colors, and save palettes. |
 
-ColorPalette 不只是一个色卡展示页。它把实际创作拆成三个连续动作：
+The goal is not to expose every possible color operation. The goal is to make common color decisions fast and understandable.
 
-```text
-                 ┌──────────────┐
-                 │     取色     │
-                 │ 图片 / 主色板 │
-                 └──────┬───────┘
-                        ↓
-                 ┌──────────────┐
-                 │     创作     │
-                 │ 基础色 / 色库 │
-                 │ 配色 / HSL   │
-                 └──────┬───────┘
-                        ↓
-                 ┌──────────────┐
-                 │     收藏     │
-                 │   我的色卡库  │
-                 └──────────────┘
-```
+## <img src="assets/readme/icons/image.svg" width="20" alt=""> Why It Is Useful
 
-正常使用不会被广告打断。广告只作为用户主动兑换临时 Pro 权益的可选入口，不参与取色、创作、复制、收藏等基础操作。
+### <img src="assets/readme/icons/target.svg" width="18" alt=""> Start from the color you already have
 
-## <img src="assets/readme/icons/image.svg" width="20" alt=""> 现在可以做什么？
+A screenshot, illustration, game asset, website, photograph, or reference image can become the starting point. Manual picking is available when an exact visual location matters; automatic extraction provides a compact representative palette.
 
-| 能力 | 状态 | 说明 |
-| :--- | :---: | :--- |
-| 图片取色 | ✅ | 上传图片并点击画面中的位置直接取色 |
-| 图片主色板 | ✅ | 本地采样并提取最多 12 个代表色 |
-| 精选色卡 | ✅ | Aurora / Forest / Sunset / Ocean / Lavender / Citrus / Rose 等 |
-| 60 色颜色库 | ✅ | 红、橙、黄、绿、青、蓝、紫、粉、棕、中性 10 类 |
-| 自制色卡 | ✅ | 基础色 + HSL 调整 + 颜色库 + 手动加入颜色 |
-| 配色生成 | ✅ | 15 种配色 / 色阶模式 |
-| HEX / RGB / HSL | ✅ | 解析、转换、验证 |
-| OKLab 色阶 | ✅ | 9 阶感知亮度色阶 |
-| 本地收藏 | ✅ | 色卡保存于微信本地存储 |
-| 色卡分享 | ✅ | 复制 HEX 色卡文本 |
-| Pro | ✅ | 月卡 / 年卡 + 激励广告临时权益模型 |
-| 激励广告 | 🧩 | 仅主动兑换时展示，不影响正常使用 |
-| 微信支付 | 🧩 | 已预留可信后端订单边界 |
-| 云同步 | 🗓️ | 后续版本加入 |
+### <img src="assets/readme/icons/book.svg" width="18" alt=""> Search colors by meaning, not only by numbers
 
-## <img src="assets/readme/icons/palette.svg" width="20" alt=""> 丰富的配色系统
+The color library contains **492 named colors** across five collections:
 
-ColorPalette 不再局限于四种基础和谐关系。
+- Basic colors
+- CSS named colors
+- Traditional Chinese colors
+- Traditional Japanese colors
+- Art and pigment references
 
-### <img src="assets/readme/icons/layers.svg" width="18" alt=""> 关系型配色
+Search supports names, English/Japanese aliases where available, collection names, and HEX values. Hue-family filtering makes large collections easier to scan.
 
-- 类似色
-- 互补色
-- 分裂互补
-- 三角色
-- 四角色
-- 方形配色
-- 双互补
+> Digital HEX values for historical, cultural, and pigment references are treated as reference values rather than claims of one physically exact pigment standard.
 
-### <img src="assets/readme/icons/palette.svg" width="18" alt=""> 明度与质感
+### <img src="assets/readme/icons/layers.svg" width="18" alt=""> Turn one color into a system
 
-- 单色阶
-- 浅色阶
-- 深色阶
-- 柔和色阶
-- 粉彩
-- 鲜艳
-- 暖色
-- 冷色
-- 灰阶
+A color detail page now generates practical relationships instead of stopping at a HEX value:
 
-因此一个基础色可以快速衍生出一整套用于 UI、插画、游戏素材或网页设计的颜色体系，而不是只得到两三个关系色。
+- Analogous
+- Complementary
+- Split complementary
+- Triadic
+- Tetradic
+- Double complementary
+- Warm range
+- Cool range
+- Monochromatic
+- Tints
+- Shades
+- Tones
 
-## <img src="assets/readme/icons/image.svg" width="20" alt=""> 图片取色：不只是“提取主色”
+Every generated relationship can be inspected and taken directly into Palette Studio.
 
-图片取色现在有两条路径：
+## <img src="assets/readme/icons/search.svg" width="20" alt=""> Color Detail and Analysis
 
-**自动取色**：上传图片 → 缩略采样 → RGB 量化 → 频率排序 → 得到最多 12 个代表色。
-
-**手动取色**：上传图片 → 点击图片中的具体位置 → 获得该位置的颜色 → 自动复制 HEX。
-
-手动取色尤其适合从游戏截图、UI 截图、插画、网页参考图中直接获取某个指定颜色。
-
-目前算法优先保证微信小程序端的速度和稳定性；后续会继续升级到 Lab / OKLab 聚类、空间权重和更稳定的代表色选择。
-
-## <img src="assets/readme/icons/palette.svg" width="20" alt=""> Palette Studio：真正自己做一张色卡
-
-“创作”页面是 ColorPalette 的核心工作区。
+Selecting a named color opens a dedicated analysis view.
 
 ```text
-选择基础色
-   │
-   ├── 输入 HEX
-   ├── 颜色库选择
-   └── 图片取色后继续编辑
-          ↓
-      HSL 微调
-   ┌──────┼──────┐
-   色相  饱和度  明度
-          ↓
-     选择配色模式
-          ↓
-   生成 5 色基础方案
-          ↓
-   手动加入当前颜色
-          ↓
-       最多 8 色
-          ↓
-       收藏色卡
+Named color
+    │
+    ├── HEX
+    ├── RGB
+    ├── HSL
+    ├── OKLab
+    └── OKLCH
+         │
+         ├── Perceptual lightness scale
+         ├── Palette relationships
+         ├── WCAG contrast checks
+         └── Nearby colors by OKLab distance
+                    │
+                    ↓
+              Palette Studio
 ```
 
-颜色库目前包含 **60 个精选颜色**，按红、橙、黄、绿、青、蓝、紫、粉、棕、中性分类。颜色库不是为了替代自由调色，而是为了减少“我知道想要什么感觉，但不知道从哪个颜色开始”的启动成本。
+### <img src="assets/readme/icons/analytics.svg" width="18" alt=""> Perceptual color information
 
-## <img src="assets/readme/icons/palette.svg" width="20" alt=""> OKLab 与感知色阶
+OKLab and OKLCH are included because RGB and HSL are not ideal for every perceptual color task. ColorPalette uses OKLab distance for nearby-color discovery and OKLab lightness for its nine-step perceptual scale.
 
-普通 RGB 插值并不等价于人眼感知上的均匀变化。ColorPalette 的高级色阶将颜色转换到 OKLab，主要调整 `L`（Lightness）通道后再转换回 sRGB。
+### <img src="assets/readme/icons/check.svg" width="18" alt=""> Contrast guidance
 
-核心实现：
+The detail page calculates relative-luminance contrast ratios against white and black and labels the result with practical guidance such as `AAA text`, `AA text`, `Large text`, or `Decorative`.
+
+These labels are guidance only. Final accessibility decisions still depend on the actual text size, weight, surrounding colors, and rendered interface.
+
+## <img src="assets/readme/icons/palette.svg" width="20" alt=""> Palette Studio
+
+Palette Studio is the creation workspace rather than a passive color viewer.
+
+```text
+Choose a base color
+       │
+       ├── Enter HEX
+       ├── Pick from the color library
+       └── Continue from image extraction
+                ↓
+          Tune HSL values
+                ↓
+       Choose a palette mode
+                ↓
+        Generate a base palette
+                ↓
+       Add named colors manually
+                ↓
+          Save the palette
+```
+
+The current generator supports **15 modes**, including relationship palettes, tonal variations, warm/cool ranges, pastel and vivid sets, and grayscale.
+
+A generated palette can be extended with colors from the library, making the workflow useful for UI design, illustration, game assets, branding studies, and other visual work.
+
+## <img src="assets/readme/icons/image.svg" width="20" alt=""> Image Color Extraction
+
+ColorPalette provides two complementary extraction paths.
+
+| Mode | Best for | Behavior |
+| :--- | :--- | :--- |
+| **Manual picker** | Exact pixels and visual references | Choose a location in the image and read its color. |
+| **Automatic extraction** | Quick palette discovery | Sample and quantize the image, then rank representative colors. |
+
+The current implementation prioritizes stable execution inside the WeChat Mini Program runtime. More advanced perceptual clustering remains on the roadmap.
+
+## <img src="assets/readme/icons/architecture.svg" width="20" alt=""> Technical Foundation
+
+ColorPalette is intentionally built with a small native stack rather than a large color dependency tree.
 
 ```text
 miniprogram/utils/
-├── color.js              # HEX / RGB / HSL + 15 类配色生成
-├── oklab.js              # RGB ↔ OKLab 与感知距离
-├── advanced-palette.js   # OKLab 色阶与颜色去重
-└── color-library.js      # 60 个精选颜色 / 10 个色彩类别
+├── color.js
+│   ├── HEX ↔ RGB
+│   ├── RGB ↔ HSL
+│   ├── palette generation
+│   └── WCAG contrast calculations
+├── oklab.js
+│   ├── RGB ↔ OKLab
+│   ├── RGB ↔ OKLCH
+│   ├── perceptual distance
+│   └── lightness adjustment
+├── advanced-palette.js
+│   ├── OKLab lightness ramps
+│   └── palette deduplication
+└── color-library.js
+    ├── named-color collections
+    ├── hue families
+    └── searchable metadata
 ```
 
-## <img src="assets/readme/icons/pro.svg" width="20" alt=""> 商业化与广告原则
+The core color modules can be exercised independently with Node.js, which keeps algorithm changes testable without launching the Mini Program runtime.
 
-ColorPalette 采用 Free + Pro + Rewarded Ad 模式，但**广告不能成为正常使用的阻碍**。
+## <img src="assets/readme/icons/installation.svg" width="20" alt=""> Run Locally
 
-```text
-Free
- │
- ├── 浏览色卡
- ├── 图片取色
- ├── 自制色卡
- ├── 复制颜色
- └── 本地收藏
+### <img src="assets/readme/icons/package.svg" width="18" alt=""> Requirements
 
-Pro
- │
- ├── 月卡 / 年卡
- └── 用户主动观看激励广告 → 临时 Pro
-```
+- WeChat Developer Tools
+- A WeChat Mini Program AppID
+- Node.js 20+ for repository tests
 
-硬性体验规则：
-
-- 不启动即弹广告。
-- 不使用强制插屏打断取色或创作。
-- 不把广告伪装成系统下载按钮。
-- 不通过虚假按钮诱导误触。
-- 不因用户拒绝广告而阻止基础功能。
-- 只有用户主动选择兑换 Pro 时才展示激励广告。
-- 广告没有完成时不发放奖励。
-
-当前首测方案：
-
-| 方案 | 建议价格 | 权益 |
-| :--- | :---: | :--- |
-| Free | ¥0 | 核心色彩工作流 |
-| Monthly | ¥3.9 / 30 天 | Pro |
-| Yearly | ¥19.9 / 365 天 | Pro |
-| Rewarded Ad | 免费 | 完整观看一次激励广告 → 24 小时临时 Pro |
-
-正式发布前，广告位、订单创建、支付验证、退款、重复回调幂等和最终权益到账必须由可信后端完成。仓库不包含生产凭据。
-
-## <img src="assets/readme/icons/installation.svg" width="20" alt=""> 运行项目
-
-### <img src="assets/readme/icons/package.svg" width="18" alt=""> 环境
-
-- 微信开发者工具
-- 自己的微信小程序 AppID
-- Node.js 20+（仅用于运行仓库测试）
-
-### <img src="assets/readme/icons/download.svg" width="18" alt=""> 启动
+### <img src="assets/readme/icons/download.svg" width="18" alt=""> Clone and test
 
 ```bash
 git clone https://github.com/CYoJkoY/ColorPalette.git
@@ -203,22 +182,67 @@ cd ColorPalette
 node tests/color.test.js
 ```
 
-然后使用微信开发者工具打开仓库根目录，将 AppID 配置到 `project.config.json`，编译 `miniprogram/`。
+Open the repository root in WeChat Developer Tools, configure your AppID in `project.config.json`, and run the `miniprogram/` application.
 
-## <img src="assets/readme/icons/architecture.svg" width="20" alt=""> 项目结构
+## <img src="assets/readme/icons/check.svg" width="20" alt=""> Quality Gates
+
+Every push is checked by GitHub Actions.
+
+The automated checks cover:
+
+- Core color conversion and palette generation
+- OKLab and OKLCH calculations
+- Named-color collection sizes and search behavior
+- Color-detail data and relationship generation
+- JavaScript syntax
+- Mini Program JSON configuration
+- Required README assets
+
+The project prefers algorithm-level tests over simply checking whether a page can open.
+
+## <img src="assets/readme/icons/shield.svg" width="20" alt=""> Monetization Without Blocking the Core Workflow
+
+ColorPalette uses a Free + Pro + Rewarded Ad model.
+
+The core workflow remains usable without watching advertisements. Rewarded ads are opt-in and are only presented when a user explicitly chooses to exchange a completed ad view for temporary Pro access.
+
+Hard UX rules:
+
+- No startup advertisements.
+- No forced interstitials during extraction or palette creation.
+- No deceptive download-style ad buttons.
+- No blocking core features because an ad was declined.
+- No reward before a rewarded ad is completed.
+
+The current test pricing model is:
+
+| Plan | Test price | Access |
+| :--- | :---: | :--- |
+| Free | ¥0 | Core color workflow |
+| Monthly | ¥3.9 / 30 days | Pro |
+| Yearly | ¥19.9 / 365 days | Pro |
+| Rewarded Ad | Free | 24 hours of temporary Pro after a completed ad |
+
+Production payment verification, order creation, refunds, idempotency, advertising credentials, and final entitlement delivery should be handled by a trusted backend. Production credentials are not stored in this repository.
+
+See [`docs/MONETIZATION.md`](docs/MONETIZATION.md) for the current monetization boundary.
+
+## <img src="assets/readme/icons/folder.svg" width="20" alt=""> Project Structure
 
 ```text
 ColorPalette/
 ├── miniprogram/
 │   ├── pages/
-│   │   ├── home/             # 发现 / 精选色卡 / 工作流入口
-│   │   ├── palette/          # 色卡详情 / 配色关系 / OKLab
-│   │   ├── extractor/        # 图片取色 / 点击取色 / 主色板
-│   │   ├── create/           # Palette Studio / 自制色卡
-│   │   ├── favorites/        # 本地收藏
-│   │   └── pro/              # Pro / 商业化入口
+│   │   ├── home/             # Discovery and featured palettes
+│   │   ├── palette/          # Palette presentation
+│   │   ├── extractor/        # Image extraction and manual picking
+│   │   ├── create/           # Palette Studio
+│   │   ├── library/          # Named-color browser
+│   │   ├── color-detail/     # Color analysis and relationships
+│   │   ├── favorites/        # Local favorites
+│   │   └── pro/              # Pro and monetization entry
 │   ├── services/
-│   │   └── monetization.js   # 广告与支付接入边界
+│   │   └── monetization.js   # Advertising and payment boundary
 │   └── utils/
 │       ├── color.js
 │       ├── oklab.js
@@ -226,6 +250,7 @@ ColorPalette/
 │       ├── color-library.js
 │       ├── share.js
 │       └── storage.js
+├── assets/readme/            # README hero, icons, and visual assets
 ├── docs/
 │   └── MONETIZATION.md
 ├── tests/
@@ -236,66 +261,55 @@ ColorPalette/
 └── README.md
 ```
 
-## <img src="assets/readme/icons/check.svg" width="20" alt=""> 质量标准
-
-项目坚持原生微信小程序技术栈，不引入第三方 npm 色彩库。核心颜色算法可以脱离微信运行时使用 Node.js 独立测试。
-
-GitHub Actions 会检查：
-
-- 颜色算法测试；
-- 颜色库数量与分类；
-- JavaScript 语法；
-- 小程序配置 JSON；
-- README 必需视觉资源。
-
-每次增加颜色能力时，优先补充算法测试，而不是只验证页面能否打开。
-
 ## <img src="assets/readme/icons/roadmap.svg" width="20" alt=""> Roadmap
 
-### <img src="assets/readme/icons/layers.svg" width="18" alt=""> 下一阶段：更专业的色彩分析
+### <img src="assets/readme/icons/analytics.svg" width="18" alt=""> Color intelligence
 
-- Lab / OKLab 图片聚类
-- 空间权重与主体区域检测
-- 更稳定的颜色去重与代表色排序
-- WCAG 对比度检查
-- 色盲模拟
-- OKLCH 调色与更精细的色阶控制
+- Lab / OKLab image clustering
+- Spatial weighting and subject-region detection
+- More stable representative-color ranking
+- Color vision deficiency simulation
+- More precise OKLCH editing
+- Accessibility-aware palette suggestions
 
-### <img src="assets/readme/icons/image.svg" width="18" alt=""> 下一阶段：色卡输出
+### <img src="assets/readme/icons/download.svg" width="18" alt=""> Export and sharing
 
-- 色卡图片生成
-- PNG / 文本 / CSS 导出
-- 色卡命名
-- 收藏搜索与标签
-- 从取色结果一键创建色卡
+- Palette image generation
+- PNG, text, and CSS export
+- Palette naming and tagging
+- Better favorite search
+- One-tap conversion from extraction results to saved palettes
 
-### <img src="assets/readme/icons/cloud.svg" width="18" alt=""> 下一阶段：云端闭环
+### <img src="assets/readme/icons/cloud.svg" width="18" alt=""> Cloud workflow
 
-- 微信云同步
-- 服务端 Pro 权益
-- 订单与退款状态同步
-- 基础运营数据
+- WeChat cloud synchronization
+- Server-backed Pro entitlements
+- Order and refund synchronization
+- Privacy-conscious product analytics
 
-## <img src="assets/readme/icons/contribution.svg" width="20" alt=""> 参与开发
+## <img src="assets/readme/icons/contribution.svg" width="20" alt=""> Contributing
 
-欢迎提交 Issue 和 Pull Request，尤其欢迎新的高质量色卡、色彩算法、图片聚类、无障碍能力和微信小程序兼容性改进。
+Issues and pull requests are welcome, especially for:
 
-请不要提交真实生产凭据、支付密钥、API Token 或用户个人数据。
+- Color algorithms
+- High-quality named-color data
+- Image clustering
+- Accessibility tooling
+- Mini Program compatibility
+- Palette workflows and interaction improvements
+
+Do not commit production credentials, payment secrets, API tokens, or personal user data.
 
 ## <img src="assets/readme/icons/license.svg" width="20" alt=""> License
 
-ColorPalette 使用 **GNU General Public License v3.0**。
+ColorPalette is released under the **GNU General Public License v3.0**.
 
-对于受到 GPL 条款约束的修改版本和再发布版本，应按照 GPL-3.0 的要求提供对应源代码、许可证文本以及必要的版权与许可声明。
+Modified and redistributed versions must comply with the applicable GPL-3.0 requirements, including source-code availability and required copyright and license notices.
 
-完整许可证见 [`LICENSE`](LICENSE)。
-
-<div align="center">
-  <img src="assets/readme/support-cta.svg" alt="Support ColorPalette development" width="720" />
-</div>
+See [`LICENSE`](LICENSE) for the complete license text.
 
 <div align="center">
 
-**ColorPalette · 把“找颜色”变成“做颜色”。**
+**ColorPalette — find a color, understand it, and turn it into something useful.**
 
 </div>
