@@ -66,6 +66,20 @@ jobs:
           if(keys.some(k=>/[\u4e00-\u9fff]/.test(k))) throw new Error(`Locale key contains Chinese text: ${keys.filter(k=>/[\u4e00-\u9fff]/.test(k)).join(',')}`);
           console.log(`Locale resources OK: ${keys.length} shared semantic UI keys`);
           NODE
+      - name: Validate generated web data
+        run: |
+          node web/build-data.js
+          node - <<'NODE'
+          const fs=require('fs');
+          const d=JSON.parse(fs.readFileSync('web/data/colors.json','utf8'));
+          if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty');
+          const missing=d.colors.filter(color=>typeof color.nameEn!=='string'||!color.nameEn.trim());
+          if(missing.length) throw new Error(`Missing English color names: ${missing.length}`);
+          const cjk=/[\u4e00-\u9fff]/;
+          const mixed=d.colors.filter(color=>cjk.test(color.nameEn));
+          if(mixed.length) throw new Error(`English color names contain CJK text: ${mixed.slice(0,5).map(color=>color.name).join(', ')}`);
+          console.log(`Generated color data OK: ${d.colors.length} colors with locale-safe English names`);
+          NODE
       - name: Check JavaScript syntax
         run: |
           find miniprogram tests web -name '*.js' -print0 | xargs -0 -n1 node --check
