@@ -15,33 +15,31 @@
     return String(path).split('.').reduce((value, key) => value == null ? undefined : value[key], source);
   }
 
-  function t(key, fallback = key) {
-    const value = getPath(locale(), key);
-    return value == null ? fallback : String(value);
+  function value(path) {
+    const result = getPath(locale(), path);
+    if (result == null) {
+      console.warn(`[ColorPalette i18n] Missing locale key: ${path}`);
+      return String(path);
+    }
+    return String(result);
   }
 
-  function relation(key, fallback = key) {
-    return locale().relations?.[key] ?? fallback;
+  function relation(key) {
+    return value(`relations.${key}`);
   }
 
-  function relationDescription(key, fallback = '') {
-    return locale().relationDescriptions?.[key] ?? fallback;
+  function relationDescription(key) {
+    return value(`relationDescriptions.${key}`);
   }
 
-  function mode(key, fallback = key) {
-    return locale().modes?.[key] ?? fallback;
-  }
-
-  function ui(text) {
-    const dictionary = locale().ui || {};
-    return dictionary[text] ?? text;
+  function mode(key) {
+    return value(`modes.${key}`);
   }
 
   window.ColorPaletteI18n = {
     get locale() { return localeCode(); },
     get data() { return locale(); },
-    t,
-    ui,
+    t: value,
     relation,
     relationDescription,
     mode
