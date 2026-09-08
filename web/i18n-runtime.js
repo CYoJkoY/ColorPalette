@@ -3,160 +3,88 @@
 
   const UI = {
     '发现':'Discover','取色':'Extract','创作':'Create','颜色百科':'Color Library','收藏':'Favorites','工作区':'Workspace',
-    '找到颜色，也做出自己的颜色。':'Find colors, then make your own.',
-    '从图片取色':'Extract from Image','开始创作':'Start Creating','浏览颜色百科':'Browse Color Library','精选色卡':'Featured Palettes',
-    '三步完成一张色卡':'Create a Palette in Three Steps','找色':'Find Colors','生成':'Generate','保存':'Save',
-    '搜索名称、HEX，或者按色彩体系与色相浏览。':'Search by name or HEX, or browse by system and hue.',
-    '选择类似、互补、三角色、粉彩、冷暖等配色方式。':'Choose analogous, complementary, triadic, pastel, warm/cool, and other schemes.',
-    '把最终颜色组合保存到自己的色卡库。':'Save the final color combination to your personal palette library.',
-    '原生浏览器运行，图片和收藏数据留在本机。':'Runs natively in the browser; images and saved data stay on this device.',
-    '命名颜色':'Named Colors','来自整理后的多套色彩体系':'Curated from multiple color systems','配色模式':'Palette Modes',
-    '类似、互补、三角色、粉彩、冷暖等':'Analogous, complementary, triadic, pastel, warm/cool, and more',
-    '色彩体系':'Color System','色相分类':'Color Family','全部':'All','点击色块查看详情':'Click a color to view details',
-    '搜索名称、英文名或 HEX':'Search name, English name, or HEX','没有找到匹配颜色。':'No matching colors found.',
-    '颜色参数':'Color Parameters','颜色关系':'Color Relationships','相近颜色':'Nearby Colors','感知明度阶':'Perceptual Lightness Scale','对比度检查':'Contrast Check',
-    '白色背景':'White background','黑色背景':'Black background','对比度遵循 WCAG 相对亮度公式。':'Contrast follows the WCAG relative luminance formula.',
-    '使用 OKLab Lightness 构建比传统 HSL 更连贯的明度渐变，适合 UI 层级、背景和状态。':'OKLab Lightness creates a more coherent lightness progression than traditional HSL, useful for UI hierarchy, backgrounds, and states.',
-    '每组关系都可以完整带入 Palette Studio。':'Every relationship can be sent directly into Palette Studio.','OKLab 距离':'OKLab distance',
-    '自定义颜色':'Custom Color','自定义':'Custom','未知':'Unknown','用户输入':'User input','用于创作':'Use in Studio','已收藏':'Favorited','收藏颜色':'Favorite Color','取消收藏':'Unfavorite',
-    '复制 HEX':'Copy HEX','复制':'Copy','使用':'Use','已复制':'Copied','复制失败':'Copy failed',
-    '色卡名称':'Palette name','配色关系':'Color relationship','当前色卡':'Current palette','加入当前颜色':'Add current color','保存色卡':'Save Palette',
-    '导出 CSS':'Export CSS','导出 JSON':'Export JSON','生成：':'Generated: ','删除':'Delete','编辑':'Edit','移除':'Remove','复制色值':'Copy values',
-    '从一个颜色开始，生成关系色，手动编辑并保存为自己的色卡。':'Start from one color, generate related colors, edit them, and save your own palette.',
-    '图片只在浏览器内处理。自动提取代表色，也可以直接点击图片获取像素 HEX。':'Images are processed only in the browser. Extract representative colors automatically or click the image to sample a pixel HEX value.',
-    '选择图片':'Choose Image','清除':'Clear','选择一张图片开始。':'Choose an image to begin.','支持 JPG、PNG、WebP 等浏览器可读取格式。':'Supports JPG, PNG, WebP, and other formats readable by the browser.',
-    '提取结果':'Extraction Results','尚未提取颜色。':'No colors extracted yet.','保存为色卡':'Save as Palette','打开 Palette Studio':'Open Palette Studio','重新取色':'Pick Again',
-    '主色':'Primary','强调色':'Accent','辅助色':'Support','至少需要 2 个颜色':'At least 2 colors are required',
-    '图片色卡':'Image Palette','图片色卡已保存':'Image palette saved','颜色已收藏':'Color added to favorites','已取消收藏':'Removed from favorites',
-    '收藏内容':'Favorites','保存的颜色与色卡都留在浏览器本地。':'Saved colors and palettes stay locally in the browser.',
-    '清空':'Clear','确定清空全部收藏？':'Clear all favorites?','还没有收藏。去颜色百科或 Palette Studio 保存一些颜色。':'No favorites yet. Save colors from the Color Library or Palette Studio.',
-    '集中查看本机保存的色卡、最近使用的颜色，并继续编辑。':'View saved palettes and recently used colors on this device, then continue editing.',
-    '我的色卡':'My Palettes','最近颜色':'Recent Colors','工作区还是空的。':'The workspace is empty.','暂无最近颜色。':'No recent colors yet.',
-    'Pro 能力预留':'Pro capabilities placeholder','当前 GitHub Pages 版本优先保持免费、本地优先和无账号使用。这里保留未来扩展入口，不伪造支付或会员系统。':'The current GitHub Pages version prioritizes free, local-first, account-free use. This page reserves an extension point without pretending to provide a payment or membership system.',
-    '更高级的色彩空间':'Advanced Color Spaces','更完整的导出':'Richer Export','工作区同步':'Workspace Sync',
-    '继续扩展 OKLab / OKLCH、DeltaE、可访问性检查和感知均匀的配色算法。':'Further expand OKLab / OKLCH, DeltaE, accessibility checks, and perceptually uniform palette algorithms.',
-    '可扩展 CSS、SCSS、JSON、Design Tokens、Tailwind 等开发工作流导出。':'Extend exports for CSS, SCSS, JSON, Design Tokens, Tailwind, and other development workflows.',
-    '未来可以增加可选云同步；当前版本不上传你的图片或本地色卡。':'Optional cloud synchronization may be added later; the current version does not upload your images or local palettes.',
-    '浏览器本地优先':'Local-first in your browser','图片不会上传到服务器':'Images are never uploaded to a server',
-    '日间模式':'Light mode','夜间模式':'Dark mode','切换日间 / 夜间模式':'Switch light / dark mode','切换中文 / English':'Switch Chinese / English',
-    '切换到日间模式':'Switch to light mode','切换到夜间模式':'Switch to dark mode','重新加载':'Reload','颜色数据加载失败：':'Failed to load color data: ',
-    '打开创作':'Open Studio','暂无收藏':'No favorites yet','暂无色卡':'No saved palettes yet','暂无最近颜色':'No recent colors yet',
-    '参数':'Parameters','来源':'Source','名称':'Name','取消':'Cancel','确认':'Confirm','导出':'Export','应用':'Use','添加颜色':'Add Color','上传图片':'Upload Image',
-    '红':'Red','橙':'Orange','黄':'Yellow','绿':'Green','青':'Cyan','蓝':'Blue','紫':'Purple','粉':'Pink','棕':'Brown','中性':'Neutral',
-    '基础颜色':'Basic Colors','CSS 命名颜色':'CSS Named Colors','中国传统色':'Traditional Chinese Colors','日本传统色':'Traditional Japanese Colors','艺术与颜料':'Art & Pigments',
-    '中 / 日传统色 · CSS · 颜料':'Traditional Chinese / Japanese colors · CSS · pigments',
-    '界面偏好设置':'Interface preferences','移动端导航':'Mobile navigation','主导航':'Main navigation',
-    '预览':'PREVIEW','基础色':'BASE COLOR','色卡':'PALETTE','生成建议':'GENERATED','主色标识':'Primary','当前基础色':'Base Color','手动色卡':'Manual Palette','建议区 · 不会自动写入当前色卡':'Suggestions · not added automatically','继续整理你的颜色顺序':'Continue arranging your colors','编辑不会重建色卡':'Editing does not rebuild the palette','直接输入数值':'Enter values directly','切换关系只更新右侧“生成建议”，当前色卡保持不变。':'Changing the scheme only updates the suggestions; the current palette stays unchanged.','至少加入 2 个颜色后才能保存':'Add at least 2 colors to save','拖动顺序可继续整理':'Arrange your colors to refine the palette','色卡最多保存 8 个颜色':'A palette can contain up to 8 colors','这个颜色已经在当前色卡中':'This color is already in the palette','这个关系没有生成可用颜色。':'This scheme did not generate any usable colors.','还没有加入色卡。先编辑基础色，再点击“加入当前颜色”。':'No colors have been added yet. Edit the base color, then add it to the palette.','Color 01':'颜色 01','Color 02':'颜色 02','Color 03':'颜色 03','Color 04':'颜色 04','Color 05':'颜色 05','Color 06':'颜色 06','Color 07':'颜色 07','Color 08':'颜色 08','colors':'个颜色','Click to add':'点击加入','Suggestions':'生成建议'
-  };
-
-  const EXTRA = {
-    'Palette relationships':'Color Relationships','Palette Studio':'Palette Studio','Hue':'Hue','Saturation':'Saturation','Lightness':'Lightness',
-    'Discover':'Discover','Extract':'Extract','Create':'Create','Favorites':'Favorites','Workspace':'Workspace','Home':'Home',
-    'No matching colors found.':'No matching colors found.','No colors extracted yet.':'No colors extracted yet.','No recent colors yet.':'No recent colors yet.',
-    'Save Palette':'Save Palette','New Palette':'New Palette','Add Current Color':'Add Current Color','Current Palette':'Current Palette',
-    'Extraction Results':'Extraction Results','Choose Image':'Choose Image','Clear':'Clear','Reload':'Reload','Copied':'Copied','Copy':'Copy','Delete':'Delete','Edit':'Edit','Remove':'Remove','Use':'Use',
-    'Favorite Color':'Favorite Color','Unfavorite':'Unfavorite','Image Palette':'Image Palette','Pick Again':'Pick Again','Open Studio':'Open Studio','Open Color Library':'Open Color Library','Add to Palette':'Add to Palette','Back':'Back','Next':'Next','Previous':'Previous',
-    'Light mode':'Light mode','Dark mode':'Dark mode','Switch to light mode':'Switch to light mode','Switch to dark mode':'Switch to dark mode',
-    'Analogous':'Analogous','Complementary':'Complementary','Split Complementary':'Split Complementary','Triadic':'Triadic','Tetradic':'Tetradic','Double Complementary':'Double Complementary',
-    'Warm Range':'Warm Range','Cool Range':'Cool Range','Monochromatic':'Monochromatic','Tints':'Tints','Shades':'Shades','Tones':'Tones','Pastel':'Pastel','Vivid':'Vivid','Warm':'Warm','Cool':'Cool','Grayscale':'Grayscale',
-    'Color Parameters':'Color Parameters','Color Relationships':'Color Relationships','Nearby Colors':'Nearby Colors','Lightness Scale':'Lightness Scale','Perceptual Lightness Scale':'Perceptual Lightness Scale','Contrast':'Contrast','Contrast Check':'Contrast Check','White background':'White background','Black background':'Black background','OKLab distance':'OKLab distance',
-    'Custom Color':'Custom Color','Custom':'Custom','Unknown':'Unknown','User input':'User input','Use in Studio':'Use in Studio','Favorited':'Favorited','Copy HEX':'Copy HEX','My Palettes':'My Palettes','Recent Colors':'Recent Colors','Color Relationship':'Color Relationship','Palette Name':'Palette name','Add Color':'Add Color','Copy values':'Copy values'
+    '找到颜色，也做出自己的颜色。':'Find colors, then make your own.','从图片取色':'Extract from Image','开始创作':'Start Creating','浏览颜色百科':'Browse Color Library','精选色卡':'Featured Palettes',
+    '三步完成一张色卡':'Create a Palette in Three Steps','找色':'Find Colors','生成':'Generate','保存':'Save','搜索名称、HEX，或者按色彩体系与色相浏览。':'Search by name or HEX, or browse by system and hue.',
+    '选择类似、互补、三角色、粉彩、冷暖等配色方式。':'Choose analogous, complementary, triadic, pastel, warm/cool, and other schemes.','把最终颜色组合保存到自己的色卡库。':'Save the final color combination to your personal palette library.','原生浏览器运行，图片和收藏数据留在本机。':'Runs natively in the browser; images and saved data stay on this device.',
+    '命名颜色':'Named Colors','来自整理后的多套色彩体系':'Curated from multiple color systems','配色模式':'Palette Modes','类似、互补、三角色、粉彩、冷暖等':'Analogous, complementary, triadic, pastel, warm/cool, and more',
+    '色彩体系':'Color System','色相分类':'Color Family','全部':'All','点击色块查看详情':'Click a color to view details','搜索名称、英文名或 HEX':'Search name, English name, or HEX','没有找到匹配颜色。':'No matching colors found.',
+    '颜色参数':'Color Parameters','颜色关系':'Color Relationships','相近颜色':'Nearby Colors','感知明度阶':'Perceptual Lightness Scale','对比度检查':'Contrast Check','白色背景':'White background','黑色背景':'Black background','对比度遵循 WCAG 相对亮度公式。':'Contrast follows the WCAG relative luminance formula.',
+    '使用 OKLab Lightness 构建比传统 HSL 更连贯的明度渐变，适合 UI 层级、背景和状态。':'OKLab Lightness creates a more coherent lightness progression than traditional HSL, useful for UI hierarchy, backgrounds, and states.','每组关系都可以完整带入 Palette Studio。':'Every relationship can be sent directly into Palette Studio.','OKLab 距离':'OKLab distance',
+    '自定义颜色':'Custom Color','自定义':'Custom','未知':'Unknown','用户输入':'User input','用于创作':'Use in Studio','已收藏':'Favorited','收藏颜色':'Favorite Color','取消收藏':'Unfavorite','复制 HEX':'Copy HEX','复制':'Copy','使用':'Use','已复制':'Copied','复制失败':'Copy failed',
+    '色卡名称':'Palette name','配色关系':'Color relationship','当前色卡':'Current palette','加入当前颜色':'Add current color','保存色卡':'Save Palette','导出 CSS':'Export CSS','导出 JSON':'Export JSON','生成：':'Generated: ','删除':'Delete','编辑':'Edit','移除':'Remove','复制色值':'Copy values',
+    '从一个颜色开始，生成关系色，手动编辑并保存为自己的色卡。':'Start from one color, generate related colors, edit them, and save your own palette.','图片只在浏览器内处理。自动提取代表色，也可以直接点击图片获取像素 HEX。':'Images are processed only in the browser. Extract representative colors automatically or click the image to sample a pixel HEX value.','选择图片':'Choose Image','清除':'Clear','选择一张图片开始。':'Choose an image to begin.','支持 JPG、PNG、WebP 等浏览器可读取格式。':'Supports JPG, PNG, WebP, and other formats readable by the browser.',
+    '提取结果':'Extraction Results','尚未提取颜色。':'No colors extracted yet.','保存为色卡':'Save as Palette','打开 Palette Studio':'Open Palette Studio','重新取色':'Pick Again','主色':'Primary','强调色':'Accent','辅助色':'Support','至少需要 2 个颜色':'At least 2 colors are required',
+    '图片色卡':'Image Palette','图片色卡已保存':'Image palette saved','颜色已收藏':'Color added to favorites','已取消收藏':'Removed from favorites','收藏内容':'Favorites','保存的颜色与色卡都留在浏览器本地。':'Saved colors and palettes stay locally in the browser.','清空':'Clear','确定清空全部收藏？':'Clear all favorites?','还没有收藏。去颜色百科或 Palette Studio 保存一些颜色。':'No favorites yet. Save colors from the Color Library or Palette Studio.',
+    '集中查看本机保存的色卡、最近使用的颜色，并继续编辑。':'View saved palettes and recently used colors on this device, then continue editing.','我的色卡':'My Palettes','最近颜色':'Recent Colors','工作区还是空的。':'The workspace is empty.','暂无最近颜色。':'No recent colors yet.','Pro 能力预留':'Pro capabilities placeholder',
+    '当前 GitHub Pages 版本优先保持免费、本地优先和无账号使用。这里保留未来扩展入口，不伪造支付或会员系统。':'The current GitHub Pages version prioritizes free, local-first, account-free use. This page reserves an extension point without pretending to provide a payment or membership system.',
+    '更高级的色彩空间':'Advanced Color Spaces','更完整的导出':'Richer Export','工作区同步':'Workspace Sync','继续扩展 OKLab / OKLCH、DeltaE、可访问性检查和感知均匀的配色算法。':'Further expand OKLab / OKLCH, DeltaE, accessibility checks, and perceptually uniform palette algorithms.',
+    '可扩展 CSS、SCSS、JSON、Design Tokens、Tailwind 等开发工作流导出。':'Extend exports for CSS, SCSS, JSON, Design Tokens, Tailwind, and other development workflows.','未来可以增加可选云同步；当前版本不上传你的图片或本地色卡。':'Optional cloud synchronization may be added later; the current version does not upload your images or local palettes.',
+    '浏览器本地优先':'Local-first in your browser','图片不会上传到服务器':'Images are never uploaded to a server','日间模式':'Light mode','夜间模式':'Dark mode','切换日间 / 夜间模式':'Switch light / dark mode','切换中文 / English':'Switch Chinese / English',
+    '切换到日间模式':'Switch to light mode','切换到夜间模式':'Switch to dark mode','重新加载':'Reload','颜色数据加载失败：':'Failed to load color data: ','打开创作':'Open Studio','暂无收藏':'No favorites yet','暂无色卡':'No saved palettes yet','暂无最近颜色':'No recent colors yet',
+    '参数':'Parameters','来源':'Source','名称':'Name','取消':'Cancel','确认':'Confirm','导出':'Export','应用':'Use','添加颜色':'Add Color','上传图片':'Upload Image','红':'Red','橙':'Orange','黄':'Yellow','绿':'Green','青':'Cyan','蓝':'Blue','紫':'Purple','粉':'Pink','棕':'Brown','中性':'Neutral',
+    '基础颜色':'Basic Colors','CSS 命名颜色':'CSS Named Colors','中国传统色':'Traditional Chinese Colors','日本传统色':'Traditional Japanese Colors','艺术与颜料':'Art & Pigments','中 / 日传统色 · CSS · 颜料':'Traditional Chinese / Japanese colors · CSS · pigments','界面偏好设置':'Interface preferences','移动端导航':'Mobile navigation','主导航':'Main navigation',
+    '预览':'PREVIEW','基础色':'BASE COLOR','色卡':'PALETTE','生成建议':'GENERATED','主色标识':'Primary','当前基础色':'Base Color','手动色卡':'Manual Palette','建议区 · 不会自动写入当前色卡':'Suggestions · not added automatically','继续整理你的颜色顺序':'Continue arranging your colors','编辑不会重建色卡':'Editing does not rebuild the palette','直接输入数值':'Enter values directly','切换关系只更新右侧“生成建议”，当前色卡保持不变。':'Changing the scheme only updates the suggestions; the current palette stays unchanged.','至少加入 2 个颜色后才能保存':'Add at least 2 colors to save','拖动顺序可继续整理':'Arrange your colors to refine the palette','色卡最多保存 8 个颜色':'A palette can contain up to 8 colors','这个颜色已经在当前色卡中':'This color is already in the palette','这个关系没有生成可用颜色。':'This scheme did not generate any usable colors.','还没有加入色卡。先编辑基础色，再点击“加入当前颜色”。':'No colors have been added yet. Edit the base color, then add it to the palette.','colors':'个颜色','点击加入':'Click to add','建议区':'Suggestions'
   };
 
   const forward = Object.assign({}, UI);
-  const chineseToEnglish = Object.entries(forward)
-    .filter(([zh, en]) => /[\u3400-\u9fff]/.test(zh) && en && zh !== en)
-    .sort((a, b) => b[0].length - a[0].length);
-  const englishToChinese = Object.entries(forward)
-    .filter(([zh, en]) => en && /[\u3400-\u9fff]/.test(zh) && en !== zh)
-    .map(([zh, en]) => [en, zh])
-    .sort((a, b) => b[0].length - a[0].length);
+  const chineseToEnglish = Object.entries(forward).filter(([zh, en]) => /[\u3400-\u9fff]/.test(zh) && en && zh !== en).sort((a,b)=>b[0].length-a[0].length);
+  const englishToChinese = Object.entries(forward).filter(([zh, en]) => en && /[\u3400-\u9fff]/.test(zh) && en !== zh).map(([zh,en])=>[en,zh]).sort((a,b)=>b[0].length-a[0].length);
   const englishFixedToChinese = Object.entries({
-    'PREVIEW':'预览','BASE COLOR':'基础色','PALETTE':'色卡','GENERATED':'生成建议','Primary':'主色','Color 01':'颜色 01','Color 02':'颜色 02','Color 03':'颜色 03','Color 04':'颜色 04','Color 05':'颜色 05','Color 06':'颜色 06','Color 07':'颜色 07','Color 08':'颜色 08','colors':'个颜色','Click to add':'点击加入','Suggestions · not added automatically':'建议区 · 不会自动写入当前色卡','Editing does not rebuild the palette':'编辑不会重建色卡','Enter values directly':'直接输入数值','Base Color':'当前基础色','Manual Palette':'手动色卡'
+    'PREVIEW':'预览','BASE COLOR':'基础色','PALETTE':'色卡','GENERATED':'生成建议','Primary':'主色','Color 01':'颜色 01','Color 02':'颜色 02','Color 03':'颜色 03','Color 04':'颜色 04','Color 05':'颜色 05','Color 06':'颜色 06','Color 07':'颜色 07','Color 08':'颜色 08','colors':'个颜色','Click to add':'点击加入','Suggestions · not added automatically':'建议区 · 不会自动写入当前色卡','Editing does not rebuild the palette':'编辑不会重建色卡','Enter values directly':'直接输入数值','Base Color':'当前基础色','Manual Palette':'手动色卡','Palette Studio':'Palette Studio'
   }).sort((a,b)=>b[0].length-a[0].length);
 
-  function currentLanguage() {
-    return window.ColorPalettePreferences?.language === 'en' ? 'en' : 'zh';
-  }
+  function currentLanguage(){ return window.ColorPalettePreferences?.language === 'en' ? 'en' : 'zh'; }
 
-  function translateText(text) {
+  function translateText(text){
     const source = String(text ?? '');
     if (!source.trim()) return source;
-
     if (currentLanguage() === 'en') {
+      const knownColor = window.colorMeta?.colors?.find?.(c => c && c.name === source);
+      if (knownColor) return `Named Color ${knownColor.hex}`;
       let result = source;
-      for (const [zh, en] of chineseToEnglish) {
-        if (result.includes(zh)) result = result.split(zh).join(en);
-      }
-      result = result.replace(/^(\d+)\s*个命名颜色/, '$1 named colors')
-        .replace(/^(\d+)\s*个颜色/, '$1 colors')
-        .replace(/\s*个颜色\s*·\s*/g, ' colors · ')
-        .replace(/^生成：/, 'Generated: ')
-        .replace(/ · (\d+) samples/g, ' · $1 samples');
-      return result;
+      for (const [zh,en] of chineseToEnglish) if (result.includes(zh)) result=result.split(zh).join(en);
+      return result.replace(/^(\d+)\s*个命名颜色/,'$1 named colors').replace(/^(\d+)\s*个颜色/,'$1 colors').replace(/\s*个颜色\s*·\s*/g,' colors · ').replace(/^生成：/,'Generated: ').replace(/ · (\d+) samples/g,' · $1 samples');
     }
-
     let result = source;
-    for (const [en, zh] of [...englishToChinese, ...englishFixedToChinese]) {
-      if (result.includes(en)) result = result.split(en).join(zh);
-    }
-    result = result.replace(/^(\d+)\s+named colors/, '$1 个命名颜色')
-      .replace(/^(\d+)\s+colors/, '$1 个颜色')
-      .replace(/\s+colors\s*·\s*/g, ' 个颜色 · ')
-      .replace(/^Generated:\s*/, '生成：');
-    return result;
+    for (const [en,zh] of [...englishToChinese,...englishFixedToChinese]) if (result.includes(en)) result=result.split(en).join(zh);
+    return result.replace(/^(\d+)\s+named colors/,'$1 个命名颜色').replace(/^(\d+)\s+colors/,'$1 个颜色').replace(/\s+colors\s*·\s*/g,' 个颜色 · ').replace(/^Generated:\s*/,'生成：');
   }
 
-  function translate(root = document.body) {
-    if (!root) return;
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-    while (walker.nextNode()) {
-      const node = walker.currentNode;
-      if (node.parentElement?.closest('script,style,noscript,template')) continue;
-      const source = node.__cpOriginalText ?? node.__cpLocaleOriginal ?? node.nodeValue;
-      if (node.__cpOriginalText == null) node.__cpOriginalText = source;
-      if (node.__cpLocaleOriginal == null) node.__cpLocaleOriginal = source;
-      node.nodeValue = translateText(source);
+  function translate(root=document.body){
+    if(!root) return;
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    while(walker.nextNode()){
+      const node=walker.currentNode;
+      if(node.parentElement?.closest('script,style,noscript,template')) continue;
+      const source=node.__cpOriginalText ?? node.__cpLocaleOriginal ?? node.nodeValue;
+      if(node.__cpOriginalText==null) node.__cpOriginalText=source;
+      if(node.__cpLocaleOriginal==null) node.__cpLocaleOriginal=source;
+      node.nodeValue=translateText(source);
     }
-
-    root.querySelectorAll?.('input[placeholder],textarea[placeholder],[title],[aria-label]').forEach(element => {
-      ['placeholder','title','aria-label'].forEach(attr => {
-        if (!element.hasAttribute(attr)) return;
-        const key = `__cpOriginal_${attr}`;
-        const original = element.dataset[key] ?? element.getAttribute(attr) ?? '';
-        element.dataset[key] = original;
-        element.setAttribute(attr, translateText(original));
+    root.querySelectorAll?.('input[placeholder],textarea[placeholder],[title],[aria-label]').forEach(element=>{
+      ['placeholder','title','aria-label'].forEach(attr=>{
+        if(!element.hasAttribute(attr)) return;
+        const key=`__cpOriginal_${attr}`;
+        const original=element.dataset[key] ?? element.getAttribute(attr) ?? '';
+        element.dataset[key]=original;
+        element.setAttribute(attr,translateText(original));
       });
     });
-
-    const lang = currentLanguage();
-    document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
-    document.title = lang === 'en' ? 'ColorPalette — Color Workspace' : 'ColorPalette — 颜色工作台';
-    const description = document.querySelector('meta[name="description"]');
-    if (description) description.content = lang === 'en'
-      ? 'ColorPalette: image color extraction, color library, palette generation, favorites and workspace.'
-      : 'ColorPalette：图片取色、颜色百科、配色生成、色卡收藏与工作区。';
+    const lang=currentLanguage();
+    document.documentElement.lang=lang==='en'?'en':'zh-CN';
+    document.title=lang==='en'?'ColorPalette — Color Workspace':'ColorPalette — 颜色工作台';
+    const description=document.querySelector('meta[name="description"]');
+    if(description) description.content=lang==='en'?'ColorPalette: image color extraction, color library, palette generation, favorites and workspace.':'ColorPalette：图片取色、颜色百科、配色生成、色卡收藏与工作区。';
   }
 
-  function rerender() {
-    try { window.route?.(); } catch (_) {}
-    requestAnimationFrame(() => translate(document.body));
-    requestAnimationFrame(() => translate(document.body));
+  function rerender(){ try{window.route?.();}catch(_){} requestAnimationFrame(()=>translate(document.body)); requestAnimationFrame(()=>translate(document.body)); }
+  function install(){
+    const observer=new MutationObserver(m=>{ if(m.some(x=>x.type==='childList'&&(x.addedNodes.length||x.removedNodes.length))) requestAnimationFrame(()=>translate(document.body)); });
+    observer.observe(document.body,{childList:true,subtree:true});
+    window.addEventListener('colorpalette:localechange',rerender);
+    window.addEventListener('hashchange',()=>requestAnimationFrame(()=>translate(document.body)));
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>translate(document.body),{once:true}); else translate(document.body);
   }
-
-  function install() {
-    const observer = new MutationObserver(mutations => {
-      if (mutations.some(m => m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length))) {
-        requestAnimationFrame(() => translate(document.body));
-      }
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-    window.addEventListener('colorpalette:localechange', rerender);
-    window.addEventListener('hashchange', () => requestAnimationFrame(() => translate(document.body)));
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => translate(document.body), { once: true });
-    else translate(document.body);
-  }
-
-  window.ColorPaletteI18nRuntime = { translate, translateText, rerender };
+  window.ColorPaletteI18nRuntime={translate,translateText,rerender};
   install();
 })();
