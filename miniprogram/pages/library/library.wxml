@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="hero compact">
+    <view class="eyebrow">COLOR LIBRARY</view>
+    <view class="title">颜色百科</view>
+    <view class="subtitle">先按色彩体系，再按色相缩小范围。找到颜色后可以直接带入创作。</view>
+  </view>
+
+  <view class="panel filters">
+    <view class="filter-label">色彩体系</view>
+    <scroll-view scroll-x class="chips">
+      <view wx:for="{{collections}}" wx:key="*this" class="chip {{collectionIndex===index?'active':''}}" data-index="{{index}}" bindtap="onCollectionTap">{{item}}</view>
+    </scroll-view>
+    <view class="filter-label second">色相分类</view>
+    <scroll-view scroll-x class="chips">
+      <view wx:for="{{families}}" wx:key="*this" class="chip {{familyIndex===index?'active':''}}" data-index="{{index}}" bindtap="onFamilyTap">{{item}}</view>
+    </scroll-view>
+    <view class="search-wrap"><text class="search-icon">⌕</text><input class="search-input" placeholder="搜索名称、英文名或 HEX" value="{{query}}" bindinput="inputSearch" /></view>
+  </view>
+
+  <view class="result-head"><view class="section-title">{{total}} 个颜色</view><view class="muted">最多展示 120 个</view></view>
+  <view class="library-grid">
+    <view wx:for="{{results}}" wx:key="id" class="library-card">
+      <view class="swatch" style="background:{{item.hex}}" data-hex="{{item.hex}}" bindtap="copy"></view>
+      <view class="library-info">
+        <view class="library-name">{{item.name}}</view>
+        <view class="library-meta"><text>{{item.hex}}</text><text>{{item.family}}</text></view>
+        <view class="library-source">{{item.collection}}</view>
+        <view class="library-actions"><button class="copy" data-hex="{{item.hex}}" bindtap="copy">复制</button><button class="use" data-hex="{{item.hex}}" bindtap="useColor">用于创作</button></view>
+      </view>
+    </view>
+  </view>
+</view>
