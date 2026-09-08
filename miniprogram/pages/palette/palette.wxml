@@ -1,1 +1,43 @@
-<view class="page"><view class="row"><view><view class="eyebrow">PALETTE</view><view class="title">{{name}}</view></view><button size="mini" class="outline" bindtap="favorite">{{favorite?'已收藏':'收藏'}}</button></view><view class="panel"><view class="color-preview" style="background:{{base}}"></view><view class="muted">基础色 · 点击复制</view><input class="input code" value="{{base}}" maxlength="7" bindinput="setBase"/><button class="button" data-hex="{{base}}" bindtap="copy">复制 {{base}}</button></view><view class="panel"><view class="section-title">基础色卡</view><scroll-view class="hscroll" scroll-x="true"><view wx:for="{{colors}}" wx:key="*this" class="mini-swatch" style="background:{{item}}" data-hex="{{item}}" bindtap="copy"></view></scroll-view></view><view wx:for="{{schemes}}" wx:key="name" class="panel"><view class="row"><view class="section-title">{{item.name}}</view><text class="muted">点击复制</text></view><view><view wx:for="{{item.colors}}" wx:key="*this" class="mini-swatch" style="background:{{item}}" data-hex="{{item}}" bindtap="copy"></view></view></view><view class="panel pro"><view class="tag">PRO</view><view class="section-title">把配色做成你的个人资产</view><view class="muted">无限收藏、云同步、批量图片取色和更完整的调色工具。</view><button class="button" style="margin-top:20rpx;background:#FFF;color:#171714" bindtap="goPro">查看 Pro</button></view></view>
+<view class="page">
+  <view class="row">
+    <view><view class="eyebrow">PALETTE</view><view class="title">{{name}}</view></view>
+    <button size="mini" class="outline" bindtap="favorite">{{favorite?'已收藏':'收藏'}}</button>
+  </view>
+
+  <view class="panel">
+    <view class="color-preview" style="background:{{base}}"></view>
+    <view class="muted">基础色 · 输入 HEX 即时生成配色</view>
+    <input class="input code" value="{{base}}" maxlength="7" bindinput="setBase" />
+    <view class="row actions">
+      <button class="button" data-hex="{{base}}" bindtap="copy">复制 {{base}}</button>
+      <button class="outline" bindtap="share">复制色卡</button>
+    </view>
+  </view>
+
+  <view class="panel">
+    <view class="section-title">基础色卡</view>
+    <scroll-view class="hscroll" scroll-x="true">
+      <view wx:for="{{colors}}" wx:key="*this" class="mini-swatch" style="background:{{item}}" data-hex="{{item}}" bindtap="copy"></view>
+    </scroll-view>
+  </view>
+
+  <view class="panel">
+    <view class="section-title">OKLab 感知色阶</view>
+    <view class="muted">按感知亮度生成，比简单 RGB 混白/混黑更适合 UI 与插画调色。</view>
+    <view class="scale">
+      <view wx:for="{{scale}}" wx:key="*this" class="scale-item" style="background:{{item}}" data-hex="{{item}}" bindtap="copy"><text>{{item}}</text></view>
+    </view>
+  </view>
+
+  <view wx:for="{{schemes}}" wx:key="name" class="panel">
+    <view class="row"><view class="section-title">{{item.name}}</view><text class="muted">点击复制</text></view>
+    <view><view wx:for="{{item.colors}}" wx:key="*this" class="mini-swatch" style="background:{{item}}" data-hex="{{item}}" bindtap="copy"></view></view>
+  </view>
+
+  <view class="panel pro">
+    <view class="tag">PRO</view>
+    <view class="section-title">把配色做成你的个人资产</view>
+    <view class="muted">无限收藏、云同步、批量图片取色和更完整的调色工具。</view>
+    <button class="button" style="margin-top:20rpx;background:#FFF;color:#171714" bindtap="goPro">查看 Pro</button>
+  </view>
+</view>
