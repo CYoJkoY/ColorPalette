@@ -13,5 +13,6 @@ Page({
   },
   openPalette(e) { wx.navigateTo({ url:'/pages/palette/palette?id='+e.currentTarget.dataset.id+'&name='+encodeURIComponent(e.currentTarget.dataset.name) }); },
   openExtractor() { wx.switchTab({ url:'/pages/extractor/extractor' }); },
-  openCreator() { wx.switchTab({ url:'/pages/create/create' }); }
+  openCreator() { wx.switchTab({ url:'/pages/create/create' }); },
+  openLibrary() { wx.navigateTo({ url:'/pages/library/library' }); }
 });
