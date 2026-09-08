@@ -15,6 +15,7 @@
   let theme = saved.theme === 'dark' || saved.theme === 'light'
     ? saved.theme
     : 'light';
+  let suppressNextClick = false;
 
   const localeCode = () => language === 'en' ? 'en-US' : 'zh-CN';
   const locale = () => window.ColorPaletteLocales?.[localeCode()] || window.ColorPaletteLocales?.['zh-CN'] || { ui: {} };
@@ -32,6 +33,13 @@
       .replace(/^(\d+) 个颜色$/, '$1 colors')
       .replace(/^(\d+) 个命名颜色 · /, '$1 named colors · ')
       .replace(/^(\d+) 个颜色 · /, '$1 colors · ');
+  }
+
+  function translateAttribute(el, attribute) {
+    const originalKey = `cp${attribute[0].toUpperCase()}${attribute.slice(1)}`;
+    if (!el.dataset[originalKey]) el.dataset[originalKey] = el.getAttribute(attribute) || '';
+    const original = el.dataset[originalKey];
+    if (original) el.setAttribute(attribute, language === 'en' ? translateText(original) : original);
   }
 
   function updateMeta() {
@@ -73,15 +81,9 @@
       node.nodeValue = language === 'en' ? translateText(node.__cpOriginal) : node.__cpOriginal;
     });
 
-    root.querySelectorAll('input[placeholder],textarea[placeholder]').forEach(el => {
-      if (!el.dataset.cpPlaceholder) el.dataset.cpPlaceholder = el.placeholder;
-      el.placeholder = language === 'en' ? translateText(el.dataset.cpPlaceholder) : el.dataset.cpPlaceholder;
-    });
-
-    root.querySelectorAll('[title]').forEach(el => {
-      if (!el.dataset.cpTitle) el.dataset.cpTitle = el.title;
-      el.title = language === 'en' ? translateText(el.dataset.cpTitle) : el.dataset.cpTitle;
-    });
+    root.querySelectorAll('input[placeholder],textarea[placeholder]').forEach(el => translateAttribute(el, 'placeholder'));
+    root.querySelectorAll('[title]').forEach(el => translateAttribute(el, 'title'));
+    root.querySelectorAll('[aria-label]').forEach(el => translateAttribute(el, 'aria-label'));
 
     document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
 
@@ -119,10 +121,12 @@
   function installSwipe(button, toggle) {
     let startX = null;
     let startY = null;
+    let pointerId = null;
 
     button.addEventListener('pointerdown', event => {
       startX = event.clientX;
       startY = event.clientY;
+      pointerId = event.pointerId;
       button.setPointerCapture?.(event.pointerId);
     });
 
@@ -131,12 +135,17 @@
       const dx = event.clientX - startX;
       const dy = event.clientY - startY;
       startX = startY = null;
+      pointerId = null;
       if (Math.abs(dx) >= 24 && Math.abs(dx) > Math.abs(dy) * 1.25) {
+        suppressNextClick = true;
         toggle(dx > 0 ? 'right' : 'left');
+        window.setTimeout(() => { suppressNextClick = false; }, 350);
       }
     });
 
-    button.addEventListener('pointercancel', () => { startX = startY = null; });
+    button.addEventListener('pointercancel', () => {
+      startX = startY = pointerId = null;
+    });
   }
 
   function boot() {
@@ -144,8 +153,20 @@
     const themeButton = document.querySelector('#theme-switch');
     if (!languageButton || !themeButton) return;
 
-    languageButton.addEventListener('click', () => setLanguage(language === 'zh' ? 'en' : 'zh'));
-    themeButton.addEventListener('click', () => setTheme(theme === 'light' ? 'dark' : 'light'));
+    languageButton.addEventListener('click', () => {
+      if (suppressNextClick) {
+        suppressNextClick = false;
+        return;
+      }
+      setLanguage(language === 'zh' ? 'en' : 'zh');
+    });
+    themeButton.addEventListener('click', () => {
+      if (suppressNextClick) {
+        suppressNextClick = false;
+        return;
+      }
+      setTheme(theme === 'light' ? 'dark' : 'light');
+    });
 
     installSwipe(languageButton, direction => {
       const next = direction === 'right' ? 'en' : 'zh';
