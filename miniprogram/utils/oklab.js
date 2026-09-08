@@ -34,6 +34,24 @@ function oklabToRgb(L, a, b) {
   return { r: Math.round(linearToSrgb(R)), g: Math.round(linearToSrgb(G)), b: Math.round(linearToSrgb(B)) };
 }
 
+function rgbToOklch(r, g, b) {
+  const lab = rgbToOklab(r, g, b);
+  const C = Math.sqrt(lab.a * lab.a + lab.b * lab.b);
+  let H = Math.atan2(lab.b, lab.a) * 180 / Math.PI;
+  if (H < 0) H += 360;
+  return { L: lab.L, C, H };
+}
+
+function oklchToOklab(L, C, H) {
+  const rad = H * Math.PI / 180;
+  return { L, a: C * Math.cos(rad), b: C * Math.sin(rad) };
+}
+
+function oklchToRgb(L, C, H) {
+  const lab = oklchToOklab(L, C, H);
+  return oklabToRgb(lab.L, lab.a, lab.b);
+}
+
 function oklabDistance(c1, c2) {
   return Math.sqrt(Math.pow(c1.L - c2.L, 2) + Math.pow(c1.a - c2.a, 2) + Math.pow(c1.b - c2.b, 2));
 }
@@ -43,4 +61,4 @@ function adjustLightness(rgb, delta) {
   return oklabToRgb(clamp(c.L + delta, 0, 1), c.a, c.b);
 }
 
-module.exports = { rgbToOklab, oklabToRgb, oklabDistance, adjustLightness };
+module.exports = { rgbToOklab, oklabToRgb, rgbToOklch, oklchToOklab, oklchToRgb, oklabDistance, adjustLightness };
