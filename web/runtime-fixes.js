@@ -23,23 +23,6 @@
 
   function install() {
     window.copy = safeCopy;
-    if (typeof window.savePalette === 'function' && !window.savePalette.__safeId) {
-      const original = window.savePalette;
-      const wrapped = function(p) {
-        const item = original(p);
-        if (item && /^palette-\d+$/.test(item.id)) {
-          item.id = `${item.id}-${Math.random().toString(36).slice(2, 8)}`;
-          if (window.state?.palettes) {
-            const index = window.state.palettes.findIndex(x => x.id === item.id.replace(/-[a-z0-9]{6}$/, ''));
-            if (index >= 0) window.state.palettes[index] = item;
-          }
-          try { localStorage.setItem('colorpalette-web-v2', JSON.stringify(window.state)); } catch (_) {}
-        }
-        return item;
-      };
-      wrapped.__safeId = true;
-      window.savePalette = wrapped;
-    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', install, { once: true });
