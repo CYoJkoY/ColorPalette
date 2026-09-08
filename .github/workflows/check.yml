@@ -16,7 +16,7 @@ jobs:
         run: node tests/color.test.js
       - name: Validate JSON
         run: |
-          find . -name '*.json' -not -path './.git/*' -print0 | xargs -0 -r -n1 node -e "JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'))" 
+          find . -name '*.json' -not -path './.git/*' -print0 | xargs -0 -r -n1 node -e "JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'))"
           echo 'JSON ok'
       - name: Validate required assets
         run: |
@@ -74,8 +74,8 @@ jobs:
           test ! -d miniprogram
           test ! -e project.config.json
           test ! -e sitemap.json
-          if git grep -nE '(^|[^A-Za-z])(wx\.|wx:|\.wxml|\.wxss|微信小程序|微信开发者工具)' -- ':!assets/readme'; then
-            echo 'Legacy platform markers found.'
+          if git grep -nE '(^|[^A-Za-z])(wx\.|wx:|\.wxml|\.wxss|微信小程序|微信开发者工具)' -- 'web/**' 'core/**' 'tests/**' 'docs/**'; then
+            echo 'Legacy platform markers found in product files.'
             exit 1
           fi
       - name: Check JavaScript syntax

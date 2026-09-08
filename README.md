@@ -98,7 +98,7 @@ Run the algorithm tests with:
 node tests/color.test.js
 ```
 
-GitHub Actions also checks locale parity, generated browser data, JavaScript syntax, required assets, and the absence of legacy Mini Program artifacts.
+GitHub Actions also checks locale parity, generated browser data, JavaScript syntax, and required assets.
 
 ## Deployment
 
