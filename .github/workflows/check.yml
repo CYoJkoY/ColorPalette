@@ -30,13 +30,13 @@ jobs:
           test -s web/index.html
           test -s web/styles.css
           test -s web/preferences-ui.css
+          test -s web/create-redesign.css
           test -s web/ui-motion.css
           test -s web/ui-motion.js
-          test -s web/i18n-runtime.js
-          test -s web/app.js
           test -s web/preferences-lite.js
           test -s web/i18n.js
-          test -s web/runtime-fixes.js
+          test -s web/ui-shell.js
+          test -s web/app-locale.js
           test -s web/build-data.js
           test -s web/locales/zh-CN.js
           test -s web/locales/en-US.js
@@ -58,9 +58,13 @@ jobs:
             if(missing.length) throw new Error(`Missing locale keys at ${path}: ${missing.join(',')}`);
           };
           requireKeys(zh.ui,en.ui,'ui');
+          requireKeys(en.ui,zh.ui,'ui');
           requireKeys(zh.relations,en.relations,'relations');
+          requireKeys(en.relations,zh.relations,'relations');
           requireKeys(zh.relationDescriptions,en.relationDescriptions,'relationDescriptions');
+          requireKeys(en.relationDescriptions,zh.relationDescriptions,'relationDescriptions');
           requireKeys(zh.modes,en.modes,'modes');
+          requireKeys(en.modes,zh.modes,'modes');
           const untranslated=Object.entries(zh.ui).filter(([key,value])=>key!==value&&en.ui[key]===value).map(([key])=>key);
           if(untranslated.length) throw new Error(`Untranslated English UI values: ${untranslated.join(',')}`);
           console.log(`Locale resources OK: ${Object.keys(zh.ui).length} Chinese UI keys, ${Object.keys(en.ui).length} English UI keys, ${Object.keys(zh.modes).length} modes`);
