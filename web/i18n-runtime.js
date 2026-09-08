@@ -6,7 +6,7 @@
     '找到颜色，也做出自己的颜色。':'Find colors, then make your own.',
     '从图片取色':'Extract from Image','开始创作':'Start Creating','浏览颜色百科':'Browse Color Library','精选色卡':'Featured Palettes',
     '三步完成一张色卡':'Create a Palette in Three Steps','找色':'Find Colors','生成':'Generate','保存':'Save',
-    '搜索名称、HEX，或者按色彩体系与色相浏览。':'Search by name or HEX, or browse by color system and hue.',
+    '搜索名称、HEX，或者按色彩体系与色相浏览。':'Search by name or HEX, or browse by system and hue.',
     '选择类似、互补、三角色、粉彩、冷暖等配色方式。':'Choose analogous, complementary, triadic, pastel, warm/cool, and other schemes.',
     '把最终颜色组合保存到自己的色卡库。':'Save the final color combination to your personal palette library.',
     '原生浏览器运行，图片和收藏数据留在本机。':'Runs natively in the browser; images and saved data stay on this device.',
@@ -29,7 +29,7 @@
     '主色':'Primary','强调色':'Accent','辅助色':'Support','至少需要 2 个颜色':'At least 2 colors are required',
     '图片色卡':'Image Palette','图片色卡已保存':'Image palette saved','颜色已收藏':'Color added to favorites','已取消收藏':'Removed from favorites',
     '收藏内容':'Favorites','保存的颜色与色卡都留在浏览器本地。':'Saved colors and palettes stay locally in the browser.',
-    '清空':'Clear','确定清空全部收藏？':'Clear all favorites?','还没有收藏。去颜色百科或 Palette Studio 保存一些颜色。':'No favorites yet. Save some colors from the Color Library or Palette Studio.',
+    '清空':'Clear','确定清空全部收藏？':'Clear all favorites?','还没有收藏。去颜色百科或 Palette Studio 保存一些颜色。':'No favorites yet. Save colors from the Color Library or Palette Studio.',
     '集中查看本机保存的色卡、最近使用的颜色，并继续编辑。':'View saved palettes and recently used colors on this device, then continue editing.',
     '我的色卡':'My Palettes','最近颜色':'Recent Colors','工作区还是空的。':'The workspace is empty.','暂无最近颜色。':'No recent colors yet.',
     'Pro 能力预留':'Pro capabilities placeholder','当前 GitHub Pages 版本优先保持免费、本地优先和无账号使用。这里保留未来扩展入口，不伪造支付或会员系统。':'The current GitHub Pages version prioritizes free, local-first, account-free use. This page reserves an extension point without pretending to provide a payment or membership system.',
@@ -45,7 +45,8 @@
     '红':'Red','橙':'Orange','黄':'Yellow','绿':'Green','青':'Cyan','蓝':'Blue','紫':'Purple','粉':'Pink','棕':'Brown','中性':'Neutral',
     '基础颜色':'Basic Colors','CSS 命名颜色':'CSS Named Colors','中国传统色':'Traditional Chinese Colors','日本传统色':'Traditional Japanese Colors','艺术与颜料':'Art & Pigments',
     '中 / 日传统色 · CSS · 颜料':'Traditional Chinese / Japanese colors · CSS · pigments',
-    '界面偏好设置':'Interface preferences','移动端导航':'Mobile navigation','主导航':'Main navigation'
+    '界面偏好设置':'Interface preferences','移动端导航':'Mobile navigation','主导航':'Main navigation',
+    '预览':'PREVIEW','基础色':'BASE COLOR','色卡':'PALETTE','生成建议':'GENERATED','主色标识':'Primary','当前基础色':'Base Color','手动色卡':'Manual Palette','建议区 · 不会自动写入当前色卡':'Suggestions · not added automatically','继续整理你的颜色顺序':'Continue arranging your colors','编辑不会重建色卡':'Editing does not rebuild the palette','直接输入数值':'Enter values directly','切换关系只更新右侧“生成建议”，当前色卡保持不变。':'Changing the scheme only updates the suggestions; the current palette stays unchanged.','至少加入 2 个颜色后才能保存':'Add at least 2 colors to save','拖动顺序可继续整理':'Arrange your colors to refine the palette','色卡最多保存 8 个颜色':'A palette can contain up to 8 colors','这个颜色已经在当前色卡中':'This color is already in the palette','这个关系没有生成可用颜色。':'This scheme did not generate any usable colors.','还没有加入色卡。先编辑基础色，再点击“加入当前颜色”。':'No colors have been added yet. Edit the base color, then add it to the palette.','Color 01':'颜色 01','Color 02':'颜色 02','Color 03':'颜色 03','Color 04':'颜色 04','Color 05':'颜色 05','Color 06':'颜色 06','Color 07':'颜色 07','Color 08':'颜色 08','colors':'个颜色','Click to add':'点击加入','Suggestions':'生成建议'
   };
 
   const EXTRA = {
@@ -66,6 +67,13 @@
   const chineseToEnglish = Object.entries(forward)
     .filter(([zh, en]) => /[\u3400-\u9fff]/.test(zh) && en && zh !== en)
     .sort((a, b) => b[0].length - a[0].length);
+  const englishToChinese = Object.entries(forward)
+    .filter(([zh, en]) => en && /[\u3400-\u9fff]/.test(zh) && en !== zh)
+    .map(([zh, en]) => [en, zh])
+    .sort((a, b) => b[0].length - a[0].length);
+  const englishFixedToChinese = Object.entries({
+    'PREVIEW':'预览','BASE COLOR':'基础色','PALETTE':'色卡','GENERATED':'生成建议','Primary':'主色','Color 01':'颜色 01','Color 02':'颜色 02','Color 03':'颜色 03','Color 04':'颜色 04','Color 05':'颜色 05','Color 06':'颜色 06','Color 07':'颜色 07','Color 08':'颜色 08','colors':'个颜色','Click to add':'点击加入','Suggestions · not added automatically':'建议区 · 不会自动写入当前色卡','Editing does not rebuild the palette':'编辑不会重建色卡','Enter values directly':'直接输入数值','Base Color':'当前基础色','Manual Palette':'手动色卡'
+  }).sort((a,b)=>b[0].length-a[0].length);
 
   function currentLanguage() {
     return window.ColorPalettePreferences?.language === 'en' ? 'en' : 'zh';
@@ -73,19 +81,29 @@
 
   function translateText(text) {
     const source = String(text ?? '');
-    if (!source.trim() || currentLanguage() !== 'en') return source;
+    if (!source.trim()) return source;
 
-    let result = source;
-    for (const [zh, en] of chineseToEnglish) {
-      if (result.includes(zh)) result = result.split(zh).join(en);
+    if (currentLanguage() === 'en') {
+      let result = source;
+      for (const [zh, en] of chineseToEnglish) {
+        if (result.includes(zh)) result = result.split(zh).join(en);
+      }
+      result = result.replace(/^(\d+)\s*个命名颜色/, '$1 named colors')
+        .replace(/^(\d+)\s*个颜色/, '$1 colors')
+        .replace(/\s*个颜色\s*·\s*/g, ' colors · ')
+        .replace(/^生成：/, 'Generated: ')
+        .replace(/ · (\d+) samples/g, ' · $1 samples');
+      return result;
     }
 
-    result = result.replace(/^(\d+)\s*个命名颜色/, '$1 named colors')
-      .replace(/^(\d+)\s*个颜色/, '$1 colors')
-      .replace(/\s*个颜色\s*·\s*/g, ' colors · ')
-      .replace(/^生成：/, 'Generated: ')
-      .replace(/ · (\d+) samples/g, ' · $1 samples');
-
+    let result = source;
+    for (const [en, zh] of [...englishToChinese, ...englishFixedToChinese]) {
+      if (result.includes(en)) result = result.split(en).join(zh);
+    }
+    result = result.replace(/^(\d+)\s+named colors/, '$1 个命名颜色')
+      .replace(/^(\d+)\s+colors/, '$1 个颜色')
+      .replace(/\s+colors\s*·\s*/g, ' 个颜色 · ')
+      .replace(/^Generated:\s*/, '生成：');
     return result;
   }
 
