@@ -19,7 +19,19 @@ window.ColorPaletteLocales['en-US']={
     '中 / 日传统色 · CSS · 颜料':'Traditional colors · CSS · pigments','按色彩体系、色相和名称快速定位颜色；点色块查看完整参数、相近颜色与色阶。':'Find colors by system, hue, or name; open a swatch for full parameters, nearby colors, and scales.',
     '来自整理后的多套色彩体系':'Curated from multiple color systems','类似、互补、三角色、粉彩、冷暖等':'Analogous, complementary, triadic, pastel, warm/cool, and more','选择类似、互补、三角色、粉彩、冷暖等配色方式。':'Choose analogous, complementary, triadic, pastel, warm/cool, and other schemes.',
     '搜索名称、HEX，或者按色彩体系与色相浏览。':'Search by name or HEX, or browse by color system and hue.','把最终颜色组合保存到自己的色卡库。':'Save the final combination to your personal palette library.','原生浏览器运行，图片和收藏数据留在本机。':'Runs natively in the browser; images and saved data stay on this device.',
-    '日间模式':'Light mode','夜间模式':'Dark mode','颜色工作台':'Color workspace','颜色工具箱':'Color toolkit','配色':'Palette','取色结果':'Extraction Results','上传或拖入图片':'Upload or drop an image','点击图片取色':'Click the image to pick a color','没有可用颜色':'No colors available','暂无内容':'Nothing here yet','专业版':'Pro','升级':'Upgrade'
+    '日间模式':'Light mode','夜间模式':'Dark mode','颜色工作台':'Color workspace','颜色工具箱':'Color toolkit','配色':'Palette','取色结果':'Extraction Results','上传或拖入图片':'Upload or drop an image','点击图片取色':'Click the image to pick a color','没有可用颜色':'No colors available','暂无内容':'Nothing here yet','专业版':'Pro','升级':'Upgrade','已复制':'Copied','复制失败':'Copy failed'
+  },
+  keys:{
+    nav:{discover:'Discover',extractor:'Extract',create:'Create',library:'Color Library',favorites:'Favorites',workspace:'Workspace'},
+    common:{save:'Save',copy:'Copy',delete:'Delete',cancel:'Cancel',confirm:'Confirm',export:'Export',reset:'Reset',random:'Random',refresh:'Refresh',back:'Back',next:'Next',previous:'Previous',apply:'Use',use:'Use',clear:'Clear',remove:'Remove'},
+    home:{eyebrow:'Color Toolkit',title:'Find colors, then make your own.',extract:'Extract from Image',create:'Start Creating',library:'Color Library',featured:'Featured Palettes',steps:'Create a Palette in Three Steps'},
+    library:{title:'Color Library',searchPlaceholder:'Search name, English name, or HEX',system:'Color System',family:'Color Family',all:'All',count:'{count} colors',detail:'Click a color to view details'},
+    color:{relationships:'Color Relationships',nearby:'Nearby Colors',scale:'Lightness Scale',contrast:'Contrast',information:'Color Information',copyHex:'Copy HEX',favorite:'Favorite Color',unfavorite:'Unfavorite'},
+    palette:{name:'My Palette',new:'New Palette',save:'Save Palette',addColor:'Add Color',empty:'No saved palettes yet'},
+    extractor:{title:'Extract',upload:'Upload or drop an image',pick:'Click the image to pick a color',result:'Extraction Results',repick:'Pick Again'},
+    workspace:{title:'Workspace',recent:'Recently Used',emptyRecent:'No recent colors yet'},
+    favorites:{title:'My Favorites',empty:'No favorites yet'},
+    pro:{title:'Pro',upgrade:'Upgrade'}
   },
   relations:{analogous:'Analogous',complementary:'Complementary',split:'Split Complementary',triadic:'Triadic',tetradic:'Tetradic',doubleComplementary:'Double Complementary',warm:'Warm Range',cool:'Cool Range',monochromatic:'Monochromatic',tints:'Tints',shades:'Shades',tones:'Tones'},
   relationDescriptions:{analogous:'Adjacent hues create a unified, calm palette.',complementary:'Opposite hues create strong separation and contrast.',split:'The base color is paired with the two hues beside its complement.',triadic:'Three evenly spaced hues create balanced color contrast.',tetradic:'Two complementary pairs form a four-color relationship.',doubleComplementary:'Two neighboring colors are combined with their opposites.',warm:'Shifts around the base color toward warmer hues.',cool:'Shifts around the base color toward cooler hues.',monochromatic:'Keeps the hue while changing lightness.',tints:'Reduces saturation and increases lightness for lighter variants.',shades:'Reduces lightness to create darker variants.',tones:'Reduces saturation for restrained interface palettes.'},
