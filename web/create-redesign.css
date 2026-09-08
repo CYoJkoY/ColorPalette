@@ -46,12 +46,11 @@
 .create-v2-palette-info strong{display:block;font:700 12px ui-monospace,SFMono-Regular,Menlo,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .create-v2-palette-info span{display:block;margin-top:5px;color:#888780;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
 .create-v2-palette-actions{display:flex;align-items:center;gap:4px;padding-left:2px}
-.create-v2-palette-actions button{position:relative;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #deddd7;border-radius:8px;background:#f8f8f5;color:#66665f;cursor:pointer;font-size:0;line-height:1;transition:background .16s ease,border-color .16s ease,color .16s ease,transform .16s ease}
-.create-v2-palette-actions button::before{display:block;font-size:13px;font-weight:700;line-height:1}
-.create-v2-palette-actions button[data-up]::before{content:'⌃'}
-.create-v2-palette-actions button[data-down]::before{content:'⌄'}
-.create-v2-palette-actions button[data-remove]::before{content:'×';font-size:15px;font-weight:500}
-.create-v2-palette-actions button:hover{border-color:#bbb9b1;background:#eeeeea;color:#2f302c;transform:translateY(-1px)}
+.create-v2-palette-actions button{position:relative;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #deddd7;border-radius:8px;background:#f8f8f5;color:#676760;cursor:pointer;font-size:0;line-height:1;transition:background .16s ease,border-color .16s ease,color .16s ease,transform .16s ease}
+.create-v2-palette-actions button::before{content:"";display:block;width:7px;height:7px;border-top:1.5px solid currentColor;border-left:1.5px solid currentColor;transform:rotate(45deg);transform-origin:center;margin-top:4px}
+.create-v2-palette-actions button[data-down]::before{transform:rotate(225deg);margin-top:-4px}
+.create-v2-palette-actions button[data-remove]::before{width:9px;height:9px;border:0;transform:none;margin:0;content:"×";font:400 16px/9px system-ui,sans-serif}
+.create-v2-palette-actions button:hover{border-color:#bcbab3;background:#efefea;color:#2f302c;transform:translateY(-1px)}
 .create-v2-palette-actions button:focus-visible{outline:2px solid #9d9c95;outline-offset:2px}
 .generated-head{margin-top:7px}
 .create-v2-generated{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
