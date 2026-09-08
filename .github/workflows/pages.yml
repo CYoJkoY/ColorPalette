@@ -41,10 +41,12 @@ jobs:
           test -s web/index.html
           test -s web/styles.css
           test -s web/app.js
-          test -s web/preferences.js
+          test -s web/preferences-lite.js
           test -s web/i18n.js
           test -s web/runtime-fixes.js
-          test -s web/locale-refresh.js
+          test -s web/ui-motion.css
+          test -s web/ui-motion.js
+          test -s web/i18n-runtime.js
           test -s web/locales/zh-CN.js
           test -s web/locales/en-US.js
           test -s web/data/colors.json
