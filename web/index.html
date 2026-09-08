@@ -1,22 +1,34 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f7f4">
-  <meta name="description" content="ColorPalette — extract, explore, relate, create, and save colors in a static web workspace.">
-  <title>ColorPalette — Color Workspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F7F7F4">
+  <meta name="description" content="ColorPalette：图片取色、颜色百科、配色生成、色卡收藏与工作区。">
+  <title>ColorPalette — 颜色工作台</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#/discover" aria-label="ColorPalette home"><span class="brand-mark"></span><span>ColorPalette</span></a>
-    <nav class="nav" aria-label="Primary">
-      <a href="#/discover">Discover</a><a href="#/library">Library</a><a href="#/extract">Extract</a><a href="#/create">Create</a><a href="#/workspace">Workspace</a>
+    <a class="brand" href="#/home" aria-label="ColorPalette 首页"><span class="brand-mark"></span><span>ColorPalette</span></a>
+    <nav class="nav" aria-label="主导航">
+      <a data-route="home" href="#/home">发现</a>
+      <a data-route="extractor" href="#/extractor">取色</a>
+      <a data-route="create" href="#/create">创作</a>
+      <a data-route="library" href="#/library">颜色百科</a>
+      <a data-route="favorites" href="#/favorites">收藏</a>
+      <a data-route="workspace" href="#/workspace">工作区</a>
     </nav>
   </header>
   <main id="app" class="shell" aria-live="polite"></main>
-  <footer class="footer">ColorPalette · Static GitHub Pages edition · Local-first workspace</footer>
+  <nav class="mobile-nav" aria-label="移动端导航">
+    <a data-route="home" href="#/home"><span>⌂</span>发现</a>
+    <a data-route="extractor" href="#/extractor"><span>⌁</span>取色</a>
+    <a data-route="create" href="#/create"><span>＋</span>创作</a>
+    <a data-route="favorites" href="#/favorites"><span>♡</span>收藏</a>
+    <a data-route="workspace" href="#/workspace"><span>▦</span>工作区</a>
+  </nav>
+  <footer class="footer">ColorPalette · 浏览器本地优先 · 图片不会上传到服务器</footer>
   <script src="app.js" defer></script>
 </body>
 </html>
