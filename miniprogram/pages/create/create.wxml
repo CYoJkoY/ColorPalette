@@ -1,0 +1,42 @@
+<view class="page">
+  <view class="hero">
+    <view class="eyebrow">PALETTE STUDIO</view>
+    <view class="title">自己做一张色卡</view>
+    <view class="subtitle">输入一个颜色，选择配色逻辑，再微调色相、饱和度和明度。所有颜色都可以直接复制或收藏。</view>
+  </view>
+
+  <view class="panel">
+    <view class="section-title">基础颜色</view>
+    <view class="base-color" style="background:{{hex}}"></view>
+    <view class="hex-row">
+      <input class="hex-input" value="{{hex}}" maxlength="7" bindconfirm="inputHex" confirm-type="done" />
+      <button class="mini-button" data-hex="{{hex}}" bindtap="copy">复制</button>
+    </view>
+    <view class="slider-row"><text>色相</text><slider data-key="h" value="{{h}}" min="0" max="359" activeColor="#1D1D1B" bindchange="onSliderChange" /></view>
+    <view class="slider-row"><text>饱和度</text><slider data-key="s" value="{{s}}" min="0" max="100" activeColor="#1D1D1B" bindchange="onSliderChange" /></view>
+    <view class="slider-row"><text>明度</text><slider data-key="l" value="{{l}}" min="0" max="100" activeColor="#1D1D1B" bindchange="onSliderChange" /></view>
+  </view>
+
+  <view class="panel">
+    <view class="section-title">配色方式</view>
+    <picker mode="selector" range="{{modes}}" range-key="name" value="{{modeIndex}}" bindchange="onModeChange">
+      <view class="picker">{{modes[modeIndex].name}} <text>选择配色逻辑 ›</text></view>
+    </picker>
+  </view>
+
+  <view class="panel palette-panel">
+    <view class="row"><view class="section-title">生成结果</view><view class="muted">{{colors.length}} 色</view></view>
+    <view class="swatches">
+      <view wx:for="{{colors}}" wx:key="*this" class="swatch" data-hex="{{item}}" bindtap="copy">
+        <view class="swatch-color" style="background:{{item}}"></view>
+        <view class="code">{{item}}</view>
+      </view>
+    </view>
+    <view class="actions">
+      <button class="primary" bindtap="save">{{saved?'已收藏':'收藏这张色卡'}}</button>
+      <button class="secondary" bindtap="addColor">加入当前色</button>
+    </view>
+  </view>
+
+  <view class="panel hint">提示：取色、创作和收藏是独立工作流。你可以从图片获得颜色，再把它带进这里继续制作自己的色卡。</view>
+</view>
