@@ -2,14 +2,13 @@
   const FALLBACK = 'zh-CN';
 
   function localeCode() {
-    return window.ColorPalettePreferences?.language === 'en-US'
-      ? 'en-US'
-      : (window.ColorPalettePreferences?.language || FALLBACK);
+    const language = window.ColorPalettePreferences?.language;
+    return language === 'en' || language === 'en-US' ? 'en-US' : 'zh-CN';
   }
 
   function locale() {
     const locales = window.ColorPaletteLocales || {};
-    return locales[localeCode()] || locales[FALLBACK] || { ui: {}, relations: {}, modes: {} };
+    return locales[localeCode()] || locales[FALLBACK] || { ui: {}, relations: {}, modes: {}, relationDescriptions: {} };
   }
 
   function getPath(source, path) {
@@ -23,6 +22,10 @@
 
   function relation(key, fallback = key) {
     return locale().relations?.[key] ?? fallback;
+  }
+
+  function relationDescription(key, fallback = '') {
+    return locale().relationDescriptions?.[key] ?? fallback;
   }
 
   function mode(key, fallback = key) {
@@ -40,6 +43,7 @@
     t,
     ui,
     relation,
+    relationDescription,
     mode
   };
 })();
