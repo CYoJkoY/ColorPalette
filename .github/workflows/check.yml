@@ -32,6 +32,7 @@ jobs:
           test -s web/app.js
           test -s web/preferences.js
           test -s web/i18n.js
+          test -s web/locale-refresh.js
           test -s web/build-data.js
           test -s web/locales/zh-CN.js
           test -s web/locales/en-US.js
@@ -46,12 +47,17 @@ jobs:
             vm.runInContext(fs.readFileSync(file,'utf8'),ctx,{filename:file});
           }
           const locales=ctx.window.ColorPaletteLocales;
-          if(!locales?.['zh-CN']?.ui||!locales?.['en-US']?.ui) throw new Error('Locale resources missing');
-          const zh=Object.keys(locales['zh-CN'].ui),en=Object.keys(locales['en-US'].ui);
-          if(zh.length!==en.length) throw new Error(`Locale key count mismatch: ${zh.length} vs ${en.length}`);
-          for(const key of zh) if(!(key in locales['en-US'].ui)) throw new Error(`Missing en-US key: ${key}`);
-          for(const code of ['zh-CN','en-US']) for(const group of ['relations','modes']) if(!locales[code][group]) throw new Error(`Missing ${code}.${group}`);
-          console.log(`Locale resources OK: ${zh.length} UI keys`);
+          const zh=locales?.['zh-CN'],en=locales?.['en-US'];
+          if(!zh?.ui||!en?.ui||!zh?.relations||!en?.relations||!zh?.relationDescriptions||!en?.relationDescriptions||!zh?.modes||!en?.modes) throw new Error('Locale resources missing');
+          const compare=(a,b,path)=>{
+            const ak=Object.keys(a).sort(),bk=Object.keys(b).sort();
+            if(JSON.stringify(ak)!==JSON.stringify(bk)) throw new Error(`Locale key mismatch at ${path}: ${ak.join(',')} vs ${bk.join(',')}`);
+          };
+          compare(zh.ui,en.ui,'ui');
+          compare(zh.relations,en.relations,'relations');
+          compare(zh.relationDescriptions,en.relationDescriptions,'relationDescriptions');
+          compare(zh.modes,en.modes,'modes');
+          console.log(`Locale resources OK: ${Object.keys(zh.ui).length} UI keys, ${Object.keys(zh.modes).length} modes`);
           NODE
       - name: Check JavaScript syntax
         run: |
