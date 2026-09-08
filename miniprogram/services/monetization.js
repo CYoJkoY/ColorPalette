@@ -1,6 +1,6 @@
 /**
  * Production integration boundary for WeChat monetization.
- * Keep secrets and payment verification on a trusted backend.
+ * Secrets, order creation and payment verification belong on a trusted backend.
  */
 
 function watchRewardedAd(adUnitId, onReward, onError) {
@@ -8,7 +8,6 @@ function watchRewardedAd(adUnitId, onReward, onError) {
     if (onError) onError(new Error('Missing rewarded ad unit id'));
     return null;
   }
-
   const ad = wx.createRewardedVideoAd({ adUnitId });
   ad.onClose((result) => {
     if (result && result.isEnded) onReward();
@@ -20,8 +19,8 @@ function watchRewardedAd(adUnitId, onReward, onError) {
 }
 
 function createSubscriptionOrder(planId, callback) {
-  // Call your cloud function / trusted API here.
-  // The backend should create and validate the order before wx.requestPayment.
+  // Replace with wx.cloud.callFunction or wx.request to your trusted backend.
+  // The backend creates the order and returns payment parameters only after validation.
   if (callback) callback(new Error(`Subscription backend is not configured: ${planId}`));
 }
 
