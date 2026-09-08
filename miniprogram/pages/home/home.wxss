@@ -1,0 +1,1 @@
+.page{min-height:100vh}.hero{padding-top:8rpx}.grid{grid-template-columns:1fr 1fr}.card{min-width:0}
