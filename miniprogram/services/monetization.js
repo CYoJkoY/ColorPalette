@@ -1,6 +1,9 @@
 /**
- * Production integration boundary for WeChat monetization.
- * Secrets, order creation and payment verification belong on a trusted backend.
+ * Non-intrusive monetization boundary.
+ *
+ * Product rule: ads are opt-in only. Never show an ad automatically,
+ * never interrupt an active workflow, and never use an ad click as a
+ * substitute for a normal app action.
  */
 
 function watchRewardedAd(adUnitId, onReward, onError) {
@@ -8,19 +11,38 @@ function watchRewardedAd(adUnitId, onReward, onError) {
     if (onError) onError(new Error('Missing rewarded ad unit id'));
     return null;
   }
+
+  let settled = false;
+  const reward = () => {
+    if (settled) return;
+    settled = true;
+    if (onReward) onReward();
+  };
+  const fail = (error) => {
+    if (settled) return;
+    settled = true;
+    if (onError) onError(error || new Error('Rewarded ad failed'));
+  };
+
   const ad = wx.createRewardedVideoAd({ adUnitId });
   ad.onClose((result) => {
-    if (result && result.isEnded) onReward();
-    else if (onError) onError(new Error('Ad was not completed'));
+    if (result && result.isEnded) reward();
+    else fail(new Error('Ad was not completed'));
   });
-  ad.onError((error) => onError && onError(error));
-  ad.show().catch(() => ad.load().then(() => ad.show()).catch(onError));
+  ad.onError(fail);
+
+  ad.show().catch(() => {
+    ad.load()
+      .then(() => ad.show())
+      .catch(fail);
+  });
+
   return ad;
 }
 
 function createSubscriptionOrder(planId, callback) {
-  // Replace with wx.cloud.callFunction or wx.request to your trusted backend.
-  // The backend creates the order and returns payment parameters only after validation.
+  // Replace with wx.cloud.callFunction or wx.request to a trusted backend.
+  // Payment UI is only opened after the backend creates and validates an order.
   if (callback) callback(new Error(`Subscription backend is not configured: ${planId}`));
 }
 
