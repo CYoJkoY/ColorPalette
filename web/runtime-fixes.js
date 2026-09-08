@@ -29,23 +29,40 @@
     }).catch(fallback);
   }
 
+  function createRouteHash(hash) {
+    const raw = String(hash || '#/create');
+    if (/^#\/create\//.test(raw)) return raw;
+    if (/^#\/create\?/.test(raw)) return raw.replace(/^#\/create\?/, '#/create/?');
+    return raw;
+  }
+
   function normalizeCreateRoute() {
     const raw = String(location.hash || '');
-    if (!/^#\/create\?/.test(raw)) return false;
-    const normalized = raw.replace(/^#\/create\?/, '#/create/?');
+    const normalized = createRouteHash(raw);
+    if (normalized === raw) return false;
     history.replaceState(null, '', `${location.pathname}${location.search}${normalized}`);
     return true;
   }
 
   function wrapRoute() {
-    if (typeof window.route !== 'function' || window.route.__normalizedCreateRoute) return;
+    if (typeof window.route !== 'function' || window.route.__colorPaletteRoutePatched) return;
     const original = window.route;
     const wrapped = function () {
       normalizeCreateRoute();
       return original();
     };
-    wrapped.__normalizedCreateRoute = true;
+    wrapped.__colorPaletteRoutePatched = true;
     window.route = wrapped;
+  }
+
+  function installRouteClickGuard() {
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a[href^="#/create?"]');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      const normalized = createRouteHash(href);
+      if (href !== normalized) link.setAttribute('href', normalized);
+    }, true);
   }
 
   function translateWithLoadedLocale(root = document.body) {
@@ -54,7 +71,7 @@
     const locale = locales[language === 'en' ? 'en-US' : 'zh-CN'];
     if (!locale?.ui || !root) return;
 
-    const ui = locale.ui;
+    const ui = locale.ui || {};
     const relationMap = locale.relations || {};
     const modeMap = locale.modes || {};
     const descriptions = locale.relationDescriptions || {};
@@ -63,9 +80,9 @@
       const trimmed = source.trim();
       if (!trimmed) return source;
       if (Object.prototype.hasOwnProperty.call(ui, trimmed)) return source.replace(trimmed, ui[trimmed]);
-      if (language === 'en' && Object.prototype.hasOwnProperty.call(relationMap, trimmed)) return source.replace(trimmed, relationMap[trimmed]);
-      if (language === 'en' && Object.prototype.hasOwnProperty.call(modeMap, trimmed)) return source.replace(trimmed, modeMap[trimmed]);
-      if (language === 'en' && Object.prototype.hasOwnProperty.call(descriptions, trimmed)) return source.replace(trimmed, descriptions[trimmed]);
+      if (Object.prototype.hasOwnProperty.call(relationMap, trimmed)) return source.replace(trimmed, relationMap[trimmed]);
+      if (Object.prototype.hasOwnProperty.call(modeMap, trimmed)) return source.replace(trimmed, modeMap[trimmed]);
+      if (Object.prototype.hasOwnProperty.call(descriptions, trimmed)) return source.replace(trimmed, descriptions[trimmed]);
       return source;
     };
 
@@ -77,20 +94,30 @@
       if (node.__cpLocaleOriginal == null) node.__cpLocaleOriginal = source;
       node.nodeValue = translateOne(source);
     }
+
+    root.querySelectorAll?.('input[placeholder], textarea[placeholder], [title], [aria-label]').forEach(element => {
+      ['placeholder', 'title', 'aria-label'].forEach(attr => {
+        if (!element.hasAttribute(attr)) return;
+        const key = `__cpLocaleOriginal_${attr}`;
+        const original = element.dataset[key] ?? element.getAttribute(attr) ?? '';
+        element.dataset[key] = original;
+        element.setAttribute(attr, translateOne(original));
+      });
+    });
   }
 
-  // Register before i18n-runtime so this supplemental dictionary pass runs first
-  // whenever the language is changed. It uses i18n-runtime's original-text marker
-  // when that marker already exists, avoiding the common English->Chinese->English
-  // drift caused by translating an already translated text node.
-  window.addEventListener('colorpalette:localechange', () => {
-    requestAnimationFrame(() => translateWithLoadedLocale(document.body));
-  });
+  function refreshTranslations() {
+    requestAnimationFrame(() => {
+      window.ColorPaletteI18nRuntime?.translate?.(document.body);
+      requestAnimationFrame(() => translateWithLoadedLocale(document.body));
+    });
+  }
 
   function install() {
     window.copy = safeCopy;
     wrapRoute();
     normalizeCreateRoute();
+    installRouteClickGuard();
 
     if (typeof window.savePalette === 'function' && !window.savePalette.__uniqueIds) {
       const original = window.savePalette;
@@ -107,10 +134,17 @@
 
     const observer = new MutationObserver(mutations => {
       if (mutations.some(m => m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length))) {
-        requestAnimationFrame(() => translateWithLoadedLocale(document.body));
+        refreshTranslations();
       }
     });
     observer.observe(document.body, { childList: true, subtree: true });
+
+    window.addEventListener('colorpalette:localechange', refreshTranslations);
+    window.addEventListener('hashchange', () => {
+      normalizeCreateRoute();
+      refreshTranslations();
+    });
+    refreshTranslations();
   }
 
   if (document.readyState === 'loading') {
