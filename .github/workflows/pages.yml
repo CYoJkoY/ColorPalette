@@ -23,19 +23,40 @@ jobs:
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
+
       - name: Setup Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
-          node-version: 24
-      - name: Generate named color data
-        run: node web/build-data.js
+          node-version: 20
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
+
+      - name: Generate named color data
+        run: node web/build-data.js
+
+      - name: Validate Pages bundle
+        run: |
+          test -s web/index.html
+          test -s web/styles.css
+          test -s web/app.js
+          test -s web/preferences.js
+          test -s web/i18n.js
+          test -s web/runtime-fixes.js
+          test -s web/locale-refresh.js
+          test -s web/locales/zh-CN.js
+          test -s web/locales/en-US.js
+          test -s web/data/colors.json
+          node -e "const d=require('./web/data/colors.json'); if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty'); console.log('Generated '+d.colors.length+' colors')"
+
+      - name: Disable Jekyll processing
+        run: touch web/.nojekyll
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: web
+          path: ./web
 
   deploy:
     runs-on: ubuntu-latest
