@@ -4,6 +4,7 @@
     "pages/palette/palette",
     "pages/extractor/extractor",
     "pages/create/create",
+    "pages/library/library",
     "pages/favorites/favorites",
     "pages/pro/pro"
   ],
