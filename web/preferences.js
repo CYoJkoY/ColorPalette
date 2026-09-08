@@ -43,7 +43,8 @@
     if(lb){const label=language==='zh'?'切换中文 / English':'Switch Chinese / English';lb.setAttribute('aria-checked',String(language==='en'));lb.setAttribute('aria-label',label);lb.title=label}
     updateMeta();
   }
-  function setLanguage(next){language=next==='en'?'en':'zh';save();translate();applyTheme();}
+  function notifyLocaleChange(){window.dispatchEvent(new CustomEvent('colorpalette:localechange',{detail:{language,locale:localeCode()}}));}
+  function setLanguage(next){language=next==='en'?'en':'zh';save();translate();applyTheme();notifyLocaleChange();}
   function setTheme(next){theme=next==='dark'?'dark':'light';save();applyTheme();}
   function boot(){
     const lb=document.querySelector('#language-switch'),tb=document.querySelector('#theme-switch');if(!lb||!tb)return;
@@ -52,7 +53,8 @@
     applyTheme();translate();
     const observer=new MutationObserver(ms=>{if(language!=='en')return;ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===Node.ELEMENT_NODE)translate(n)}))});
     observer.observe(document.body,{childList:true,subtree:true});
-    window.ColorPalettePreferences={get language(){return language},get locale(){return localeCode()},get theme(){return theme},t:translateText,lookup,setLanguage,setTheme,translate,applyTheme};
+    window.ColorPalettePreferences={get language(){return language},get locale(){return localeCode()},get theme(){return theme},t:translateText,tKey:(key,fallback)=>window.ColorPaletteI18n?.t(key,fallback)??fallback,lookup,setLanguage,setTheme,translate,applyTheme};
+    notifyLocaleChange();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
