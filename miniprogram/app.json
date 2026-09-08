@@ -1,0 +1,27 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/palette/palette",
+    "pages/extractor/extractor",
+    "pages/favorites/favorites",
+    "pages/pro/pro"
+  ],
+  "window": {
+    "navigationBarTitleText": "ColorPalette",
+    "navigationBarBackgroundColor": "#F7F7F4",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F7F7F4"
+  },
+  "tabBar": {
+    "color": "#77776F",
+    "selectedColor": "#1D1D1B",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {"pagePath":"pages/home/home","text":"发现"},
+      {"pagePath":"pages/extractor/extractor","text":"取色"},
+      {"pagePath":"pages/favorites/favorites","text":"收藏"},
+      {"pagePath":"pages/pro/pro","text":"Pro"}
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}
