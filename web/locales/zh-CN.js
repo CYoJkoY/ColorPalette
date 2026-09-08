@@ -1,39 +1,18 @@
 window.ColorPaletteLocales=window.ColorPaletteLocales||{};
-window.ColorPaletteLocales['zh-CN']={
-  code:'zh-CN',
-  name:'简体中文',
-  ui:{
-    '发现':'发现','取色':'取色','创作':'创作','颜色百科':'颜色百科','收藏':'收藏','工作区':'工作区',
-    '从图片取色':'从图片取色','开始创作':'开始创作','浏览颜色百科':'浏览颜色百科','精选色卡':'精选色卡',
-    '三步完成一张色卡':'三步完成一张色卡','找色':'找色','生成':'生成','保存':'保存','搜索名称、英文名或 HEX':'搜索名称、英文名或 HEX',
-    '点击色块查看详情':'点击色块查看详情','色彩体系':'色彩体系','色相分类':'色相分类','全部':'全部',
-    '类似色':'类似色','互补色':'互补色','分裂互补':'分裂互补','三角色':'三角色','四角色':'四角色','双互补':'双互补',
-    '单色阶':'单色阶','浅色阶':'浅色阶','深色阶':'深色阶','柔和色阶':'柔和色阶','粉彩':'粉彩','鲜艳':'鲜艳','暖色':'暖色','冷色':'冷色','灰阶':'灰阶',
-    '颜色':'颜色','配色模式':'配色模式','命名颜色':'命名颜色','浏览器本地优先':'浏览器本地优先','图片不会上传到服务器':'图片不会上传到服务器',
-    '我的色卡':'我的色卡','我的收藏':'我的收藏','最近使用':'最近使用','新建色卡':'新建色卡','保存色卡':'保存色卡','导出':'导出','删除':'删除','复制':'复制','应用':'应用','使用':'使用','清空':'清空',
-    '取消':'取消','确认':'确认','名称':'名称','来源':'来源','自定义':'自定义','添加颜色':'添加颜色','移除':'移除','上传图片':'上传图片','选择图片':'选择图片',
-    '从图片中提取颜色':'从图片中提取颜色','打开创作':'打开创作','重新取色':'重新取色','暂无收藏':'暂无收藏','暂无色卡':'暂无色卡','暂无最近颜色':'暂无最近颜色',
-    '颜色关系':'颜色关系','相近颜色':'相近颜色','色阶':'色阶','对比度':'对比度','颜色信息':'颜色信息','复制 HEX':'复制 HEX','收藏颜色':'收藏颜色','取消收藏':'取消收藏',
-    '明度':'明度','饱和度':'饱和度','色相':'色相','对比度等级':'对比度等级','可读性':'可读性','导出 JSON':'导出 JSON','导出 CSS':'导出 CSS',
-    '重置':'重置','随机':'随机','刷新':'刷新','添加到色卡':'添加到色卡','进入颜色百科':'进入颜色百科','返回':'返回','下一步':'下一步','上一步':'上一步',
-    '中 / 日传统色 · CSS · 颜料':'中 / 日传统色 · CSS · 颜料','按色彩体系、色相和名称快速定位颜色；点色块查看完整参数、相近颜色与色阶。':'按色彩体系、色相和名称快速定位颜色；点色块查看完整参数、相近颜色与色阶。',
-    '来自整理后的多套色彩体系':'来自整理后的多套色彩体系','类似、互补、三角色、粉彩、冷暖等':'类似、互补、三角色、粉彩、冷暖等','选择类似、互补、三角色、粉彩、冷暖等配色方式。':'选择类似、互补、三角色、粉彩、冷暖等配色方式。',
-    '搜索名称、HEX，或者按色彩体系与色相浏览。':'搜索名称、HEX，或者按色彩体系与色相浏览。','把最终颜色组合保存到自己的色卡库。':'把最终颜色组合保存到自己的色卡库。','原生浏览器运行，图片和收藏数据留在本机。':'原生浏览器运行，图片和收藏数据留在本机。',
-    '日间模式':'日间模式','夜间模式':'夜间模式','颜色工作台':'颜色工作台','颜色工具箱':'颜色工具箱','配色':'配色','取色结果':'取色结果','上传或拖入图片':'上传或拖入图片','点击图片取色':'点击图片取色','没有可用颜色':'没有可用颜色','暂无内容':'暂无内容','专业版':'专业版','升级':'升级','已复制':'已复制','复制失败':'复制失败'
-  },
-  keys:{
-    nav:{discover:'发现',extractor:'取色',create:'创作',library:'颜色百科',favorites:'收藏',workspace:'工作区'},
-    common:{save:'保存',copy:'复制',delete:'删除',cancel:'取消',confirm:'确认',export:'导出',reset:'重置',random:'随机',refresh:'刷新',back:'返回',next:'下一步',previous:'上一步',apply:'应用',use:'使用',clear:'清空',remove:'移除'},
-    home:{eyebrow:'颜色工具箱',title:'找到颜色，也做出自己的颜色。',extract:'从图片取色',create:'开始创作',library:'颜色百科',featured:'精选色卡',steps:'三步完成一张色卡'},
-    library:{title:'颜色百科',searchPlaceholder:'搜索名称、英文名或 HEX',system:'色彩体系',family:'色相分类',all:'全部',count:'{count} 个颜色',detail:'点击色块查看详情'},
-    color:{relationships:'颜色关系',nearby:'相近颜色',scale:'色阶',contrast:'对比度',information:'颜色信息',copyHex:'复制 HEX',favorite:'收藏颜色',unfavorite:'取消收藏'},
-    palette:{name:'我的色卡',new:'新建色卡',save:'保存色卡',addColor:'添加颜色',empty:'暂无色卡'},
-    extractor:{title:'取色',upload:'上传或拖入图片',pick:'点击图片取色',result:'取色结果',repick:'重新取色'},
-    workspace:{title:'工作区',recent:'最近使用',emptyRecent:'暂无最近颜色'},
-    favorites:{title:'我的收藏',empty:'暂无收藏'},
-    pro:{title:'专业版',upgrade:'升级'}
-  },
-  relations:{analogous:'类似色',complementary:'互补色',split:'分裂互补',triadic:'三角色',tetradic:'四角色',doubleComplementary:'双互补',warm:'暖色范围',cool:'冷色范围',monochromatic:'单色阶',tints:'浅色阶',shades:'深色阶',tones:'柔和色阶'},
-  relationDescriptions:{analogous:'相邻色相，适合形成统一、平静的配色。',complementary:'色相环对置，适合形成强烈分离。',split:'基础色搭配互补色两侧的两个强调色。',triadic:'三等分色相，保持均衡的色彩对比。',tetradic:'两组互补色构成的四角色关系。',doubleComplementary:'两个邻近色分别与其对立色组合。',warm:'围绕基础色向暖色方向偏移。',cool:'围绕基础色向冷色方向偏移。',monochromatic:'保持色相，只改变明度。',tints:'降低饱和度并提高明度。',shades:'降低明度形成深色版本。',tones:'降低饱和度，适合克制型界面。'},
-  modes:{analogous:'类似色',complementary:'互补色',split:'分裂互补',triadic:'三角色',tetradic:'四角色',doubleComplementary:'双互补',monochromatic:'单色阶',tints:'浅色阶',shades:'深色阶',tones:'柔和色阶',pastel:'粉彩',vivid:'鲜艳',warm:'暖色',cool:'冷色',grayscale:'灰阶'}
-};
+window.ColorPaletteLocales['zh-CN']={code:'zh-CN',name:'简体中文',ui:{
+'nav.discover':'发现','nav.extractor':'取色','nav.create':'创作','nav.library':'颜色百科','nav.favorites':'收藏','nav.workspace':'工作区',
+'shell.homeLabel':'ColorPalette 首页','shell.mainNav':'主导航','shell.mobileNav':'移动端导航','shell.preferences':'界面偏好设置','shell.language':'切换中文 / English','shell.theme':'切换日间 / 夜间模式','shell.lightMode':'日间模式','shell.darkMode':'夜间模式','shell.lightSwitch':'切换到日间模式','shell.darkSwitch':'切换到夜间模式','shell.localFirst':'浏览器本地优先','shell.noUpload':'图片不会上传到服务器',
+'home.eyebrow':'颜色工具箱','home.title':'找到颜色，也做出自己的颜色。','home.intro':'从图片取色、颜色百科、配色生成开始，再把结果整理成自己的色卡。所有操作都在浏览器内完成。','home.extract':'从图片取色','home.create':'开始创作','home.library':'颜色百科','home.libraryMeta':'个命名颜色 · 中 / 日传统色 · CSS · 颜料','home.discover':'发现','home.featured':'精选色卡','home.browseLibrary':'浏览颜色百科','home.stepsTitle':'三步完成一张色卡','home.stepFind':'找色','home.stepFindNote':'搜索名称、HEX，或者按色彩体系与色相浏览。','home.stepGenerate':'生成','home.stepGenerateNote':'选择类似、互补、三角色、粉彩、冷暖等配色方式。','home.stepSave':'保存','home.stepSaveNote':'把最终颜色组合保存到自己的色卡库。',
+'stats.namedColors':'命名颜色','stats.namedColorsNote':'来自整理后的多套色彩体系','stats.paletteModes':'配色模式','stats.paletteModesNote':'类似、互补、三角色、粉彩、冷暖等',
+'library.eyebrow':'颜色百科','library.title':'颜色百科','library.subtitle':'按色彩体系、色相和名称快速定位颜色；点色块查看完整参数、相近颜色与色阶。','library.system':'色彩体系','library.family':'色相分类','library.searchPlaceholder':'搜索名称、英文名或 HEX','library.count':'{count} 个颜色','library.detail':'点击色块查看详情','library.empty':'没有找到匹配颜色。',
+'detail.eyebrow':'颜色详情','detail.useInStudio':'用于创作','detail.favorited':'已收藏','detail.favorite':'收藏颜色','detail.copyHex':'复制 HEX','detail.parameters':'颜色参数','detail.relationships':'颜色关系','detail.relationshipNote':'每组关系都可以完整带入 Palette Studio。','detail.lightnessScale':'感知明度阶','detail.lightnessNote':'使用 OKLab Lightness 构建比传统 HSL 更连贯的明度渐变，适合 UI 层级、背景和状态。','detail.contrast':'对比度检查','detail.whiteBackground':'白色背景','detail.blackBackground':'黑色背景','detail.contrastNote':'对比度遵循 WCAG 相对亮度公式。','detail.nearby':'附近颜色','detail.distance':'距离',
+'color.custom':'自定义颜色','color.customCollection':'自定义','color.unknown':'未知','color.userInput':'用户输入','color.collection':'颜色体系',
+'create.eyebrow':'创作','create.title':'Palette Studio','create.subtitle':'从一个颜色开始，生成关系色，手动编辑并保存为自己的色卡。','create.name':'色卡名称','create.hue':'色相','create.saturation':'饱和度','create.lightness':'明度','create.relationship':'配色关系','create.addCurrent':'加入当前颜色','create.currentPalette':'当前色卡','create.empty':'当前色卡还没有颜色。','create.generated':'生成：','create.minColors':'至少需要 2 个颜色',
+'extractor.eyebrow':'图片取色','extractor.title':'从图片取色','extractor.subtitle':'图片只在浏览器内处理。自动提取代表色，也可以直接点击图片获取像素 HEX。','extractor.choose':'选择图片','extractor.choosePlaceholder':'选择一张图片开始。','extractor.placeholder':'选择一张图片开始。支持 JPG、PNG、WebP 等浏览器可读取格式。','extractor.results':'取色结果','extractor.noResults':'尚未提取颜色。','extractor.savePalette':'保存为色卡','extractor.openStudio':'打开创作','extractor.primary':'主色','extractor.accent':'强调色','extractor.support':'辅助色','extractor.samples':'采样',
+'favorites.eyebrow':'收藏','favorites.title':'我的收藏','favorites.subtitle':'保存的颜色与色卡都留在浏览器本地。','favorites.content':'收藏内容','favorites.empty':'还没有收藏。去颜色百科或 Palette Studio 保存一些颜色。','favorites.clearConfirm':'确定清空全部收藏？',
+'workspace.eyebrow':'工作区','workspace.title':'工作区','workspace.subtitle':'集中查看本机保存的色卡、最近使用的颜色，并继续编辑。','workspace.colors':'个颜色','workspace.copyValues':'复制色值','workspace.empty':'工作区还是空的。','workspace.recent':'最近颜色','workspace.emptyRecent':'暂无最近颜色。',
+'palette.title':'我的色卡','palette.defaultName':'我的色卡','palette.new':'新建色卡','palette.save':'保存色卡',
+'pro.title':'专业版','pro.subtitle':'当前 GitHub Pages 版本优先保持免费、本地优先和无账号使用。这里保留未来扩展入口，不伪造支付或会员系统。','pro.advancedSpaces':'更高级的色彩空间','pro.advancedSpacesNote':'继续扩展 OKLab / OKLCH、DeltaE、可访问性检查和感知均匀的配色算法。','pro.richerExport':'更完整的导出','pro.richerExportNote':'可扩展 CSS、SCSS、JSON、Design Tokens、Tailwind 等开发工作流导出。','pro.workspaceSync':'工作区同步','pro.workspaceSyncNote':'未来可以增加可选云同步；当前版本不上传你的图片或本地色卡。',
+'common.copy':'复制','common.delete':'删除','common.remove':'移除','common.clear':'清空','common.edit':'编辑','common.use':'使用','common.exportCss':'导出 CSS','common.exportJson':'导出 JSON','common.moveUp':'上移','common.moveDown':'下移',
+'status.copied':'已复制','status.copyFailed':'复制失败','status.colorFavorited':'颜色已收藏','status.favoriteRemoved':'已取消收藏','status.paletteSaved':'色卡已保存','status.imagePaletteSaved':'图片色卡已保存','errors.dataLoad':'颜色数据加载失败：','errors.reload':'重新加载'
+},relations:{analogous:'类似色',complementary:'互补色',split:'分裂互补',triadic:'三角色',tetradic:'四角色',doubleComplementary:'双互补',warm:'暖色范围',cool:'冷色范围',monochromatic:'单色阶',tints:'浅色阶',shades:'深色阶',tones:'柔和色阶'},relationDescriptions:{analogous:'相邻色相，适合形成统一、平静的配色。',complementary:'色相环对置，适合形成强烈分离。',split:'基础色搭配互补色两侧的两个强调色。',triadic:'三等分色相，保持均衡的色彩对比。',tetradic:'两组互补色构成的四角色关系。',doubleComplementary:'两个邻近色分别与其对立色组合。',warm:'围绕基础色向暖色方向偏移。',cool:'围绕基础色向冷色方向偏移。',monochromatic:'保持色相，只改变明度。',tints:'降低饱和度并提高明度。',shades:'降低明度形成深色版本。',tones:'降低饱和度，适合克制型界面。'},modes:{analogous:'类似色',complementary:'互补色',split:'分裂互补',triadic:'三角色',tetradic:'四角色',doubleComplementary:'双互补',monochromatic:'单色阶',tints:'浅色阶',shades:'深色阶',tones:'柔和色阶',pastel:'粉彩',vivid:'鲜艳',warm:'暖色',cool:'冷色',grayscale:'灰阶'},meta:{families:{'红':'红','橙':'橙','黄':'黄','绿':'绿','青':'青','蓝':'蓝','紫':'紫','粉':'粉','棕':'棕','中性':'中性'},categories:{'all':'全部','基础颜色':'基础颜色','CSS 命名颜色':'CSS 命名颜色','中国传统色':'中国传统色','日本传统色':'日本传统色','艺术与颜料':'艺术与颜料'},categoryAllKey:'all',familyAllKey:'all'}};
