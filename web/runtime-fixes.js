@@ -18,71 +18,64 @@
         area.remove();
       }
     };
-
-    if (!navigator.clipboard?.writeText) {
-      fallback();
-      return;
-    }
-
+    if (!navigator.clipboard?.writeText) return fallback();
     navigator.clipboard.writeText(value).then(() => {
       if (typeof window.toast === 'function') window.toast(window.ColorPalettePreferences?.t('已复制') || '已复制');
     }).catch(fallback);
   }
 
-  function createRouteHash(hash) {
-    const raw = String(hash || '#/create');
-    if (/^#\/create\//.test(raw)) return raw;
-    if (/^#\/create\?/.test(raw)) return raw.replace(/^#\/create\?/, '#/create/?');
-    return raw;
-  }
-
-  function normalizeCreateRoute() {
-    const raw = String(location.hash || '');
-    const normalized = createRouteHash(raw);
-    if (normalized === raw) return false;
-    history.replaceState(null, '', `${location.pathname}${location.search}${normalized}`);
-    return true;
-  }
-
-  function wrapRoute() {
+  function patchRoute() {
     if (typeof window.route !== 'function' || window.route.__colorPaletteRoutePatched) return;
     const original = window.route;
-    const wrapped = function () {
-      normalizeCreateRoute();
+    const patched = function () {
+      const raw = String(location.hash || '#/home').replace(/^#/, '') || '/home';
+      const queryIndex = raw.indexOf('?');
+      const pathname = queryIndex >= 0 ? raw.slice(0, queryIndex) : raw;
+      const query = queryIndex >= 0 ? raw.slice(queryIndex + 1) : '';
+      const parts = pathname.split('/').filter(Boolean);
+      const routeName = parts[0] || 'home';
+      const id = parts.slice(1).join('/');
+
+      if (typeof window.navActive === 'function') window.navActive(routeName);
+
+      if (routeName === 'home') return window.renderHome?.();
+      if (routeName === 'library') return window.renderLibrary?.();
+      if (routeName === 'extractor') return window.renderExtractor?.();
+      if (routeName === 'create') return window.renderCreate?.();
+      if (routeName === 'favorites') return window.renderFavorites?.();
+      if (routeName === 'workspace') return window.renderWorkspace?.();
+      if (routeName === 'pro') return window.renderPro?.();
+      if (routeName === 'color') return window.renderDetail?.(decodeURIComponent(id));
       return original();
     };
-    wrapped.__colorPaletteRoutePatched = true;
-    window.route = wrapped;
+    Object.defineProperty(patched, '__colorPaletteRoutePatched', { value: true });
+    window.route = patched;
   }
 
-  function installRouteClickGuard() {
-    document.addEventListener('click', event => {
-      const link = event.target.closest('a[href^="#/create?"]');
-      if (!link) return;
+  function repairCreateLinks(root = document) {
+    root.querySelectorAll?.('a[href^="#/create?"]').forEach(link => {
       const href = link.getAttribute('href');
-      const normalized = createRouteHash(href);
-      if (href !== normalized) link.setAttribute('href', normalized);
-    }, true);
+      if (href && href.startsWith('#/create?')) {
+        link.setAttribute('href', href.replace(/^#\/create\?/, '#/create/?'));
+      }
+    });
   }
 
   function translateWithLoadedLocale(root = document.body) {
     const language = window.ColorPalettePreferences?.language === 'en' ? 'en' : 'zh';
-    const locales = window.ColorPaletteLocales || {};
-    const locale = locales[language === 'en' ? 'en-US' : 'zh-CN'];
+    const locale = (window.ColorPaletteLocales || {})[language === 'en' ? 'en-US' : 'zh-CN'];
     if (!locale?.ui || !root) return;
 
-    const ui = locale.ui || {};
-    const relationMap = locale.relations || {};
-    const modeMap = locale.modes || {};
-    const descriptions = locale.relationDescriptions || {};
+    const maps = [locale.ui || {}, locale.relations || {}, locale.modes || {}, locale.relationDescriptions || {}];
     const translateOne = value => {
       const source = String(value ?? '');
       const trimmed = source.trim();
       if (!trimmed) return source;
-      if (Object.prototype.hasOwnProperty.call(ui, trimmed)) return source.replace(trimmed, ui[trimmed]);
-      if (Object.prototype.hasOwnProperty.call(relationMap, trimmed)) return source.replace(trimmed, relationMap[trimmed]);
-      if (Object.prototype.hasOwnProperty.call(modeMap, trimmed)) return source.replace(trimmed, modeMap[trimmed]);
-      if (Object.prototype.hasOwnProperty.call(descriptions, trimmed)) return source.replace(trimmed, descriptions[trimmed]);
+      for (const map of maps) {
+        if (Object.prototype.hasOwnProperty.call(map, trimmed)) return source.replace(trimmed, map[trimmed]);
+      }
+      const generated = trimmed.match(/^生成：(.+)$/);
+      if (language === 'en' && generated) return `Generated: ${generated[1]}`;
       return source;
     };
 
@@ -106,26 +99,27 @@
     });
   }
 
-  function refreshTranslations() {
+  function refreshUI() {
+    patchRoute();
+    repairCreateLinks(document);
     requestAnimationFrame(() => {
       window.ColorPaletteI18nRuntime?.translate?.(document.body);
-      requestAnimationFrame(() => translateWithLoadedLocale(document.body));
+      requestAnimationFrame(() => {
+        translateWithLoadedLocale(document.body);
+        repairCreateLinks(document);
+      });
     });
   }
 
   function install() {
     window.copy = safeCopy;
-    wrapRoute();
-    normalizeCreateRoute();
-    installRouteClickGuard();
+    patchRoute();
 
     if (typeof window.savePalette === 'function' && !window.savePalette.__uniqueIds) {
       const original = window.savePalette;
       const wrapped = function (p) {
         const input = { ...(p || {}) };
-        if (!input.id) {
-          input.id = `palette-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-        }
+        if (!input.id) input.id = `palette-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
         return original(input);
       };
       wrapped.__uniqueIds = true;
@@ -133,23 +127,15 @@
     }
 
     const observer = new MutationObserver(mutations => {
-      if (mutations.some(m => m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length))) {
-        refreshTranslations();
-      }
+      if (mutations.some(m => m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length))) refreshUI();
     });
     observer.observe(document.body, { childList: true, subtree: true });
 
-    window.addEventListener('colorpalette:localechange', refreshTranslations);
-    window.addEventListener('hashchange', () => {
-      normalizeCreateRoute();
-      refreshTranslations();
-    });
-    refreshTranslations();
+    window.addEventListener('colorpalette:localechange', refreshUI);
+    window.addEventListener('hashchange', refreshUI);
+    refreshUI();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', install, { once: true });
-  } else {
-    install();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', install, { once: true });
+  else install();
 })();
