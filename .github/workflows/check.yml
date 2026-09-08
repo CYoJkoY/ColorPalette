@@ -1,7 +1,9 @@
 name: Check
+
 on:
   push:
   pull_request:
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -10,9 +12,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run color tests
+      - name: Run framework-free tests
         run: node tests/color.test.js
       - name: Validate JSON
         run: node -e "for (const f of ['miniprogram/app.json','sitemap.json','project.config.json']) JSON.parse(require('fs').readFileSync(f,'utf8')); console.log('JSON ok')"
-      - name: Check README assets
-        run: test -s assets/readme/hero.svg && test -s assets/readme/support-cta.svg
+      - name: Validate required assets
+        run: |
+          test -s assets/readme/hero.svg
+          test -s assets/readme/support-cta.svg
+          test -s assets/readme/icons/palette.svg
+          test -s assets/readme/icons/image.svg
+          test -s assets/readme/icons/pro.svg
+      - name: Check JavaScript syntax
+        run: |
+          find miniprogram tests -name '*.js' -print0 | xargs -0 -n1 node --check
