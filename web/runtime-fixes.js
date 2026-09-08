@@ -14,9 +14,7 @@
       try {
         document.execCommand('copy');
         if (typeof window.toast === 'function') window.toast(window.ColorPalettePreferences?.t('已复制') || '已复制');
-      } finally {
-        area.remove();
-      }
+      } finally { area.remove(); }
     };
     if (!navigator.clipboard?.writeText) return fallback();
     navigator.clipboard.writeText(value).then(() => {
@@ -31,13 +29,11 @@
       const raw = String(location.hash || '#/home').replace(/^#/, '') || '/home';
       const queryIndex = raw.indexOf('?');
       const pathname = queryIndex >= 0 ? raw.slice(0, queryIndex) : raw;
-      const query = queryIndex >= 0 ? raw.slice(queryIndex + 1) : '';
       const parts = pathname.split('/').filter(Boolean);
       const routeName = parts[0] || 'home';
       const id = parts.slice(1).join('/');
 
       if (typeof window.navActive === 'function') window.navActive(routeName);
-
       if (routeName === 'home') return window.renderHome?.();
       if (routeName === 'library') return window.renderLibrary?.();
       if (routeName === 'extractor') return window.renderExtractor?.();
@@ -61,53 +57,15 @@
     });
   }
 
-  function translateWithLoadedLocale(root = document.body) {
-    const language = window.ColorPalettePreferences?.language === 'en' ? 'en' : 'zh';
-    const locale = (window.ColorPaletteLocales || {})[language === 'en' ? 'en-US' : 'zh-CN'];
-    if (!locale?.ui || !root) return;
-
-    const maps = [locale.ui || {}, locale.relations || {}, locale.modes || {}, locale.relationDescriptions || {}];
-    const translateOne = value => {
-      const source = String(value ?? '');
-      const trimmed = source.trim();
-      if (!trimmed) return source;
-      for (const map of maps) {
-        if (Object.prototype.hasOwnProperty.call(map, trimmed)) return source.replace(trimmed, map[trimmed]);
-      }
-      const generated = trimmed.match(/^生成：(.+)$/);
-      if (language === 'en' && generated) return `Generated: ${generated[1]}`;
-      return source;
-    };
-
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-    while (walker.nextNode()) {
-      const node = walker.currentNode;
-      if (node.parentElement?.closest('script,style,noscript,template')) continue;
-      const source = node.__cpOriginalText ?? node.__cpLocaleOriginal ?? node.nodeValue;
-      if (node.__cpLocaleOriginal == null) node.__cpLocaleOriginal = source;
-      node.nodeValue = translateOne(source);
-    }
-
-    root.querySelectorAll?.('input[placeholder], textarea[placeholder], [title], [aria-label]').forEach(element => {
-      ['placeholder', 'title', 'aria-label'].forEach(attr => {
-        if (!element.hasAttribute(attr)) return;
-        const key = `__cpLocaleOriginal_${attr}`;
-        const original = element.dataset[key] ?? element.getAttribute(attr) ?? '';
-        element.dataset[key] = original;
-        element.setAttribute(attr, translateOne(original));
-      });
-    });
-  }
-
+  // One translation authority only: i18n-runtime owns text conversion.
+  // runtime-fixes is limited to route/link repair and asks i18n-runtime to re-translate
+  // after DOM changes. This prevents two translators from racing over the same nodes.
   function refreshUI() {
     patchRoute();
     repairCreateLinks(document);
     requestAnimationFrame(() => {
       window.ColorPaletteI18nRuntime?.translate?.(document.body);
-      requestAnimationFrame(() => {
-        translateWithLoadedLocale(document.body);
-        repairCreateLinks(document);
-      });
+      repairCreateLinks(document);
     });
   }
 
@@ -126,13 +84,19 @@
       window.savePalette = wrapped;
     }
 
+    let queued = false;
+    const schedule = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; refreshUI(); });
+    };
     const observer = new MutationObserver(mutations => {
-      if (mutations.some(m => m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length))) refreshUI();
+      if (mutations.some(m => m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length))) schedule();
     });
     observer.observe(document.body, { childList: true, subtree: true });
 
-    window.addEventListener('colorpalette:localechange', refreshUI);
-    window.addEventListener('hashchange', refreshUI);
+    window.addEventListener('colorpalette:localechange', schedule);
+    window.addEventListener('hashchange', schedule);
     refreshUI();
   }
 
