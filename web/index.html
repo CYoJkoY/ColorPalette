@@ -7,6 +7,7 @@
   <meta name="description" content="ColorPalette：图片取色、颜色百科、配色生成、色卡收藏与工作区。">
   <title>ColorPalette — 颜色工作台</title>
   <link rel="stylesheet" href="styles.css?v=20260908-7">
+  <link rel="stylesheet" href="preferences-ui.css?v=20260909-1">
 </head>
 <body>
   <header class="topbar">
@@ -20,11 +21,11 @@
       <a data-route="workspace" href="#/workspace">工作区</a>
     </nav>
     <div class="preferences" aria-label="界面偏好设置">
-      <button class="preference-switch" id="language-switch" type="button" role="switch" aria-checked="false" title="切换中文 / English">
-        <span class="preference-option">中</span><span class="preference-track"><i></i></span><span class="preference-option">EN</span>
+      <button class="preference-switch" id="language-switch" type="button" role="switch" aria-checked="false" title="切换中文 / English" data-state="zh">
+        <span class="preference-option">中</span><span class="preference-option">EN</span>
       </button>
-      <button class="preference-switch theme-switch" id="theme-switch" type="button" role="switch" aria-checked="false" title="切换日间 / 夜间模式">
-        <span class="preference-option">☀</span><span class="preference-track"><i></i></span><span class="preference-option">☾</span>
+      <button class="preference-switch theme-switch" id="theme-switch" type="button" role="switch" aria-checked="false" title="切换日间 / 夜间模式" data-state="light">
+        <span class="preference-option">☀</span><span class="preference-option">☾</span>
       </button>
     </div>
   </header>
@@ -38,9 +39,9 @@
   </nav>
   <footer class="footer">ColorPalette · 浏览器本地优先 · 图片不会上传到服务器</footer>
   <script src="locales/zh-CN.js?v=20260908-3"></script>
-  <script src="locales/en-US.js?v=20260908-3"></script>
+  <script src="locales/en-US.js?v=20260909-1"></script>
   <script src="i18n.js?v=20260908-3"></script>
-  <script src="preferences.js?v=20260908-5" defer></script>
+  <script src="preferences.js?v=20260909-1" defer></script>
   <script src="app.js?v=20260908-7" defer></script>
   <script src="runtime-fixes.js?v=20260908-3" defer></script>
   <script src="locale-refresh.js?v=20260908-3" defer></script>
