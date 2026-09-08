@@ -1,1 +1,43 @@
-Page({data:{isPro:false,remaining:'未开启'},onShow(){const app=getApp();const u=app.globalData.proUntil||0;this.setData({isPro:u>Date.now(),remaining:u>Date.now()?this.format(u-Date.now()):'未开启'})},format(ms){const h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000);return `${h} 小时 ${m} 分`},watchAd(){const app=getApp();wx.showModal({title:'激励广告',content:'这是正式广告 SDK 的接入位。广告成功回调后再发放权益，不能在广告开始时发放。当前为本地演示。',confirmText:'模拟成功',success:r=>{if(r.confirm){app.grantProHours(24);this.onShow();wx.showToast({title:'Pro +24 小时',icon:'none'})}}})},buyMonthly(){wx.showModal({title:'月卡',content:'月卡价格、微信支付订单和后端签名接口留给生产环境配置。建议初始定价 ¥3.9。',showCancel:false})},buyYearly(){wx.showModal({title:'年卡',content:'年卡价格、微信支付订单和后端签名接口留给生产环境配置。建议初始定价 ¥19.9。',showCancel:false})}});
+const { watchRewardedAd, createSubscriptionOrder } = require('../../services/monetization');
+
+const REWARDED_AD_UNIT_ID = ''; // Configure in production; never hard-code secrets here.
+
+Page({
+  data: { isPro: false, remaining: '未开启' },
+
+  onShow() {
+    const app = getApp();
+    const until = app.globalData.proUntil || 0;
+    this.setData({ isPro: until > Date.now(), remaining: until > Date.now() ? this.format(until - Date.now()) : '未开启' });
+  },
+
+  format(ms) {
+    const h = Math.floor(ms / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    return `${h} 小时 ${m} 分`;
+  },
+
+  watchAd() {
+    if (!REWARDED_AD_UNIT_ID) {
+      wx.showModal({ title: '尚未配置广告位', content: '请在微信公众平台创建激励广告位，并将广告位 ID 配置到生产环境。当前不会虚假发放权益。', showCancel: false });
+      return;
+    }
+    const app = getApp();
+    watchRewardedAd(REWARDED_AD_UNIT_ID, () => {
+      app.grantProHours(24);
+      this.onShow();
+      wx.showToast({ title: 'Pro +24 小时', icon: 'none' });
+    }, () => wx.showToast({ title: '广告未完成', icon: 'none' }));
+  },
+
+  buyPlan(planId, days) {
+    createSubscriptionOrder(planId, (error) => {
+      wx.showModal({ title: '支付尚未配置', content: error.message, showCancel: false });
+    });
+    // After a trusted backend verifies wx.requestPayment and the order, call:
+    // getApp().grantSubscription(days, verifiedOrderId)
+  },
+
+  buyMonthly() { this.buyPlan('monthly', 30); },
+  buyYearly() { this.buyPlan('yearly', 365); }
+});
