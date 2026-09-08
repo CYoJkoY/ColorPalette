@@ -1,17 +1,18 @@
-/* Explicit segmented controls: the sliding thumb is a real child element so its state is visible and testable. */
+/* Explicit segmented controls: labels/icons are inside the control and the active thumb is a real child element. */
 .preferences{display:flex;align-items:center;gap:8px;margin-left:12px}
 .preference-switch{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;min-width:78px;height:34px;padding:3px;border:1px solid #deded8;border-radius:999px;background:#fff;color:#55554f;cursor:pointer;font:inherit;font-size:11px;line-height:1;overflow:hidden;isolation:isolate;transition:background .2s,border-color .2s,box-shadow .2s}
-.preference-thumb{position:absolute;z-index:0;top:3px;left:3px;width:calc(50% - 3px);height:26px;border-radius:999px;background:#1d1d1b;box-shadow:0 2px 7px rgba(24,24,27,.16);transform:translateX(0);transition:transform .28s cubic-bezier(.2,.8,.2,1),background .2s;will-change:transform}
-.preference-switch[data-state="en"] .preference-thumb,.preference-switch[data-state="dark"] .preference-thumb{transform:translateX(100%)}
+.preference-thumb{position:absolute;z-index:0;top:3px;left:3px;width:calc(50% - 3px);height:26px;border-radius:999px;background:#1d1d1b;box-shadow:0 2px 7px rgba(24,24,27,.16);transform:translate3d(0,0,0);transition:transform .28s cubic-bezier(.2,.8,.2,1),background .2s;will-change:transform}
+.preference-switch[data-state="en"] .preference-thumb,.preference-switch[data-state="dark"] .preference-thumb{transform:translate3d(100%,0,0)}
 .preference-switch[data-state="dark"] .preference-thumb{background:#f0f0ec}
 .preference-option{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;min-width:0;height:26px;padding:0 7px;font-weight:700;white-space:nowrap;transition:color .2s,opacity .2s}
-.preference-switch[data-state="zh"] .preference-option:first-of-type,.preference-switch[data-state="light"] .preference-option:first-of-type{color:#fff}
-.preference-switch[data-state="en"] .preference-option:last-of-type{color:#fff}
-.preference-switch[data-state="dark"] .preference-option:last-of-type{color:#151618}
+.preference-switch[data-state="zh"] .preference-option:nth-child(2),.preference-switch[data-state="light"] .preference-option:nth-child(2){color:#fff}
+.preference-switch[data-state="en"] .preference-option:nth-child(3){color:#fff}
+.preference-switch[data-state="dark"] .preference-option:nth-child(3){color:#151618}
 .preference-switch:focus-visible{outline:2px solid #7c3aed;outline-offset:2px}
 .preference-switch:hover{border-color:#aaa9a2;background:#fafaf7}
 .theme-switch{min-width:78px}
 .theme-switch .preference-option{font-size:0;gap:3px}
-.theme-switch .preference-option:first-of-type::before{content:"☀";font-size:13px}
-.theme-switch .preference-option:last-of-type::before{content:"☾";font-size:13px}
+.theme-switch .preference-option::before{font-size:13px}
+.theme-switch .preference-option:nth-child(2)::before{content:"☀"}
+.theme-switch .preference-option:nth-child(3)::before{content:"☾"}
 @media(max-width:540px){.preferences{gap:5px}.preference-switch{min-width:70px;height:32px}.theme-switch{min-width:70px}.preference-thumb{height:24px}.preference-option{height:24px;padding:0 6px}}
