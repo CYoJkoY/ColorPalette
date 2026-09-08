@@ -16,16 +16,14 @@
 .theme-switch .preference-option:nth-child(2)::before{content:"☀"}
 .theme-switch .preference-option:nth-child(3)::before{content:"☾"}
 
-/* Dark-theme overrides must target the segmented control itself. Keep the active thumb
-   visibly separated from the dark track and preserve readable active/inactive labels. */
+/* Dark theme: keep the language control monochrome; the active thumb is always light. */
 html[data-theme="dark"] .preference-switch{background:#1b1d20;color:#cfd2d6;border-color:#3a3e43;box-shadow:0 2px 10px rgba(0,0,0,.18)}
 html[data-theme="dark"] .preference-switch:hover{background:#222529;border-color:#50555b}
-html[data-theme="dark"] .preference-switch[data-state="zh"] .preference-thumb{background:#f0f0ec;box-shadow:0 2px 8px rgba(0,0,0,.35)}
-html[data-theme="dark"] .preference-switch[data-state="en"] .preference-thumb{background:#7c5cff;box-shadow:0 2px 8px rgba(124,92,255,.3)}
+html[data-theme="dark"] .preference-switch[data-state="zh"] .preference-thumb,html[data-theme="dark"] .preference-switch[data-state="en"] .preference-thumb{background:#f0f0ec;box-shadow:0 2px 8px rgba(0,0,0,.35)}
 html[data-theme="dark"] .preference-switch[data-state="zh"] .preference-option:nth-child(2){color:#151618}
 html[data-theme="dark"] .preference-switch[data-state="zh"] .preference-option:nth-child(3){color:#cfd2d6}
 html[data-theme="dark"] .preference-switch[data-state="en"] .preference-option:nth-child(2){color:#cfd2d6}
-html[data-theme="dark"] .preference-switch[data-state="en"] .preference-option:nth-child(3){color:#fff}
+html[data-theme="dark"] .preference-switch[data-state="en"] .preference-option:nth-child(3){color:#151618}
 html[data-theme="dark"] .theme-switch[data-state="light"] .preference-thumb{background:#f0f0ec;box-shadow:0 2px 8px rgba(0,0,0,.35)}
 html[data-theme="dark"] .theme-switch[data-state="dark"] .preference-thumb{background:#f0f0ec;box-shadow:0 2px 8px rgba(255,255,255,.08)}
 html[data-theme="dark"] .theme-switch[data-state="light"] .preference-option:nth-child(2){color:#151618}
