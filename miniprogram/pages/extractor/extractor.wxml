@@ -1,8 +1,8 @@
 <view class="page">
   <view class="hero">
-    <view class="eyebrow">IMAGE PICKER</view>
-    <view class="title">从图片里取色</view>
-    <view class="subtitle">上传图片后，点击图片上的任意位置即可取色；也可以一次获得一组主色板。</view>
+    <view class="eyebrow">IMAGE PALETTE</view>
+    <view class="title">从图片建立色板</view>
+    <view class="subtitle">分析图片的主色、辅助色、强调色与明暗色，并直接保存或送入创作工作台。</view>
     <button class="primary" bindtap="chooseImage">{{image?'重新选择图片':'选择图片'}}</button>
   </view>
   <view wx:if="{{image}}" class="panel">
@@ -12,14 +12,29 @@
       <view class="picked-info"><view class="section-title">取到的颜色</view><view class="code">{{picked}}</view></view>
       <button class="mini-button" data-hex="{{picked}}" bindtap="copy">复制</button>
     </view>
-    <view class="section-title">主色板</view>
+
+    <view class="section-title">图片色彩结构</view>
     <view wx:if="{{loading}}" class="muted">正在分析图片…</view>
-    <view wx:else class="grid">
+    <view wx:else class="role-list">
+      <view wx:for="{{roles}}" wx:key="hex" class="role-row">
+        <view class="role-dot" style="background:{{item.hex}}"></view>
+        <view class="role-main"><view class="role-name">{{item.role}}</view><view class="code">{{item.hex}}</view></view>
+        <view class="role-percent">{{item.percent}}%</view>
+      </view>
+    </view>
+
+    <view class="actions" wx:if="{{colors.length}}">
+      <button class="secondary" bindtap="openStudio">进入创作</button>
+      <button class="primary small" bindtap="savePalette" disabled="{{paletteSaved}}">{{paletteSaved?'已保存':'保存色板'}}</button>
+    </view>
+
+    <view class="section-title">提取色板</view>
+    <view class="grid">
       <view wx:for="{{colors}}" wx:key="*this" class="color-card" data-hex="{{item}}" bindtap="copy">
         <view style="height:120rpx;border-radius:14rpx;background:{{item}}"></view>
         <view class="code" style="font-size:22rpx;margin-top:10rpx">{{item}}</view>
       </view>
     </view>
-    <view class="muted tip">点击色块复制 HEX。取到的颜色可以继续进入“创作”制作自己的色卡。</view>
+    <view class="muted tip">点击图片可以取得单点颜色；点击色块可以复制 HEX。</view>
   </view>
 </view>
