@@ -1,0 +1,5 @@
+<view class="page">
+  <view class="hero"><view class="eyebrow">COLOR TOOLKIT</view><view class="title">找到你真正想用的颜色</view><view class="subtitle">浏览色卡、生成配色、从图片提取主色，一处完成。</view><button class="primary" bindtap="openExtractor">从图片取色</button></view>
+  <view class="section-title">精选色卡</view>
+  <view class="grid"><view class="card" wx:for="{{featured}}" wx:key="id" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="openPalette"><view class="swatches"><view wx:for="{{item.colors}}" wx:key="*this" class="swatch" style="background:{{item}}"></view></view><view class="card-name">{{item.name}}</view><view class="card-meta">{{item.colors.length}} COLORS</view></view></view>
+</view>
