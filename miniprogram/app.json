@@ -21,7 +21,8 @@
       {"pagePath":"pages/home/home","text":"发现"},
       {"pagePath":"pages/extractor/extractor","text":"取色"},
       {"pagePath":"pages/create/create","text":"创作"},
-      {"pagePath":"pages/favorites/favorites","text":"收藏"}
+      {"pagePath":"pages/favorites/favorites","text":"收藏"},
+      {"pagePath":"pages/pro/pro","text":"Pro"}
     ]
   },
   "sitemapLocation": "sitemap.json"
