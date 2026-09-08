@@ -40,17 +40,20 @@ jobs:
         run: |
           test -s web/index.html
           test -s web/styles.css
-          test -s web/app.js
-          test -s web/preferences-lite.js
-          test -s web/i18n.js
-          test -s web/runtime-fixes.js
+          test -s web/preferences-ui.css
+          test -s web/create-redesign.css
           test -s web/ui-motion.css
           test -s web/ui-motion.js
-          test -s web/i18n-runtime.js
+          test -s web/preferences-lite.js
+          test -s web/i18n.js
+          test -s web/ui-shell.js
+          test -s web/app-locale.js
+          test -s web/build-data.js
           test -s web/locales/zh-CN.js
           test -s web/locales/en-US.js
           test -s web/data/colors.json
-          node -e "const d=require('./web/data/colors.json'); if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty'); console.log('Generated '+d.colors.length+' colors')"
+          ! grep -R -nE 'web/(app|runtime-fixes|i18n-runtime|discover-redesign|create-redesign|create-number-controls)\.js' web/index.html .github/workflows || true
+          node -e "const fs=require('fs'); const html=fs.readFileSync('web/index.html','utf8'); for (const src of ['app-locale.js','preferences-lite.js','i18n.js','ui-shell.js']) if(!html.includes(src)) throw new Error('Missing script '+src); const d=require('./web/data/colors.json'); if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty'); console.log('Generated '+d.colors.length+' colors')"
 
       - name: Disable Jekyll processing
         run: touch web/.nojekyll
