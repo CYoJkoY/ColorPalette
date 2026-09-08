@@ -52,7 +52,7 @@ jobs:
           test -s web/locales/zh-CN.js
           test -s web/locales/en-US.js
           test -s web/data/colors.json
-          ! grep -R -nE 'web/(app|runtime-fixes|i18n-runtime|discover-redesign|create-redesign|create-number-controls)\.js' web/index.html .github/workflows || true
+          if grep -nE 'web/(app|runtime-fixes|i18n-runtime|discover-redesign|create-redesign|create-number-controls)\.js' web/index.html; then echo 'Legacy web scripts are still referenced by index.html'; exit 1; fi
           node -e "const fs=require('fs'); const html=fs.readFileSync('web/index.html','utf8'); for (const src of ['app-locale.js','preferences-lite.js','i18n.js','ui-shell.js']) if(!html.includes(src)) throw new Error('Missing script '+src); const d=require('./web/data/colors.json'); if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty'); if(d.colors.some(c=>typeof c.nameEn!=='string'||!c.nameEn.trim()||/[\\u4e00-\\u9fff]/.test(c.nameEn))) throw new Error('Generated English color names are invalid'); console.log('Generated '+d.colors.length+' locale-safe colors')"
 
       - name: Disable Jekyll processing
