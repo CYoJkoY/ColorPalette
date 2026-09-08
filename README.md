@@ -1,5 +1,9 @@
 <div align="center">
-  <img src="assets/readme/hero.svg" alt="ColorPalette — Extract, explore, relate, and create colors" width="100%" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/hero-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/readme/hero.svg">
+    <img src="assets/readme/hero.svg" alt="ColorPalette — a local-first color workspace for extracting, exploring, analyzing, and creating colors" width="100%">
+  </picture>
 </div>
 
 <div align="center">
@@ -20,7 +24,7 @@
 
 ColorPalette is a static browser application for practical color work. It combines image sampling, a curated named-color library, color analysis, palette generation, local workspace storage, and export without requiring an account or application server.
 
-## <img src="assets/readme/icons/palette.svg" width="22" alt="Palette"> What it is
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/palette-dark.svg"><img src="assets/readme/icons/palette.svg" width="22" alt="Palette"></picture> What it is
 
 ColorPalette is designed around one continuous workflow rather than a collection of disconnected tools.
 
@@ -34,7 +38,7 @@ ColorPalette is designed around one continuous workflow rather than a collection
 
 The application is intentionally local-first: images are processed in the browser, and the workspace does not require a user account.
 
-## <img src="assets/readme/icons/image.svg" width="22" alt="Image"> Image extraction
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/image-dark.svg"><img src="assets/readme/icons/image.svg" width="22" alt="Image extraction"></picture> Image extraction
 
 The Extract workflow uses the browser File API and Canvas API. Local image files are not sent to an application backend.
 
@@ -46,7 +50,7 @@ It supports:
 - exact click-to-pick sampling
 - direct transfer of extracted colors into Palette Studio
 
-## <img src="assets/readme/icons/book.svg" width="22" alt="Color library"> Named color library
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/book-dark.svg"><img src="assets/readme/icons/book.svg" width="22" alt="Color library"></picture> Named color library
 
 The current dataset contains **492 named colors** across five collections:
 
@@ -58,7 +62,7 @@ The current dataset contains **492 named colors** across five collections:
 
 Historical and cultural HEX values are presented as digital reference values. They should not be interpreted as one physically exact pigment standard.
 
-## <img src="assets/readme/icons/analytics.svg" width="22" alt="Analytics"> Color analysis
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/analytics-dark.svg"><img src="assets/readme/icons/analytics.svg" width="22" alt="Analytics"></picture> Color analysis
 
 A color detail view provides the data and relationships needed to move from one color to a usable palette.
 
@@ -76,7 +80,7 @@ Analogous · Complementary · Split complementary · Triadic · Tetradic · Doub
 
 Generated relationships can be sent directly into Palette Studio.
 
-## <img src="assets/readme/icons/palette.svg" width="22" alt="Palette Studio"> Palette Studio
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/palette-dark.svg"><img src="assets/readme/icons/palette.svg" width="22" alt="Palette Studio"></picture> Palette Studio
 
 Palette Studio is the creation layer of the application.
 
@@ -90,13 +94,13 @@ Palette Studio is the creation layer of the application.
 
 The goal is to turn an interesting color into a reusable color system rather than stop at a single swatch.
 
-## <img src="assets/readme/icons/layers.svg" width="22" alt="Workspace"> Local workspace
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/layers-dark.svg"><img src="assets/readme/icons/layers.svg" width="22" alt="Workspace"></picture> Local workspace
 
 Saved palettes, favorites, and recent colors are stored in browser `localStorage`.
 
 No account is required, and clearing the site's browser data removes the local workspace. There is no server-side color-processing requirement.
 
-## <img src="assets/readme/icons/architecture.svg" width="22" alt="Architecture"> Architecture
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/architecture-dark.svg"><img src="assets/readme/icons/architecture.svg" width="22" alt="Architecture"></picture> Architecture
 
 ```text
 Repository
@@ -124,7 +128,7 @@ The deployed application is a static site. GitHub Pages provides the delivery la
 
 The legacy `miniprogram/` tree is retained during the migration so the curated color dataset and existing algorithms remain available while the web version becomes the target distribution platform.
 
-## <img src="assets/readme/icons/installation.svg" width="22" alt="Installation"> Run locally
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/installation-dark.svg"><img src="assets/readme/icons/installation.svg" width="22" alt="Installation"></picture> Run locally
 
 No package manager or frontend framework is required for the application.
 
@@ -139,7 +143,7 @@ Open `http://localhost:8000/` in a browser.
 
 Serve the project through HTTP rather than opening `web/index.html` directly as `file://`, because the named-color data is loaded with `fetch()`.
 
-## <img src="assets/readme/icons/check.svg" width="22" alt="Tests"> Tests and quality gates
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/check-dark.svg"><img src="assets/readme/icons/check.svg" width="22" alt="Tests"></picture> Tests and quality gates
 
 The repository retains algorithm-level Node.js tests for the color engine:
 
@@ -149,7 +153,7 @@ node tests/color.test.js
 
 GitHub Actions additionally checks JavaScript syntax, JSON configuration, required assets, and workspace helpers. Pages deployment is handled by `.github/workflows/pages.yml`.
 
-## <img src="assets/readme/icons/folder.svg" width="22" alt="Repository structure"> Repository structure
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/folder-dark.svg"><img src="assets/readme/icons/folder.svg" width="22" alt="Repository structure"></picture> Repository structure
 
 ```text
 ColorPalette/
@@ -160,7 +164,7 @@ ColorPalette/
 │   ├── build-data.js       # Generates browser color data
 │   └── 404.html            # GitHub Pages fallback
 ├── miniprogram/            # Legacy Mini Program implementation during migration
-├── assets/readme/           # README hero, support CTA, and semantic icons
+├── assets/readme/           # README hero, theme variants, support CTA, and icons
 ├── docs/
 ├── tests/
 ├── .github/workflows/
@@ -170,7 +174,7 @@ ColorPalette/
 └── README.md
 ```
 
-## <img src="assets/readme/icons/download.svg" width="22" alt="Deployment"> Deployment
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/download-dark.svg"><img src="assets/readme/icons/download.svg" width="22" alt="Deployment"></picture> Deployment
 
 GitHub Pages is deployed automatically from `main` through `.github/workflows/pages.yml`.
 
@@ -180,7 +184,7 @@ The public site is:
 
 If Pages has not been configured yet, use **Settings → Pages → GitHub Actions** as the deployment source.
 
-## <img src="assets/readme/icons/contribution.svg" width="22" alt="Roadmap"> Roadmap
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/contribution-dark.svg"><img src="assets/readme/icons/contribution.svg" width="22" alt="Roadmap"></picture> Roadmap
 
 The current web migration direction includes:
 
@@ -197,7 +201,7 @@ The current web migration direction includes:
 
 The core product remains intentionally usable without a backend. Any future cloud synchronization or paid functionality should remain separated from the static core.
 
-## <img src="assets/readme/icons/cloud.svg" width="22" alt="Privacy"> Privacy model
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/cloud-dark.svg"><img src="assets/readme/icons/cloud.svg" width="22" alt="Privacy"></picture> Privacy model
 
 ColorPalette is local-first by design:
 
@@ -209,21 +213,25 @@ ColorPalette is local-first by design:
 
 GitHub Pages only serves the static application and generated data.
 
-## <img src="assets/readme/icons/contribution.svg" width="22" alt="Support"> Support the project
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/contribution-dark.svg"><img src="assets/readme/icons/contribution.svg" width="22" alt="Support"></picture> Support the project
 
 ColorPalette is free to use and its core is open source under GPL-3.0. Support helps fund continued development, maintenance, documentation, and new color workflows.
 
 <div align="center">
 
 <a href="https://cyojkoy.github.io/Payment/">
-  <img src="assets/readme/support-cta.svg" alt="Support ColorPalette through the project's support page" width="620" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/support-cta.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/readme/support-cta-light.svg">
+    <img src="assets/readme/support-cta-light.svg" alt="Support ColorPalette through the project's support page" width="620">
+  </picture>
 </a>
 
 **Support page:** https://cyojkoy.github.io/Payment/
 
 </div>
 
-## <img src="assets/readme/icons/license.svg" width="22" alt="License"> License
+## <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/icons/license-dark.svg"><img src="assets/readme/icons/license.svg" width="22" alt="License"></picture> License
 
 ColorPalette is released under the **GNU General Public License v3.0**.
 
