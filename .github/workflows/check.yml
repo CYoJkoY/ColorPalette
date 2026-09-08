@@ -32,6 +32,25 @@ jobs:
           test -s web/app.js
           test -s web/preferences.js
           test -s web/build-data.js
+          test -s web/locales/zh-CN.js
+          test -s web/locales/en-US.js
+      - name: Validate locale resources
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const vm=require('vm');
+          const ctx={window:{}};
+          vm.createContext(ctx);
+          for(const file of ['web/locales/zh-CN.js','web/locales/en-US.js']){
+            vm.runInContext(fs.readFileSync(file,'utf8'),ctx,{filename:file});
+          }
+          const locales=ctx.window.ColorPaletteLocales;
+          if(!locales?.['zh-CN']?.ui||!locales?.['en-US']?.ui) throw new Error('Locale resources missing');
+          const zh=Object.keys(locales['zh-CN'].ui),en=Object.keys(locales['en-US'].ui);
+          if(zh.length!==en.length) throw new Error(`Locale key count mismatch: ${zh.length} vs ${en.length}`);
+          for(const key of zh) if(!(key in locales['en-US'].ui)) throw new Error(`Missing en-US key: ${key}`);
+          console.log(`Locale resources OK: ${zh.length} UI keys`);
+          NODE
       - name: Check JavaScript syntax
         run: |
           find miniprogram tests web -name '*.js' -print0 | xargs -0 -n1 node --check
