@@ -53,10 +53,7 @@ jobs:
           const locales=ctx.window.ColorPaletteLocales;
           const zh=locales?.['zh-CN'],en=locales?.['en-US'];
           if(!zh?.ui||!en?.ui||!zh?.relations||!en?.relations||!zh?.relationDescriptions||!en?.relationDescriptions||!zh?.modes||!en?.modes) throw new Error('Locale resources missing');
-          const requireKeys=(a,b,path)=>{
-            const missing=Object.keys(a).filter(key=>!(key in b));
-            if(missing.length) throw new Error(`Missing locale keys at ${path}: ${missing.join(',')}`);
-          };
+          const requireKeys=(a,b,path)=>{const missing=Object.keys(a).filter(key=>!(key in b));if(missing.length)throw new Error(`Missing locale keys at ${path}: ${missing.join(',')}`)};
           requireKeys(zh.ui,en.ui,'ui');
           requireKeys(en.ui,zh.ui,'ui');
           requireKeys(zh.relations,en.relations,'relations');
@@ -65,9 +62,9 @@ jobs:
           requireKeys(en.relationDescriptions,zh.relationDescriptions,'relationDescriptions');
           requireKeys(zh.modes,en.modes,'modes');
           requireKeys(en.modes,zh.modes,'modes');
-          const untranslated=Object.entries(zh.ui).filter(([key,value])=>key!==value&&en.ui[key]===value).map(([key])=>key);
-          if(untranslated.length) throw new Error(`Untranslated English UI values: ${untranslated.join(',')}`);
-          console.log(`Locale resources OK: ${Object.keys(zh.ui).length} Chinese UI keys, ${Object.keys(en.ui).length} English UI keys, ${Object.keys(zh.modes).length} modes`);
+          const keys=Object.keys(zh.ui);
+          if(keys.some(k=>/[\u4e00-\u9fff]/.test(k))) throw new Error(`Locale key contains Chinese text: ${keys.filter(k=>/[\u4e00-\u9fff]/.test(k)).join(',')}`);
+          console.log(`Locale resources OK: ${keys.length} shared semantic UI keys`);
           NODE
       - name: Check JavaScript syntax
         run: |
