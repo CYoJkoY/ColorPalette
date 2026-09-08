@@ -1,19 +1,58 @@
 (() => {
-  const STORE = 'colorpalette-preferences-v2';
-  const saved = (() => { try { return JSON.parse(localStorage.getItem(STORE)) || {}; } catch (_) { return {}; } })();
-  const browserLanguage = String(navigator.language || '').toLowerCase();
-  let language = saved.language === 'en' || saved.language === 'zh' ? saved.language : (browserLanguage.startsWith('zh') ? 'zh' : 'en');
-  let theme = saved.theme === 'dark' || saved.theme === 'light' ? saved.theme : 'light';
-  const translations = {
-    '发现':'Discover','取色':'Extract','创作':'Create','颜色百科':'Color Library','收藏':'Favorites','工作区':'Workspace','从图片取色':'Extract from Image','开始创作':'Start Creating','浏览颜色百科':'Browse Color Library','精选色卡':'Featured Palettes','三步完成一张色卡':'Create a Palette in Three Steps','找色':'Find Colors','生成':'Generate','保存':'Save','搜索名称、英文名或 HEX':'Search name, English name, or HEX','点击色块查看详情':'Click a color to view details','色彩体系':'Color System','色相分类':'Color Family','全部':'All','类似色':'Analogous','互补色':'Complementary','分裂互补':'Split Complementary','三角色':'Triadic','四角色':'Tetradic','双互补':'Double Complementary','单色阶':'Monochromatic','浅色阶':'Tints','深色阶':'Shades','柔和色阶':'Tones','粉彩':'Pastel','鲜艳':'Vivid','暖色':'Warm','冷色':'Cool','灰阶':'Grayscale','颜色':'Colors','配色模式':'Palette Modes','命名颜色':'Named Colors','浏览器本地优先':'Local-first in your browser','图片不会上传到服务器':'Images are never uploaded to a server','我的色卡':'My Palette','我的收藏':'My Favorites','最近使用':'Recently Used','新建色卡':'New Palette','保存色卡':'Save Palette','导出':'Export','删除':'Delete','复制':'Copy','应用':'Use','使用':'Use','清空':'Clear','取消':'Cancel','确认':'Confirm','名称':'Name','来源':'Source','自定义':'Custom','添加颜色':'Add Color','移除':'Remove','上传图片':'Upload Image','选择图片':'Choose Image','从图片中提取颜色':'Extract colors from an image','打开创作':'Open Studio','重新取色':'Pick Again','暂无收藏':'No favorites yet','暂无色卡':'No saved palettes yet','暂无最近颜色':'No recent colors yet','颜色关系':'Color Relationships','相近颜色':'Nearby Colors','色阶':'Lightness Scale','对比度':'Contrast','颜色信息':'Color Information','复制 HEX':'Copy HEX','收藏颜色':'Favorite Color','取消收藏':'Unfavorite','明度':'Lightness','饱和度':'Saturation','色相':'Hue','对比度等级':'Contrast Grade','可读性':'Readability','导出 JSON':'Export JSON','导出 CSS':'Export CSS','重置':'Reset','随机':'Random','刷新':'Refresh','添加到色卡':'Add to Palette','进入颜色百科':'Open Color Library','返回':'Back','下一步':'Next','上一步':'Previous','中 / 日传统色 · CSS · 颜料':'Traditional colors · CSS · pigments','按色彩体系、色相和名称快速定位颜色；点色块查看完整参数、相近颜色与色阶。':'Find colors by system, hue, or name; open a swatch for full parameters, nearby colors, and scales.','来自整理后的多套色彩体系':'Curated from multiple color systems','类似、互补、三角色、粉彩、冷暖等':'Analogous, complementary, triadic, pastel, warm/cool, and more','选择类似、互补、三角色、粉彩、冷暖等配色方式。':'Choose analogous, complementary, triadic, pastel, warm/cool, and other schemes.','搜索名称、HEX，或者按色彩体系与色相浏览。':'Search by name or HEX, or browse by color system and hue.','把最终颜色组合保存到自己的色卡库。':'Save the final combination to your personal palette library.','原生浏览器运行，图片和收藏数据留在本机。':'Runs natively in the browser; images and saved data stay on this device.','日间模式':'Light mode','夜间模式':'Dark mode','颜色工作台':'Color workspace','颜色工具箱':'Color toolkit','配色':'Palette','取色结果':'Extraction Results','上传或拖入图片':'Upload or drop an image','点击图片取色':'Click the image to pick a color','没有可用颜色':'No colors available','暂无内容':'Nothing here yet','专业版':'Pro','升级':'Upgrade'
-  };
-  function save(){localStorage.setItem(STORE,JSON.stringify({language,theme}));}
-  function updateMeta(){const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content=theme==='dark'?'#111214':'#F7F7F4';document.title=language==='zh'?'ColorPalette — 颜色工作台':'ColorPalette — Color Workspace';const d=document.querySelector('meta[name="description"]');if(d)d.content=language==='zh'?'ColorPalette：图片取色、颜色百科、配色生成、色卡收藏与工作区。':'ColorPalette: image color extraction, color library, palette generation, favorites and workspace.';}
-  function applyTheme(){document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;const b=document.querySelector('#theme-switch');if(b){b.setAttribute('aria-checked',String(theme==='dark'));b.title=language==='zh'?(theme==='dark'?'切换到日间模式':'切换到夜间模式'):(theme==='dark'?'Switch to light mode':'Switch to dark mode');b.setAttribute('aria-label',b.title)}updateMeta();}
-  function translateText(text){if(language==='zh')return text;let out=text;Object.entries(translations).sort((a,b)=>b[0].length-a[0].length).forEach(([zh,en])=>{out=out.split(zh).join(en)});return out.replace(/^(\d+) 个命名颜色$/,'$1 named colors').replace(/^(\d+) 个颜色$/,'$1 colors').replace(/^(\d+) 个命名颜色 · /,'$1 named colors · ').replace(/^(\d+) 个颜色 · /,'$1 colors · ');}
-  function translate(root=document.body){const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);nodes.forEach(node=>{if(!node.nodeValue.trim()||node.parentElement?.closest('script,style'))return;if(!node.__cpOriginal)node.__cpOriginal=node.nodeValue;node.nodeValue=language==='en'?translateText(node.__cpOriginal):node.__cpOriginal;});root.querySelectorAll('input[placeholder],textarea[placeholder]').forEach(el=>{if(!el.dataset.cpPlaceholder)el.dataset.cpPlaceholder=el.placeholder;el.placeholder=language==='en'?translateText(el.dataset.cpPlaceholder):el.dataset.cpPlaceholder});root.querySelectorAll('[title]').forEach(el=>{if(!el.dataset.cpTitle)el.dataset.cpTitle=el.title;el.title=language==='en'?translateText(el.dataset.cpTitle):el.dataset.cpTitle});document.documentElement.lang=language==='zh'?'zh-CN':'en';const lb=document.querySelector('#language-switch');if(lb){const label=language==='zh'?'切换中文 / English':'Switch Chinese / English';lb.setAttribute('aria-checked',String(language==='en'));lb.setAttribute('aria-label',label);lb.title=label;}updateMeta();}
+  const STORE='colorpalette-preferences-v2';
+  const saved=(()=>{try{return JSON.parse(localStorage.getItem(STORE))||{}}catch(_){return{}}})();
+  const browserLanguage=String(navigator.language||'').toLowerCase();
+  let language=saved.language==='en'||saved.language==='zh'?saved.language:(browserLanguage.startsWith('zh')?'zh':'en');
+  let theme=saved.theme==='dark'||saved.theme==='light'?saved.theme:'light';
+  const localeCode=()=>language==='en'?'en-US':'zh-CN';
+  const locale=()=>window.ColorPaletteLocales?.[localeCode()]||window.ColorPaletteLocales?.['zh-CN']||{ui:{}};
+  const save=()=>localStorage.setItem(STORE,JSON.stringify({language,theme}));
+  const lookup=text=>locale().ui?.[text]??text;
+  function translateText(text){
+    if(language==='zh')return text;
+    let out=String(text);
+    Object.entries(window.ColorPaletteLocales?.['en-US']?.ui||{}).sort((a,b)=>b[0].length-a[0].length).forEach(([zh,en])=>{out=out.split(zh).join(en)});
+    return out.replace(/^(\d+) 个命名颜色$/,'$1 named colors').replace(/^(\d+) 个颜色$/,'$1 colors').replace(/^(\d+) 个命名颜色 · /,'$1 named colors · ').replace(/^(\d+) 个颜色 · /,'$1 colors · ');
+  }
+  function updateMeta(){
+    const meta=document.querySelector('meta[name="theme-color"]');
+    if(meta)meta.content=theme==='dark'?'#111214':'#F7F7F4';
+    document.title=language==='zh'?'ColorPalette — 颜色工作台':'ColorPalette — Color Workspace';
+    const d=document.querySelector('meta[name="description"]');
+    if(d)d.content=language==='zh'?'ColorPalette：图片取色、颜色百科、配色生成、色卡收藏与工作区。':'ColorPalette: image color extraction, color library, palette generation, favorites and workspace.';
+  }
+  function applyTheme(){
+    document.documentElement.dataset.theme=theme;
+    document.documentElement.style.colorScheme=theme;
+    const b=document.querySelector('#theme-switch');
+    if(b){b.setAttribute('aria-checked',String(theme==='dark'));b.title=language==='zh'?(theme==='dark'?'切换到日间模式':'切换到夜间模式'):(theme==='dark'?'Switch to light mode':'Switch to dark mode');b.setAttribute('aria-label',b.title)}
+    updateMeta();
+  }
+  function translate(root=document.body){
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];
+    while(walker.nextNode())nodes.push(walker.currentNode);
+    nodes.forEach(node=>{
+      if(!node.nodeValue.trim()||node.parentElement?.closest('script,style'))return;
+      if(!node.__cpOriginal)node.__cpOriginal=node.nodeValue;
+      node.nodeValue=language==='en'?translateText(node.__cpOriginal):node.__cpOriginal;
+    });
+    root.querySelectorAll('input[placeholder],textarea[placeholder]').forEach(el=>{if(!el.dataset.cpPlaceholder)el.dataset.cpPlaceholder=el.placeholder;el.placeholder=language==='en'?translateText(el.dataset.cpPlaceholder):el.dataset.cpPlaceholder});
+    root.querySelectorAll('[title]').forEach(el=>{if(!el.dataset.cpTitle)el.dataset.cpTitle=el.title;el.title=language==='en'?translateText(el.dataset.cpTitle):el.dataset.cpTitle});
+    document.documentElement.lang=language==='zh'?'zh-CN':'en';
+    const lb=document.querySelector('#language-switch');
+    if(lb){const label=language==='zh'?'切换中文 / English':'Switch Chinese / English';lb.setAttribute('aria-checked',String(language==='en'));lb.setAttribute('aria-label',label);lb.title=label}
+    updateMeta();
+  }
   function setLanguage(next){language=next==='en'?'en':'zh';save();translate();applyTheme();}
   function setTheme(next){theme=next==='dark'?'dark':'light';save();applyTheme();}
-  function boot(){const lb=document.querySelector('#language-switch'),tb=document.querySelector('#theme-switch');if(!lb||!tb)return;lb.addEventListener('click',()=>setLanguage(language==='zh'?'en':'zh'));tb.addEventListener('click',()=>setTheme(theme==='light'?'dark':'light'));applyTheme();translate();const observer=new MutationObserver(ms=>{if(language!=='en')return;ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===Node.ELEMENT_NODE)translate(n)}))});observer.observe(document.body,{childList:true,subtree:true});window.ColorPalettePreferences={get language(){return language},get theme(){return theme},t:translateText,setLanguage,setTheme,translate,applyTheme};}
+  function boot(){
+    const lb=document.querySelector('#language-switch'),tb=document.querySelector('#theme-switch');if(!lb||!tb)return;
+    lb.addEventListener('click',()=>setLanguage(language==='zh'?'en':'zh'));
+    tb.addEventListener('click',()=>setTheme(theme==='light'?'dark':'light'));
+    applyTheme();translate();
+    const observer=new MutationObserver(ms=>{if(language!=='en')return;ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===Node.ELEMENT_NODE)translate(n)}))});
+    observer.observe(document.body,{childList:true,subtree:true});
+    window.ColorPalettePreferences={get language(){return language},get locale(){return localeCode()},get theme(){return theme},t:translateText,lookup,setLanguage,setTheme,translate,applyTheme};
+  }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
