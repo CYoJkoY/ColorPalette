@@ -66,8 +66,11 @@ jobs:
           const fs=require('fs'); const d=JSON.parse(fs.readFileSync('web/data/colors.json','utf8'));
           if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty');
           const missing=d.colors.filter(c=>typeof c.nameEn!=='string'||!c.nameEn.trim()); if(missing.length) throw new Error(`Missing English color names: ${missing.length}`);
-          const mixed=d.colors.filter(c=>/[\u4e00-\u9fff]/.test(c.nameEn)); if(mixed.length) throw new Error(`English color names contain CJK text: ${mixed.slice(0,5).map(c=>c.name).join(', ')}`);
-          console.log(`Generated color data OK: ${d.colors.length} locale-safe colors`);
+          const cjk=/[\u4e00-\u9fff]/;
+          const hexSuffix=/#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})(?:\b|$)/;
+          const mixed=d.colors.filter(c=>cjk.test(c.nameEn)); if(mixed.length) throw new Error(`English color names contain CJK text: ${mixed.slice(0,5).map(c=>c.name).join(', ')}`);
+          const suffixed=d.colors.filter(c=>hexSuffix.test(c.nameEn)); if(suffixed.length) throw new Error(`English color names contain HEX suffixes: ${suffixed.slice(0,5).map(c=>`${c.nameEn} -> ${c.hex}`).join(', ')}`);
+          console.log(`Generated color data OK: ${d.colors.length} locale-safe colors without HEX-suffixed names`);
           NODE
       - name: Reject legacy platform markers
         run: |
