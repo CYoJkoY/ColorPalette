@@ -52,10 +52,15 @@ html[data-theme="dark"] .discover-hero-copy,html[data-theme="dark"] .discover-st
 html[data-theme="dark"] .discover-hero-copy h1,html[data-theme="dark"] .discover-stat-card>strong,html[data-theme="dark"] .discover-color-name{color:#ecece8}
 html[data-theme="dark"] .discover-hero-copy p,html[data-theme="dark"] .discover-stat-card>small,html[data-theme="dark"] .discover-color-meta,html[data-theme="dark"] .discover-workflow-grid p{color:#969aa0}
 html[data-theme="dark"] .discover-stat-card>span{color:#c9cbc9}
-html[data-theme="dark"] .discover-stat-feature{background:#f0f0ec;color:#151618;border-color:#f0f0ec}
-html[data-theme="dark"] .discover-stat-feature>span{color:#303136}
-html[data-theme="dark"] .discover-stat-feature>small{color:#5d6066}
+html[data-theme="dark"] .discover-stat-feature{background:#25282c;color:#f2f3ef;border-color:#373b40;box-shadow:inset 0 1px 0 rgba(255,255,255,.03),0 16px 48px rgba(0,0,0,.22)}
+html[data-theme="dark"] .discover-stat-feature>span{color:#d7d9d4}
+html[data-theme="dark"] .discover-stat-feature>small{color:#a4a8ad}
+html[data-theme="dark"] .discover-stat-feature>b{color:#d7d9d4}
+html[data-theme="dark"] .discover-color-card:hover{border-color:#44484e;box-shadow:0 18px 42px rgba(0,0,0,.28)}
+html[data-theme="dark"] .discover-color-index{color:#71757b}
 html[data-theme="dark"] .discover-workflow-grid article{border-color:#2c2f33}
 html[data-theme="dark"] .discover-workflow-grid article>span{background:#282b2f;color:#c7c9cd}
+html[data-theme="dark"] .discover-section-heading .button{background:#1b1d20;color:#deded9;border-color:#34373b}
+html[data-theme="dark"] .discover-section-heading .button:hover{background:#25282c;border-color:#555a60}
 @media(max-width:1000px){.discover-hero-v2{grid-template-columns:1fr}.discover-visual{min-height:350px}.discover-featured-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.discover-stat-grid{grid-template-columns:1fr 1fr}.discover-stat-feature{grid-column:1/-1}.discover-workflow-grid{grid-template-columns:1fr}.discover-workflow-grid article,.discover-workflow-grid article+article,.discover-workflow-grid article:last-child{padding:15px 0;border-right:0;border-bottom:1px solid #ecece6}.discover-workflow-grid article:last-child{border-bottom:0}}
 @media(max-width:560px){.discover-hero-copy{min-height:430px;padding:27px}.discover-hero-copy h1{font-size:43px}.discover-visual{min-height:310px}.discover-palette-preview{inset:65px 20px 92px}.discover-visual-core{width:124px;height:124px}.discover-visual-caption{left:20px;right:20px;bottom:22px;font-size:13px}.discover-stat-grid{grid-template-columns:1fr}.discover-stat-feature{grid-column:auto}.discover-featured-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.discover-color-swatch{height:130px}.discover-color-body{padding:11px}.discover-color-name{font-size:14px}.discover-steps-v2{padding:20px 16px}.discover-section-heading h2{font-size:25px}}
