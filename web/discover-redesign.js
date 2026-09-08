@@ -10,8 +10,11 @@
   const en = () => window.ColorPalettePreferences?.language === 'en';
   const app = () => document.querySelector('#app');
   const esc = value => String(value ?? '').replace(/[&<>\"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[char]));
-  function colorName(color){ return en() ? (NAMES[color.name] || color.name) : color.name; }
-  function familyName(family){ return en() ? (FAMILIES[family] || family || 'Color') : (family || '颜色'); }
+  function colorName(color){
+    if (!en()) return color.name;
+    return NAMES[color.name] || `Named Color ${color.hex}`;
+  }
+  function familyName(family){ return en() ? (FAMILIES[family] || 'Color') : (family || '颜色'); }
 
   function renderDiscover(){
     const root = app();
