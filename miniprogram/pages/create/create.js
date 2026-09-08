@@ -1,6 +1,6 @@
 const color = require('../../utils/color');
 const { toggleFavorite } = require('../../utils/storage');
-const { categoryNames, colors: libraryColors } = require('../../utils/color-library');
+const { categoryNames, searchColors } = require('../../utils/color-library');
 
 const MODES = [
   { id:'analogous', name:'类似色' }, { id:'complementary', name:'互补色' }, { id:'split', name:'分裂互补' },
@@ -11,20 +11,18 @@ const MODES = [
 ];
 
 Page({
-  data: { hex:'#7C3AED', h:262, s:80, l:52, modes:MODES, modeIndex:0, colors:[], saved:false, categories:categoryNames, categoryIndex:0, library:[] },
+  data: { hex:'#7C3AED', h:262, s:80, l:52, modes:MODES, modeIndex:0, colors:[], saved:false, collections:categoryNames, collectionIndex:0, library:[], query:'' },
 
   onLoad() { this.refresh(); this.refreshLibrary(); },
-
-  refresh() {
-    const colors = color.generatePalette(this.data.hex, this.data.modes[this.data.modeIndex].id, 5);
-    this.setData({ colors });
-  },
+  refresh() { this.setData({ colors:color.generatePalette(this.data.hex, this.data.modes[this.data.modeIndex].id, 5) }); },
 
   refreshLibrary() {
-    const category = this.data.categories[this.data.categoryIndex];
-    this.setData({ library:libraryColors.filter(item => item.category === category) });
+    const collection = this.data.collections[this.data.collectionIndex];
+    const q = this.data.query.trim();
+    this.setData({ library:searchColors(q).filter(item => item.collection === collection) });
   },
 
+  inputSearch(e) { this.setData({ query:e.detail.value }, () => this.refreshLibrary()); },
   inputHex(e) {
     const value = String(e.detail.value || '').trim();
     const rgb = color.hexToRgb(value);
@@ -32,9 +30,8 @@ Page({
     const hsl = color.rgbToHsl(rgb.r, rgb.g, rgb.b);
     this.setData({ hex:color.rgbToHex(rgb.r, rgb.g, rgb.b), h:hsl.h, s:hsl.s, l:hsl.l }, () => this.refresh());
   },
-
   onModeChange(e) { this.setData({ modeIndex:Number(e.detail.value) }, () => this.refresh()); },
-  onCategoryChange(e) { this.setData({ categoryIndex:Number(e.detail.value) }, () => this.refreshLibrary()); },
+  onCollectionChange(e) { this.setData({ collectionIndex:Number(e.detail.value) }, () => this.refreshLibrary()); },
 
   onSliderChange(e) {
     const key = e.currentTarget.dataset.key;
@@ -50,20 +47,17 @@ Page({
     const hsl = color.rgbToHsl(rgb.r, rgb.g, rgb.b);
     this.setData({ hex, h:hsl.h, s:hsl.s, l:hsl.l }, () => this.refresh());
   },
-
   addLibraryColor(e) {
     const colors = this.data.colors.slice();
     if (colors.length >= 8) return wx.showToast({ title:'最多 8 个颜色', icon:'none' });
     colors.push(e.currentTarget.dataset.hex);
     this.setData({ colors });
   },
-
   copy(e) { wx.setClipboardData({ data:e.currentTarget.dataset.hex, success:() => wx.showToast({ title:'已复制', icon:'none' }) }); },
 
   save() {
     if (this.data.colors.length < 2) return wx.showToast({ title:'至少需要 2 个颜色', icon:'none' });
-    const palette = { id:`custom-${Date.now()}`, name:'我的色卡', colors:this.data.colors, createdAt:Date.now() };
-    toggleFavorite(palette);
+    toggleFavorite({ id:`custom-${Date.now()}`, name:'我的色卡', colors:this.data.colors, createdAt:Date.now() });
     this.setData({ saved:true });
     wx.showToast({ title:'已收藏色卡', icon:'none' });
   },
