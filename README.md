@@ -6,40 +6,73 @@
 
 # ColorPalette
 
-**A practical color workspace for finding, understanding, and building color palettes inside WeChat.**
+**A local-first color workspace delivered as a static web application.**
 
-Extract colors from images, browse named color systems, inspect perceptual color values, generate color relationships, and turn a single color into a finished palette.
+Extract colors from images, browse named color systems, inspect perceptual color values, generate color relationships, build palettes, save your work locally, and export it — all in the browser.
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
-[![Platform: WeChat Mini Program](https://img.shields.io/badge/Platform-WeChat%20Mini%20Program-07C160.svg)](https://developers.weixin.qq.com/miniprogram/dev/framework/)
+[![Platform: GitHub Pages](https://img.shields.io/badge/Platform-GitHub%20Pages-222222.svg)](https://pages.github.com/)
 [![Language: JavaScript](https://img.shields.io/badge/Language-JavaScript-F7DF1E.svg)](https://developer.mozilla.org/docs/Web/JavaScript)
+
+**Live site:** `https://cyojkoy.github.io/ColorPalette/`
 
 </div>
 
-> ColorPalette is built around one simple workflow: **find a color → understand its relationships → create a palette → save it for later.**
+> ColorPalette is built around one workflow: **find a color → understand its relationships → create a palette → save it for later.**
 
-## <img src="assets/readme/icons/palette.svg" width="20" alt=""> What ColorPalette Does
-
-ColorPalette combines four jobs that are usually split across different tools:
+## What it does
 
 | Workflow | What you can do |
 | :--- | :--- |
-| **Extract** | Pick a color from an image or extract representative colors from an image. |
-| **Explore** | Search named colors across multiple color systems and filter them by hue family. |
-| **Analyze** | Inspect HEX, RGB, HSL, OKLab, OKLCH, perceptual lightness, nearby colors, and contrast. |
-| **Create** | Generate color relationships, tune a base color, combine library colors, and save palettes. |
+| **Extract** | Pick an exact pixel from an image or automatically extract representative colors. |
+| **Explore** | Search the named-color library by name, HEX, collection, and family. |
+| **Analyze** | Inspect HEX, RGB, HSL, contrast, and practical palette relationships. |
+| **Create** | Generate 15 palette modes, edit colors, reorder them, name palettes, and export them. |
+| **Workspace** | Keep palettes and recent colors in browser `localStorage` without an account. |
 
-The goal is not to expose every possible color operation. The goal is to make common color decisions fast and understandable.
+The website is intentionally static. There is no application server, database, login system, or image-upload backend.
 
-## <img src="assets/readme/icons/image.svg" width="20" alt=""> Why It Is Useful
+## Static web architecture
 
-### <img src="assets/readme/icons/target.svg" width="18" alt=""> Start from the color you already have
+```text
+GitHub repository
+      │
+      ├── web/index.html
+      ├── web/styles.css
+      ├── web/app.js
+      └── web/build-data.js
+               │
+               ↓
+       GitHub Actions
+               │
+       generate colors.json
+               │
+               ↓
+          GitHub Pages
+               │
+               ↓
+        Browser / localStorage
+```
 
-A screenshot, illustration, game asset, website, photograph, or reference image can become the starting point. Manual picking is available when an exact visual location matters; automatic extraction provides a compact representative palette.
+GitHub Pages publishes the `web/` directory as the deployed static artifact. The named-color source remains in `miniprogram/utils/color-library.js` for now, and the Pages workflow converts it to browser-friendly JSON during deployment. This keeps the existing curated color dataset as the single source of truth while the application migrates away from the Mini Program runtime.
 
-### <img src="assets/readme/icons/book.svg" width="18" alt=""> Search colors by meaning, not only by numbers
+## Main features
 
-The color library contains **492 named colors** across five collections:
+### Image extraction
+
+The Extract page supports local image files through the browser File API and Canvas API. Nothing is uploaded to a server.
+
+It provides:
+
+- representative color ranking
+- dominant / secondary / accent / support / light / dark roles
+- approximate percentage share
+- exact click-to-pick color sampling
+- one-click conversion of extracted colors into Palette Studio
+
+### Named color library
+
+The current source contains 492 named colors across five collections:
 
 - Basic colors
 - CSS named colors
@@ -47,260 +80,150 @@ The color library contains **492 named colors** across five collections:
 - Traditional Japanese colors
 - Art and pigment references
 
-Search supports names, English/Japanese aliases where available, collection names, and HEX values. Hue-family filtering makes large collections easier to scan.
+Historical and cultural HEX values are treated as digital reference values rather than claims of one physically exact pigment standard.
 
-> Digital HEX values for historical, cultural, and pigment references are treated as reference values rather than claims of one physically exact pigment standard.
+### Color analysis
 
-### <img src="assets/readme/icons/layers.svg" width="18" alt=""> Turn one color into a system
+A color detail view provides:
 
-A color detail page now generates practical relationships instead of stopping at a HEX value:
+- HEX
+- RGB
+- HSL
+- white/black WCAG contrast ratios
+- contrast guidance
+- analogous, complementary, split complementary, triadic, tetradic, double complementary
+- monochromatic, tints, shades, tones
+- pastel, vivid, warm, cool, and grayscale sets
 
-- Analogous
-- Complementary
-- Split complementary
-- Triadic
-- Tetradic
-- Double complementary
-- Warm range
-- Cool range
-- Monochromatic
-- Tints
-- Shades
-- Tones
+Every generated relationship can be sent directly into Palette Studio.
 
-Every generated relationship can be inspected and taken directly into Palette Studio.
+### Palette Studio
 
-## <img src="assets/readme/icons/search.svg" width="20" alt=""> Color Detail and Analysis
+Palette Studio supports:
 
-Selecting a named color opens a dedicated analysis view.
+- HEX input
+- HSL controls
+- 15 palette generation modes
+- manual color addition
+- color removal
+- palette naming
+- local persistence
+- duplicate/edit workflows
+- CSS and JSON-oriented export
 
-```text
-Named color
-    │
-    ├── HEX
-    ├── RGB
-    ├── HSL
-    ├── OKLab
-    └── OKLCH
-         │
-         ├── Perceptual lightness scale
-         ├── Palette relationships
-         ├── WCAG contrast checks
-         └── Nearby colors by OKLab distance
-                    │
-                    ↓
-              Palette Studio
-```
+### Workspace
 
-### <img src="assets/readme/icons/analytics.svg" width="18" alt=""> Perceptual color information
+Saved palettes and recent colors are stored in browser `localStorage`.
 
-OKLab and OKLCH are included because RGB and HSL are not ideal for every perceptual color task. ColorPalette uses OKLab distance for nearby-color discovery and OKLab lightness for its nine-step perceptual scale.
+There is no account requirement. Clearing browser site data removes the local workspace.
 
-### <img src="assets/readme/icons/check.svg" width="18" alt=""> Contrast guidance
+## Privacy model
 
-The detail page calculates relative-luminance contrast ratios against white and black and labels the result with practical guidance such as `AAA text`, `AA text`, `Large text`, or `Decorative`.
+ColorPalette is local-first by design:
 
-These labels are guidance only. Final accessibility decisions still depend on the actual text size, weight, surrounding colors, and rendered interface.
+- image files stay in the browser
+- palettes stay in `localStorage`
+- no login is required
+- no server-side color processing is required
+- no personal data needs to be sent to the application
 
-## <img src="assets/readme/icons/palette.svg" width="20" alt=""> Palette Studio
+GitHub Pages itself is only the static delivery layer.
 
-Palette Studio is the creation workspace rather than a passive color viewer.
+## Run locally
 
-```text
-Choose a base color
-       │
-       ├── Enter HEX
-       ├── Pick from the color library
-       └── Continue from image extraction
-                ↓
-          Tune HSL values
-                ↓
-       Choose a palette mode
-                ↓
-        Generate a base palette
-                ↓
-       Add named colors manually
-                ↓
-          Save the palette
-```
-
-The current generator supports **15 modes**, including relationship palettes, tonal variations, warm/cool ranges, pastel and vivid sets, and grayscale.
-
-A generated palette can be extended with colors from the library, making the workflow useful for UI design, illustration, game assets, branding studies, and other visual work.
-
-## <img src="assets/readme/icons/image.svg" width="20" alt=""> Image Color Extraction
-
-ColorPalette provides two complementary extraction paths.
-
-| Mode | Best for | Behavior |
-| :--- | :--- | :--- |
-| **Manual picker** | Exact pixels and visual references | Choose a location in the image and read its color. |
-| **Automatic extraction** | Quick palette discovery | Sample and quantize the image, then rank representative colors. |
-
-The current implementation prioritizes stable execution inside the WeChat Mini Program runtime. More advanced perceptual clustering remains on the roadmap.
-
-## <img src="assets/readme/icons/architecture.svg" width="20" alt=""> Technical Foundation
-
-ColorPalette is intentionally built with a small native stack rather than a large color dependency tree.
-
-```text
-miniprogram/utils/
-├── color.js
-│   ├── HEX ↔ RGB
-│   ├── RGB ↔ HSL
-│   ├── palette generation
-│   └── WCAG contrast calculations
-├── oklab.js
-│   ├── RGB ↔ OKLab
-│   ├── RGB ↔ OKLCH
-│   ├── perceptual distance
-│   └── lightness adjustment
-├── advanced-palette.js
-│   ├── OKLab lightness ramps
-│   └── palette deduplication
-└── color-library.js
-    ├── named-color collections
-    ├── hue families
-    └── searchable metadata
-```
-
-The core color modules can be exercised independently with Node.js, which keeps algorithm changes testable without launching the Mini Program runtime.
-
-## <img src="assets/readme/icons/installation.svg" width="20" alt=""> Run Locally
-
-### <img src="assets/readme/icons/package.svg" width="18" alt=""> Requirements
-
-- WeChat Developer Tools
-- A WeChat Mini Program AppID
-- Node.js 20+ for repository tests
-
-### <img src="assets/readme/icons/download.svg" width="18" alt=""> Clone and test
+No package manager or framework is required for the application.
 
 ```bash
 git clone https://github.com/CYoJkoY/ColorPalette.git
 cd ColorPalette
+node web/build-data.js
+```
+
+Then serve the repository through any static HTTP server with `web/` as the document root. For example:
+
+```bash
+python -m http.server 8000 --directory web
+```
+
+Open `http://localhost:8000/` in a browser.
+
+The application should be served over HTTP rather than opened directly as `file://`, because the named-color data is loaded with `fetch()`.
+
+## Tests
+
+The repository retains algorithm-level Node.js tests for the existing color engine:
+
+```bash
 node tests/color.test.js
 ```
 
-Open the repository root in WeChat Developer Tools, configure your AppID in `project.config.json`, and run the `miniprogram/` application.
+GitHub Actions additionally validates JavaScript syntax, JSON configuration, required assets, and the workspace helpers.
 
-## <img src="assets/readme/icons/check.svg" width="20" alt=""> Quality Gates
+The Pages deployment is handled by `.github/workflows/pages.yml` using GitHub's official Pages artifact/deployment actions.
 
-Every push is checked by GitHub Actions.
-
-The automated checks cover:
-
-- Core color conversion and palette generation
-- OKLab and OKLCH calculations
-- Named-color collection sizes and search behavior
-- Color-detail data and relationship generation
-- JavaScript syntax
-- Mini Program JSON configuration
-- Required README assets
-
-The project prefers algorithm-level tests over simply checking whether a page can open.
-
-## <img src="assets/readme/icons/shield.svg" width="20" alt=""> Monetization Without Blocking the Core Workflow
-
-ColorPalette uses a Free + Pro + Rewarded Ad model.
-
-The core workflow remains usable without watching advertisements. Rewarded ads are opt-in and are only presented when a user explicitly chooses to exchange a completed ad view for temporary Pro access.
-
-Hard UX rules:
-
-- No startup advertisements.
-- No forced interstitials during extraction or palette creation.
-- No deceptive download-style ad buttons.
-- No blocking core features because an ad was declined.
-- No reward before a rewarded ad is completed.
-
-The current test pricing model is:
-
-| Plan | Test price | Access |
-| :--- | :---: | :--- |
-| Free | ¥0 | Core color workflow |
-| Monthly | ¥3.9 / 30 days | Pro |
-| Yearly | ¥19.9 / 365 days | Pro |
-| Rewarded Ad | Free | 24 hours of temporary Pro after a completed ad |
-
-Production payment verification, order creation, refunds, idempotency, advertising credentials, and final entitlement delivery should be handled by a trusted backend. Production credentials are not stored in this repository.
-
-See [`docs/MONETIZATION.md`](docs/MONETIZATION.md) for the current monetization boundary.
-
-## <img src="assets/readme/icons/folder.svg" width="20" alt=""> Project Structure
+## Repository structure
 
 ```text
 ColorPalette/
-├── miniprogram/
-│   ├── pages/
-│   │   ├── home/             # Discovery and featured palettes
-│   │   ├── palette/          # Palette presentation
-│   │   ├── extractor/        # Image extraction and manual picking
-│   │   ├── create/           # Palette Studio
-│   │   ├── library/          # Named-color browser
-│   │   ├── color-detail/     # Color analysis and relationships
-│   │   ├── favorites/        # Local favorites
-│   │   └── pro/              # Pro and monetization entry
-│   ├── services/
-│   │   └── monetization.js   # Advertising and payment boundary
-│   └── utils/
-│       ├── color.js
-│       ├── oklab.js
-│       ├── advanced-palette.js
-│       ├── color-library.js
-│       ├── share.js
-│       └── storage.js
-├── assets/readme/            # README hero, icons, and visual assets
+├── web/
+│   ├── index.html          # Static web entry
+│   ├── styles.css          # Web UI
+│   ├── app.js              # Browser application
+│   ├── build-data.js       # Generates browser color data
+│   └── 404.html            # Pages fallback
+├── miniprogram/            # Legacy Mini Program implementation during migration
+├── assets/readme/           # README visual assets
 ├── docs/
-│   └── MONETIZATION.md
 ├── tests/
-│   └── color.test.js
 ├── .github/workflows/
-│   └── check.yml
+│   ├── check.yml           # Repository quality gates
+│   └── pages.yml           # GitHub Pages deployment
 ├── LICENSE
 └── README.md
 ```
 
-## <img src="assets/readme/icons/roadmap.svg" width="20" alt=""> Roadmap
+The `miniprogram/` tree is retained temporarily so the migration can happen without throwing away the existing algorithms and curated data. It is no longer the target distribution platform.
 
-### <img src="assets/readme/icons/analytics.svg" width="18" alt=""> Color intelligence
+## Deployment
 
-- Lab / OKLab image clustering
-- Spatial weighting and subject-region detection
-- More stable representative-color ranking
-- Color vision deficiency simulation
-- More precise OKLCH editing
-- Accessibility-aware palette suggestions
+GitHub Pages is deployed automatically from `main` through `.github/workflows/pages.yml`.
 
-### <img src="assets/readme/icons/download.svg" width="18" alt=""> Export and sharing
+In the repository's **Settings → Pages**, select **GitHub Actions** as the build and deployment source if Pages has not already been enabled for the repository. GitHub Pages then publishes the artifact generated by the Pages workflow.
 
-- Palette image generation
-- PNG, text, and CSS export
-- Palette naming and tagging
-- Better favorite search
-- One-tap conversion from extraction results to saved palettes
+The project site URL is:
 
-### <img src="assets/readme/icons/cloud.svg" width="18" alt=""> Cloud workflow
+`https://cyojkoy.github.io/ColorPalette/`
 
-- WeChat cloud synchronization
-- Server-backed Pro entitlements
-- Order and refund synchronization
-- Privacy-conscious product analytics
+A custom domain can be added later without changing the application architecture.
 
-## <img src="assets/readme/icons/contribution.svg" width="20" alt=""> Contributing
+## Roadmap
 
-Issues and pull requests are welcome, especially for:
+### Web migration
 
-- Color algorithms
-- High-quality named-color data
-- Image clustering
-- Accessibility tooling
-- Mini Program compatibility
-- Palette workflows and interaction improvements
+- responsive mobile-first refinement
+- installable PWA shell
+- keyboard shortcuts
+- shareable palette URLs
+- drag-and-drop palette editing
+- richer OKLCH controls
+- color vision deficiency simulation
+- accessibility-aware palette suggestions
+- generated palette images and downloadable files
 
-Do not commit production credentials, payment secrets, API tokens, or personal user data.
+### Color intelligence
 
-## <img src="assets/readme/icons/license.svg" width="20" alt=""> License
+- OKLab / OKLCH image clustering
+- spatial weighting and subject-region detection
+- stronger representative-color ranking
+- semantic color roles
+- automatic accessibility repair suggestions
+- perceptual palette scoring
+
+### Optional future backend
+
+A backend is intentionally not required for the current product. If cloud synchronization or paid entitlements are introduced later, they should be added as separate services rather than coupling the core static application to a server.
+
+## License
 
 ColorPalette is released under the **GNU General Public License v3.0**.
 
