@@ -19,7 +19,19 @@ window.ColorPaletteLocales['zh-CN']={
     '中 / 日传统色 · CSS · 颜料':'中 / 日传统色 · CSS · 颜料','按色彩体系、色相和名称快速定位颜色；点色块查看完整参数、相近颜色与色阶。':'按色彩体系、色相和名称快速定位颜色；点色块查看完整参数、相近颜色与色阶。',
     '来自整理后的多套色彩体系':'来自整理后的多套色彩体系','类似、互补、三角色、粉彩、冷暖等':'类似、互补、三角色、粉彩、冷暖等','选择类似、互补、三角色、粉彩、冷暖等配色方式。':'选择类似、互补、三角色、粉彩、冷暖等配色方式。',
     '搜索名称、HEX，或者按色彩体系与色相浏览。':'搜索名称、HEX，或者按色彩体系与色相浏览。','把最终颜色组合保存到自己的色卡库。':'把最终颜色组合保存到自己的色卡库。','原生浏览器运行，图片和收藏数据留在本机。':'原生浏览器运行，图片和收藏数据留在本机。',
-    '日间模式':'日间模式','夜间模式':'夜间模式','颜色工作台':'颜色工作台','颜色工具箱':'颜色工具箱','配色':'配色','取色结果':'取色结果','上传或拖入图片':'上传或拖入图片','点击图片取色':'点击图片取色','没有可用颜色':'没有可用颜色','暂无内容':'暂无内容','专业版':'专业版','升级':'升级'
+    '日间模式':'日间模式','夜间模式':'夜间模式','颜色工作台':'颜色工作台','颜色工具箱':'颜色工具箱','配色':'配色','取色结果':'取色结果','上传或拖入图片':'上传或拖入图片','点击图片取色':'点击图片取色','没有可用颜色':'没有可用颜色','暂无内容':'暂无内容','专业版':'专业版','升级':'升级','已复制':'已复制','复制失败':'复制失败'
+  },
+  keys:{
+    nav:{discover:'发现',extractor:'取色',create:'创作',library:'颜色百科',favorites:'收藏',workspace:'工作区'},
+    common:{save:'保存',copy:'复制',delete:'删除',cancel:'取消',confirm:'确认',export:'导出',reset:'重置',random:'随机',refresh:'刷新',back:'返回',next:'下一步',previous:'上一步',apply:'应用',use:'使用',clear:'清空',remove:'移除'},
+    home:{eyebrow:'颜色工具箱',title:'找到颜色，也做出自己的颜色。',extract:'从图片取色',create:'开始创作',library:'颜色百科',featured:'精选色卡',steps:'三步完成一张色卡'},
+    library:{title:'颜色百科',searchPlaceholder:'搜索名称、英文名或 HEX',system:'色彩体系',family:'色相分类',all:'全部',count:'{count} 个颜色',detail:'点击色块查看详情'},
+    color:{relationships:'颜色关系',nearby:'相近颜色',scale:'色阶',contrast:'对比度',information:'颜色信息',copyHex:'复制 HEX',favorite:'收藏颜色',unfavorite:'取消收藏'},
+    palette:{name:'我的色卡',new:'新建色卡',save:'保存色卡',addColor:'添加颜色',empty:'暂无色卡'},
+    extractor:{title:'取色',upload:'上传或拖入图片',pick:'点击图片取色',result:'取色结果',repick:'重新取色'},
+    workspace:{title:'工作区',recent:'最近使用',emptyRecent:'暂无最近颜色'},
+    favorites:{title:'我的收藏',empty:'暂无收藏'},
+    pro:{title:'专业版',upgrade:'升级'}
   },
   relations:{analogous:'类似色',complementary:'互补色',split:'分裂互补',triadic:'三角色',tetradic:'四角色',doubleComplementary:'双互补',warm:'暖色范围',cool:'冷色范围',monochromatic:'单色阶',tints:'浅色阶',shades:'深色阶',tones:'柔和色阶'},
   relationDescriptions:{analogous:'相邻色相，适合形成统一、平静的配色。',complementary:'色相环对置，适合形成强烈分离。',split:'基础色搭配互补色两侧的两个强调色。',triadic:'三等分色相，保持均衡的色彩对比。',tetradic:'两组互补色构成的四角色关系。',doubleComplementary:'两个邻近色分别与其对立色组合。',warm:'围绕基础色向暖色方向偏移。',cool:'围绕基础色向冷色方向偏移。',monochromatic:'保持色相，只改变明度。',tints:'降低饱和度并提高明度。',shades:'降低明度形成深色版本。',tones:'降低饱和度，适合克制型界面。'},
