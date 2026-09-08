@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#F7F7F4">
   <meta name="description" content="ColorPalette：图片取色、颜色百科、配色生成、色卡收藏与工作区。">
   <title>ColorPalette — 颜色工作台</title>
-  <link rel="stylesheet" href="styles.css?v=20260908-2">
+  <link rel="stylesheet" href="styles.css?v=20260908-3">
 </head>
 <body>
   <header class="topbar">
@@ -19,6 +19,14 @@
       <a data-route="favorites" href="#/favorites">收藏</a>
       <a data-route="workspace" href="#/workspace">工作区</a>
     </nav>
+    <div class="preferences" aria-label="界面偏好设置">
+      <button class="preference-switch" id="language-switch" type="button" role="switch" aria-checked="false" title="切换中文 / English">
+        <span class="preference-option">中</span><span class="preference-track"><i></i></span><span class="preference-option">EN</span>
+      </button>
+      <button class="preference-switch theme-switch" id="theme-switch" type="button" role="switch" aria-checked="false" title="切换日间 / 夜间模式">
+        <span class="preference-option">☀</span><span class="preference-track"><i></i></span><span class="preference-option">☾</span>
+      </button>
+    </div>
   </header>
   <main id="app" class="shell" aria-live="polite"></main>
   <nav class="mobile-nav" aria-label="移动端导航">
@@ -29,6 +37,7 @@
     <a data-route="workspace" href="#/workspace"><span>▦</span>工作区</a>
   </nav>
   <footer class="footer">ColorPalette · 浏览器本地优先 · 图片不会上传到服务器</footer>
-  <script src="app.js?v=20260908-2" defer></script>
+  <script src="preferences.js?v=20260908-1" defer></script>
+  <script src="app.js?v=20260908-3" defer></script>
 </body>
 </html>
