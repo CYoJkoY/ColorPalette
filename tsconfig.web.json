@@ -22,6 +22,7 @@
     "web/app-locale.ts",
     "web/library-pagination.ts",
     "web/palette-studio-controls.ts",
-    "web/ui-motion.ts"
+    "web/ui-motion.ts",
+    "web/favorites-workspace.ts"
   ]
 }
