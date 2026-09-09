@@ -21,6 +21,14 @@
     if (description) description.content = ui('shell.documentDescription');
   }
 
+  function syncActiveNav() {
+    const route = (location.hash.replace(/^#\/?/, '').split('?')[0] || 'home').replace(/^\/+|\/+$/g, '') || 'home';
+    document.querySelectorAll('[data-route]').forEach(link => {
+      link.classList.toggle('active', link.dataset.route === route);
+      link.setAttribute('aria-current', link.dataset.route === route ? 'page' : 'false');
+    });
+  }
+
   function renderShell() {
     const shell = document.body.querySelector('.topbar');
     const main = document.body.querySelector('#app');
@@ -35,6 +43,7 @@
 
     mobile.outerHTML = `<nav class="mobile-nav" aria-label="${ui('shell.mobileNav')}">${[['home','⌂'],['extractor','⌁'],['create','＋'],['favorites','♡'],['workspace','▦']].map(([route, icon]) => `<a data-route="${route}" href="#/${route}"><span aria-hidden="true">${icon}</span>${ui(navItems.find(item => item[0] === route)?.[1] || 'nav.discover')}</a>`).join('')}</nav>`;
     footer.textContent = `ColorPalette · ${ui('shell.localFirst')} · ${ui('shell.noUpload')}`;
+    syncActiveNav();
   }
 
   function refreshShell() {
@@ -72,7 +81,7 @@
       if (options[1]) options[1].setAttribute('aria-label', ui('shell.darkMode'));
     }
     mobile.setAttribute('aria-label', ui('shell.mobileNav'));
-    navItems.filter(([route]) => ['home','extractor','create','favorites','workspace'].includes(route)).forEach(([route, key], index) => {
+    navItems.filter(([route]) => ['home','extractor','create','favorites','workspace'].includes(route)).forEach(([route, key]) => {
       const link = mobile.querySelector(`[data-route="${route}"]`);
       if (link) {
         const icon = link.querySelector('span');
@@ -82,11 +91,15 @@
       }
     });
     footer.textContent = `ColorPalette · ${ui('shell.localFirst')} · ${ui('shell.noUpload')}`;
+    syncActiveNav();
   }
 
   function install() {
     renderShell();
-    window.addEventListener('hashchange', () => window.route?.());
+    window.addEventListener('hashchange', () => {
+      syncActiveNav();
+      window.route?.();
+    });
     window.addEventListener('colorpalette:localechange', () => {
       refreshShell();
       window.route?.();
