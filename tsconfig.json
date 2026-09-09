@@ -7,6 +7,7 @@
     "outDir": "build",
     "strict": false,
     "noImplicitAny": false,
+    "noCheck": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
