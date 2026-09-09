@@ -45,7 +45,7 @@
 .create-v2-palette-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:23px}
 .create-v2-palette-item{position:relative;display:grid;grid-template-columns:67px minmax(0,1fr) auto;align-items:center;gap:11px;padding:8px;border:1px solid #e1e1db;border-radius:14px;background:#fff;min-width:0}
 .create-v2-palette-item.is-base{border-color:#bdbdb5;box-shadow:inset 0 0 0 1px rgba(0,0,0,.02)}
-.create-v2-swatch{width:67px;height:58px;border-radius:9px}
+.create-v2-swatch{width:58px;height:58px;justify-self:center;align-self:center;border-radius:10px}
 .create-v2-palette-info{min-width:0}
 .create-v2-palette-info strong{display:block;font:700 12px ui-monospace,SFMono-Regular,Menlo,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .create-v2-palette-info span{display:block;margin-top:5px;color:#888780;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
