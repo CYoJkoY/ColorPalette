@@ -1,0 +1,15 @@
+/* Home entry refinement: keep the Color Library CTA visually hierarchical. */
+.library-entry{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:20px;width:100%;margin-top:15px;padding:17px 18px;border:1px solid #2b2b28;border-radius:18px;background:#1d1d1b;color:#fff;text-align:left;cursor:pointer;transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease}
+.library-entry>span{display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.library-entry strong{font-size:16px;font-weight:800;line-height:1.25;letter-spacing:-.025em}
+.library-entry .library-entry-sub{display:block;margin-top:5px;font-size:11px;line-height:1.5;font-weight:500;color:#b9b9b3;white-space:normal}
+.library-entry b{width:33px;height:33px;display:flex;align-items:center;justify-content:center;flex:none;border:1px solid rgba(255,255,255,.16);border-radius:50%;background:rgba(255,255,255,.07);font-size:22px;font-weight:400;line-height:1;color:#fff;transition:transform .18s ease,background .18s ease}
+.library-entry:hover{transform:translateY(-1px);background:#232320;border-color:#3b3b36;box-shadow:0 12px 25px rgba(24,24,27,.12)}
+.library-entry:hover b{transform:translateX(2px);background:rgba(255,255,255,.12)}
+.library-entry:focus-visible{outline:2px solid #9d9c95;outline-offset:3px}
+html[data-theme="dark"] .library-entry{background:#f0f0ec;color:#151618;border-color:#f0f0ec}
+html[data-theme="dark"] .library-entry .library-entry-sub{color:#6f747a}
+html[data-theme="dark"] .library-entry b{border-color:rgba(0,0,0,.12);background:rgba(0,0,0,.06);color:#151618}
+html[data-theme="dark"] .library-entry:hover{background:#e8e8e4;border-color:#e8e8e4;box-shadow:0 12px 25px rgba(0,0,0,.2)}
+html[data-theme="dark"] .library-entry:hover b{background:rgba(0,0,0,.1)}
+@media(max-width:540px){.library-entry{gap:12px;padding:16px}.library-entry strong{font-size:15px}.library-entry .library-entry-sub{font-size:10px}.library-entry b{width:29px;height:29px;font-size:20px}}
