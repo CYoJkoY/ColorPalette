@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "None",
+    "module": "none",
     "moduleResolution": "Classic",
     "rootDir": "web",
     "outDir": "web-dist",
     "strict": false,
     "noImplicitAny": false,
+    "noCheck": true,
     "noEmitOnError": true,
     "skipLibCheck": true,
     "lib": ["ES2022", "DOM"]
   },
   "files": [
-    "types/web-globals.d.ts",
+    "web/globals.d.ts",
     "web/locales/zh-CN.ts",
     "web/locales/en-US.ts",
     "web/i18n.ts",
