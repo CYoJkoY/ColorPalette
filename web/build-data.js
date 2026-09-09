@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const library = require('../core/color-library');
+const modern = require('../core/modern-colors');
 const out = path.join(__dirname, 'data');
 
 const BASIC_EN = {
@@ -36,16 +37,22 @@ function englishName(item, index) {
     'CSS 标准色': 'CSS Color',
     '中国传统色': 'Traditional Chinese Color',
     '日本传统色': 'Traditional Japanese Color',
-    '艺术与颜料': 'Art and Pigment Color'
+    '艺术与颜料': 'Art and Pigment Color',
+    '现代设计色': 'Modern Design Color'
   };
   return `${collectionLabels[item.collection] || 'Named Color'} ${String(index + 1).padStart(3, '0')}`;
 }
 
-const colors = library.colors.map((item, index) => ({ ...item, nameEn: englishName(item, index) }));
+const colors = [...library.colors, ...modern].map((item, index) => ({
+  ...item,
+  hex: String(item.hex || '').trim().toUpperCase(),
+  nameEn: englishName(item, index)
+}));
+
 fs.mkdirSync(out, { recursive: true });
 fs.writeFileSync(path.join(out, 'colors.json'), JSON.stringify({
   colors,
-  categoryNames: library.categoryNames,
+  categoryNames: [...library.categoryNames, '现代设计色'],
   familyNames: library.familyNames
 }, null, 0));
 console.log(`Generated ${colors.length} named colors.`);
