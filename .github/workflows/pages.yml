@@ -24,44 +24,46 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 24
-
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
       - name: Configure Pages
         uses: actions/configure-pages@v5
-
-      - name: Generate named color data
-        run: node web/build-data.js
-
+      - name: Build application
+        run: |
+          npm run build:data
+          npm run build:web
+          rm -rf site
+          mkdir -p site
+          rsync -a web/ site/ --exclude='*.ts'
+          rsync -a web-dist/ site/
+          touch site/.nojekyll
       - name: Validate Pages bundle
         run: |
-          test -s web/index.html
-          test -s web/styles.css
-          test -s web/preferences-ui.css
-          test -s web/create-redesign.css
-          test -s web/ui-motion.css
-          test -s web/ui-motion.js
-          test -s web/preferences-lite.js
-          test -s web/i18n.js
-          test -s web/ui-shell.js
-          test -s web/app-locale.js
-          test -s web/build-data.js
-          test -s web/locales/zh-CN.js
-          test -s web/locales/en-US.js
-          test -s web/data/colors.json
-          if grep -nE 'web/(app|runtime-fixes|i18n-runtime|discover-redesign|create-redesign|create-number-controls)\.js' web/index.html; then echo 'Legacy web scripts are still referenced by index.html'; exit 1; fi
-          node -e "const fs=require('fs'); const html=fs.readFileSync('web/index.html','utf8'); for (const src of ['app-locale.js','preferences-lite.js','i18n.js','ui-shell.js']) if(!html.includes(src)) throw new Error('Missing script '+src); const d=require('./web/data/colors.json'); if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty'); const cjk=/[\\u4e00-\\u9fff]/; const hexSuffix=/#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})(?:\\b|$)/; if(d.colors.some(c=>typeof c.nameEn!=='string'||!c.nameEn.trim()||cjk.test(c.nameEn)||hexSuffix.test(c.nameEn))) throw new Error('Generated English color names are invalid'); console.log('Generated '+d.colors.length+' locale-safe colors without HEX-suffixed names')"
-
+          test -s site/index.html
+          test -s site/styles.css
+          test -s site/preferences-ui.css
+          test -s site/create-redesign.css
+          test -s site/ui-motion.css
+          test -s site/ui-motion.js
+          test -s site/preferences-lite.js
+          test -s site/i18n.js
+          test -s site/ui-shell.js
+          test -s site/app-locale.js
+          test -s site/locales/zh-CN.js
+          test -s site/locales/en-US.js
+          test -s site/data/colors.json
+          if find site -name '*.ts' -print -quit | grep -q .; then echo 'TypeScript source leaked into Pages artifact'; exit 1; fi
+          node -e "const fs=require('fs'); const html=fs.readFileSync('site/index.html','utf8'); for (const src of ['app-locale.js','preferences-lite.js','i18n.js','ui-shell.js']) if(!html.includes(src)) throw new Error('Missing script '+src); const d=require('./site/data/colors.json'); if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty'); const cjk=/[\\u4e00-\\u9fff]/; const hexSuffix=/#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})(?:\\b|$)/; if(d.colors.some(c=>typeof c.nameEn!=='string'||!c.nameEn.trim()||cjk.test(c.nameEn)||hexSuffix.test(c.nameEn))) throw new Error('Generated English color names are invalid'); console.log('Pages bundle contains '+d.colors.length+' locale-safe colors')"
       - name: Disable Jekyll processing
-        run: touch web/.nojekyll
-
+        run: touch site/.nojekyll
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./web
+          path: ./site
 
   deploy:
     runs-on: ubuntu-latest

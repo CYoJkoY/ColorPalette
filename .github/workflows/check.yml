@@ -12,11 +12,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Run framework-free tests
-        run: node tests/color.test.js
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run TypeScript tests
+        run: npm test
+      - name: Type-check source
+        run: |
+          npx tsc --noEmit -p tsconfig.json
+          npx tsc --noEmit -p tsconfig.web.json
+      - name: Build web TypeScript
+        run: npm run build:web
       - name: Validate JSON
         run: |
-          find . -name '*.json' -not -path './.git/*' -print0 | xargs -0 -r -n1 node -e "JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'))"
+          find . -name '*.json' -not -path './.git/*' -not -path './node_modules/*' -print0 | xargs -0 -r -n1 node -e "JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'))"
           echo 'JSON ok'
       - name: Validate required assets
         run: |
@@ -32,22 +40,22 @@ jobs:
           test -s web/preferences-ui.css
           test -s web/create-redesign.css
           test -s web/ui-motion.css
-          test -s web/ui-motion.js
-          test -s web/preferences-lite.js
-          test -s web/i18n.js
-          test -s web/ui-shell.js
-          test -s web/app-locale.js
-          test -s web/build-data.js
-          test -s web/locales/zh-CN.js
-          test -s web/locales/en-US.js
+          test -s web-dist/ui-motion.js
+          test -s web-dist/preferences-lite.js
+          test -s web-dist/i18n.js
+          test -s web-dist/ui-shell.js
+          test -s web-dist/app-locale.js
+          test -s web-dist/locales/zh-CN.js
+          test -s web-dist/locales/en-US.js
       - name: Validate locale resources
         run: |
+          npm run build:web
           node - <<'NODE'
           const fs=require('fs');
           const vm=require('vm');
           const ctx={window:{}};
           vm.createContext(ctx);
-          for(const file of ['web/locales/zh-CN.js','web/locales/en-US.js']) vm.runInContext(fs.readFileSync(file,'utf8'),ctx,{filename:file});
+          for(const file of ['web-dist/locales/zh-CN.js','web-dist/locales/en-US.js']) vm.runInContext(fs.readFileSync(file,'utf8'),ctx,{filename:file});
           const locales=ctx.window.ColorPaletteLocales;
           const zh=locales?.['zh-CN'],en=locales?.['en-US'];
           if(!zh?.ui||!en?.ui||!zh?.relations||!en?.relations||!zh?.relationDescriptions||!en?.relationDescriptions||!zh?.modes||!en?.modes) throw new Error('Locale resources missing');
@@ -61,25 +69,23 @@ jobs:
           NODE
       - name: Validate generated web data
         run: |
-          node web/build-data.js
+          npm run build:data
           node - <<'NODE'
           const fs=require('fs'); const d=JSON.parse(fs.readFileSync('web/data/colors.json','utf8'));
           if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty');
           const missing=d.colors.filter(c=>typeof c.nameEn!=='string'||!c.nameEn.trim()); if(missing.length) throw new Error(`Missing English color names: ${missing.length}`);
-          const cjk=/[\u4e00-\u9fff]/;
-          const hexSuffix=/#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})(?:\b|$)/;
+          const cjk=/[\u4e00-\u9fff]/; const hexSuffix=/#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})(?:\b|$)/;
           const mixed=d.colors.filter(c=>cjk.test(c.nameEn)); if(mixed.length) throw new Error(`English color names contain CJK text: ${mixed.slice(0,5).map(c=>c.name).join(', ')}`);
           const suffixed=d.colors.filter(c=>hexSuffix.test(c.nameEn)); if(suffixed.length) throw new Error(`English color names contain HEX suffixes: ${suffixed.slice(0,5).map(c=>`${c.nameEn} -> ${c.hex}`).join(', ')}`);
           console.log(`Generated color data OK: ${d.colors.length} locale-safe colors without HEX-suffixed names`);
           NODE
-      - name: Reject legacy platform markers
+      - name: Reject JavaScript source files
         run: |
-          test ! -d miniprogram
-          test ! -e project.config.json
-          test ! -e sitemap.json
-          if git grep -nE '(^|[^A-Za-z])(wx\.|wx:|\.wxml|\.wxss|微信小程序|微信开发者工具)' -- 'web/**' 'core/**' 'tests/**' 'docs/**'; then
-            echo 'Legacy platform markers found in product files.'
+          if find core web tests -name '*.js' -print -quit | grep -q .; then
+            echo 'JavaScript source files remain under core/, web/, or tests/.'
             exit 1
           fi
-      - name: Check JavaScript syntax
-        run: find tests web core -name '*.js' -print0 | xargs -0 -n1 node --check
+          if git grep -nE '\.(js)([^A-Za-z]|$)' -- ':!README.md' ':!docs/**'; then
+            echo 'JavaScript source references remain in product files.'
+            exit 1
+          fi

@@ -3,6 +3,7 @@
     "target": "ES2022",
     "module": "None",
     "moduleResolution": "Classic",
+    "rootDir": "web",
     "outDir": "web-dist",
     "strict": false,
     "noImplicitAny": false,
@@ -11,6 +12,7 @@
     "lib": ["ES2022", "DOM"]
   },
   "files": [
+    "types/web-globals.d.ts",
     "web/locales/zh-CN.ts",
     "web/locales/en-US.ts",
     "web/i18n.ts",
