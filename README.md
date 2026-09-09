@@ -14,7 +14,7 @@
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 [![Platform: GitHub Pages](https://img.shields.io/badge/Platform-GitHub%20Pages-222222.svg)](https://pages.github.com/)
-[![Language: JavaScript](https://img.shields.io/badge/Language-JavaScript-F7DF1E.svg)](https://developer.mozilla.org/docs/Web/JavaScript)
+[![Language: TypeScript](https://img.shields.io/badge/Language-TypeScript-3178C6.svg)](https://www.typescriptlang.org/)
 
 [Live site](https://cyojkoy.github.io/ColorPalette/) · [Source](https://github.com/CYoJkoY/ColorPalette) · [Support](https://cyojkoy.github.io/Payment/)
 
@@ -38,7 +38,7 @@ No account or application server is required for the core workflows.
 
 ## Named color library
 
-ColorPalette combines its existing curated collections with three additional layers of color data:
+ColorPalette combines its existing curated collections with additional external color data:
 
 - Basic colors
 - CSS standard colors
@@ -49,9 +49,7 @@ ColorPalette combines its existing curated collections with three additional lay
 - Open Named Colors from `meodai/color-names`
 - OKLab Balanced Colors from `meodai/colornames-oklab`
 
-The `meodai/color-names` dataset provides a large human-curated collection of named colors. The `colornames-oklab` dataset contributes 4,444 perceptually distributed colors covering the Rec.2020 gamut, with sRGB, Display-P3, and Rec.2020 tiers. citeturn272628search1turn272628search3
-
-These external datasets are fetched at build time by `web/build-data.js` and merged into the static `web/data/colors.json`. The browser never depends on the upstream services at runtime, so the deployed application still reads its color data locally.
+The external datasets are fetched at build time and merged into the static `web/data/colors.json`. The browser never depends on the upstream services at runtime, so the deployed application still reads its color data locally.
 
 Historical and cultural HEX values are digital reference values; they are not claims of one physically exact pigment standard.
 
@@ -71,57 +69,63 @@ Saved palettes, favorites, and recent colors are stored in browser `localStorage
 
 ```text
 Repository
-├── web/                 # Static browser application and Pages output
-│   ├── index.html
-│   ├── app-locale.js    # Application rendering and routing
-│   ├── ui-shell.js      # Shell/navigation and metadata
-│   ├── preferences-lite.js
-│   ├── i18n.js
+├── core/                # TypeScript color algorithms and curated library
+│   ├── color.ts
+│   ├── oklab.ts
+│   ├── advanced-palette.ts
+│   ├── color-library.ts
+│   └── modern-colors.ts
+├── web/                 # TypeScript browser application source + static assets
+│   ├── *.ts
 │   ├── locales/         # zh-CN / en-US locale resources
-│   └── build-data.js    # Generates browser color data
-├── core/                # Framework-free color algorithms and curated color library
-│   └── modern-colors.js # Modern UI-oriented color scales
-├── tests/               # Node.js algorithm tests
+│   └── *.css / *.html   # Static presentation layer
+├── tests/               # TypeScript algorithm tests
 ├── assets/readme/       # README artwork and support graphics
 ├── docs/
+├── package.json         # TypeScript build/test toolchain
+├── tsconfig.json        # Node/core/test compilation
+├── tsconfig.web.json    # Browser script compilation
 └── .github/workflows/   # Quality gates and GitHub Pages deployment
 ```
 
-The web application is locale-first: `zh-CN.js` and `en-US.js` provide semantic keys, `i18n.js` resolves the active locale, and the UI renderer consumes those keys directly. There is no DOM translation pass.
+The editable application source contains no JavaScript files. Browser TypeScript is compiled by `tsc` into temporary deployment JavaScript during CI; the repository keeps the source of truth in `.ts` form.
+
+The browser scripts remain framework-free and preserve their existing script loading order, global contracts, localStorage model, routing, UI behavior, and visual system. This migration changes the implementation language and build pipeline rather than redesigning the application.
 
 ## Development
 
-The project intentionally has no frontend framework and no package-manager requirement for the web application.
+Install the TypeScript toolchain and run the existing tests:
 
 ```bash
-node web/build-data.js
-python -m http.server 8000 --directory web
+npm install
+npm test
 ```
 
-`web/build-data.js` retrieves the two external datasets during generation. An internet connection is therefore required when regenerating `web/data/colors.json`.
-
-Open `http://localhost:8000/` in a browser. Serve through HTTP because the color data is loaded with `fetch()`.
-
-Run the algorithm tests with:
+Build the complete project:
 
 ```bash
-node tests/color.test.js
+npm run build
 ```
 
-GitHub Actions also checks locale parity, generated browser data, JavaScript syntax, and required assets.
+Build the browser TypeScript sources:
 
-## External data attribution
+```bash
+npm run build:web
+```
 
-ColorPalette imports data from:
+Regenerate the named-color dataset:
 
-- `meodai/color-names` — large human-curated color name collection. The project describes its current dataset as containing more than 30,000 curated color names. citeturn272628search3
-- `meodai/colornames-oklab` — 4,444 perceptually distributed OKLab color names covering Rec.2020. The upstream project is MIT licensed. citeturn272628search1
+```bash
+npm run build:data
+```
 
-These datasets remain attributed to their upstream projects and are incorporated as build-time source data rather than re-hosted as mutable third-party runtime services.
+Serve the generated static site through an HTTP server. The browser color data is loaded with `fetch()`, so opening the HTML file directly is not a supported development mode.
+
+GitHub Actions verifies the TypeScript sources, generated color data, locale parity, required assets, and the final Pages bundle. CI also rejects JavaScript source files under `core/`, `web/`, and `tests/`.
 
 ## Deployment
 
-GitHub Pages is deployed automatically from `main` through `.github/workflows/pages.yml`.
+GitHub Pages is deployed automatically from `main` through `.github/workflows/pages.yml`. CI compiles the TypeScript browser sources, combines them with the static HTML/CSS/assets and generated color data, and uploads the resulting deployment bundle.
 
 Public site: **https://cyojkoy.github.io/ColorPalette/**
 
