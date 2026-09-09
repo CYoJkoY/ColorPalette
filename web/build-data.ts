@@ -23,6 +23,8 @@ const SOURCES = {
   oklab: 'https://raw.githubusercontent.com/meodai/colornames-oklab/main/colornames-oklab.json'
 };
 
+const FAMILY_NAMES = ['红', '橙', '黄', '绿', '青', '蓝', '紫', '粉', '棕', '中性'];
+
 function stripCjk(value) {
   return String(value || '')
     .replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, '')
@@ -119,6 +121,68 @@ function parseOklabColors(text) {
   })).filter(item => item.name && /^#[0-9A-F]{6}$/.test(item.hex));
 }
 
+function rgbFromHex(value) {
+  const hex = String(value || '').replace(/^#/, '').trim();
+  if (!/^[0-9A-Fa-f]{6}$/.test(hex)) return null;
+  return {
+    r: parseInt(hex.slice(0, 2), 16),
+    g: parseInt(hex.slice(2, 4), 16),
+    b: parseInt(hex.slice(4, 6), 16)
+  };
+}
+
+function hslFromHex(value) {
+  const rgb = rgbFromHex(value);
+  if (!rgb) return null;
+
+  let r = rgb.r / 255;
+  let g = rgb.g / 255;
+  let b = rgb.b / 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const delta = max - min;
+  const lightness = (max + min) / 2;
+
+  if (delta === 0) return { h: 0, s: 0, l: lightness * 100 };
+
+  const saturation = delta / (1 - Math.abs(2 * lightness - 1));
+  let hue;
+  if (max === r) hue = 60 * (((g - b) / delta) % 6);
+  else if (max === g) hue = 60 * ((b - r) / delta + 2);
+  else hue = 60 * ((r - g) / delta + 4);
+  if (hue < 0) hue += 360;
+
+  return { h: hue, s: saturation * 100, l: lightness * 100 };
+}
+
+function familyFromHex(value) {
+  const hsl = hslFromHex(value);
+  if (!hsl) return '中性';
+
+  const { h, s, l } = hsl;
+  // Very low-chroma colors and extreme near-white / near-black values read as neutral.
+  if (s < 12 || l >= 97 || l <= 3) return '中性';
+
+  // Brown is best separated from orange by both chroma and lightness.
+  if (h >= 12 && h < 48 && s >= 24 && l < 56) return '棕';
+
+  if (h >= 345 || h < 12) return '红';
+  if (h >= 12 && h < 42) return '橙';
+  if (h >= 42 && h < 72) return '黄';
+  if (h >= 72 && h < 160) return '绿';
+  if (h >= 160 && h < 195) return '青';
+  if (h >= 195 && h < 255) return '蓝';
+  if (h >= 255 && h < 305) return '紫';
+  if (h >= 305 && h < 345) return l >= 62 ? '粉' : '紫';
+  return '中性';
+}
+
+function normalizeFamily(item) {
+  const explicit = String(item.family || '').trim();
+  if (FAMILY_NAMES.includes(explicit)) return explicit;
+  return familyFromHex(item.hex);
+}
+
 function dedupe(items) {
   const seen = new Set();
   return items.filter(item => {
@@ -140,6 +204,7 @@ async function main() {
   const colors = dedupe([...library.colors, ...modern, ...externalNamed, ...externalOklab]).map((item, index) => ({
     ...item,
     id: item.id || `${item.collection}-${item.name}-${index}`,
+    family: normalizeFamily(item),
     nameEn: item.nameEn || englishName(item, index)
   }));
 
@@ -149,7 +214,7 @@ async function main() {
   fs.writeFileSync(path.join(out, 'colors.json'), JSON.stringify({
     colors,
     categoryNames,
-    familyNames: library.familyNames
+    familyNames: FAMILY_NAMES
   }));
 
   console.log(`Imported ${externalNamed.length} open named colors and ${externalOklab.length} OKLab colors.`);
