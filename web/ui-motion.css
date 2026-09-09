@@ -39,6 +39,14 @@ body { overflow-x: hidden; }
 #app.cp-motion-ready > *:nth-child(3) { animation-delay: 90ms; }
 #app.cp-motion-ready > *:nth-child(4) { animation-delay: 120ms; }
 
+#app .hero.compact {
+  margin-bottom: 32px;
+}
+
+#app > .panel + .panel {
+  margin-top: 32px !important;
+}
+
 #app .card,
 #app .panel,
 #app .button,
@@ -92,6 +100,27 @@ body { overflow-x: hidden; }
 #app .library-card:hover .swatch { transform: scale(1.025); filter: saturate(1.04); }
 #app .library-entry b { display: inline-block; transition: transform var(--motion-normal) var(--motion-ease); }
 #app .library-entry:hover b { transform: translateX(4px); }
+
+#app .relation-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+#app .relation-head > div:first-child {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+#app .relation-use {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  min-width: 64px;
+  min-height: 32px;
+  white-space: nowrap;
+  text-align: center;
+  align-self: flex-start;
+}
 
 #app .input:focus,
 #app .search-input:focus,
