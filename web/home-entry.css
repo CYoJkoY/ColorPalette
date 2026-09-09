@@ -11,6 +11,7 @@
 html[data-theme="dark"] .library-entry{background:#f0f0ec;color:#151618;border-color:#f0f0ec}
 html[data-theme="dark"] .library-entry .library-entry-sub{color:#6f747a}
 html[data-theme="dark"] .library-entry b{border-color:rgba(0,0,0,.14);background:#deded9;color:#151618}
+html[data-theme="dark"] .library-entry b::before{background-color:currentColor;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M6 3.5L10.5 8L6 12.5' fill='none' stroke='%23ffffff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
 html[data-theme="dark"] .library-entry:hover{background:#e8e8e4;border-color:#e8e8e4;box-shadow:0 12px 25px rgba(0,0,0,.2)}
 html[data-theme="dark"] .library-entry:hover b{background:#d2d2cd;border-color:rgba(0,0,0,.2)}
 @media(max-width:540px){.library-entry{grid-template-columns:minmax(0,1fr) 32px;gap:12px;padding:16px}.library-entry strong{font-size:15px}.library-entry .library-entry-sub{font-size:10px}.library-entry b{width:30px;height:30px}.library-entry b::before{width:12px;height:12px}}
