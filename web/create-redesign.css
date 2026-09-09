@@ -5,7 +5,7 @@
 .create-v2-block{margin-bottom:18px}
 .create-v2-label,.create-v2-label-row{font-size:12px;font-weight:750;color:#55554f;margin-bottom:8px}
 .create-v2-label-row{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.create-v2-live{font-size:10px;color:#8a8982;font-weight:600}
+.create-v2-live{display:none!important}
 .cp-hex-row{display:grid;grid-template-columns:1fr auto;gap:7px}
 .cp-hex-input{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:700;letter-spacing:.03em}
 .create-v2-param-card{padding:13px;border:1px solid #e4e4de;border-radius:15px;background:#fafaf7;margin-bottom:10px}
@@ -73,11 +73,8 @@
 .create-v2-generated-item small{margin-top:2px;font-size:9px;color:#888780}
 .create-v2-generated-item:hover{transform:translateY(-2px);border-color:#bbb9b0;box-shadow:0 12px 24px rgba(24,24,27,.07)}
 .cp-legacy-range-control{display:none!important}
-.cp-live-parameter-panel{margin-top:10px}
-.cp-number-field{min-width:0}
-.cp-number-field>span:first-child{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.create-v2-live{display:none!important}
 html[data-theme="dark"] .create-v2-label,html[data-theme="dark"] .create-v2-label-row{color:#d7dad6}
-html[data-theme="dark"] .create-v2-live{color:#969ba1}
 html[data-theme="dark"] .create-v2-param-card{background:#202428;border-color:#373c42}
 html[data-theme="dark"] .create-v2-secondary-params{background:#1c2024}
 html[data-theme="dark"] .create-v2-param-head strong{color:#e7e9e5}
