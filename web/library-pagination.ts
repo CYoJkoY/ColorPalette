@@ -26,6 +26,10 @@
 
   function loadColors() {
     if (colors) return Promise.resolve(colors);
+    if (Array.isArray(window.colorMeta?.colors)) {
+      colors = window.colorMeta.colors;
+      return Promise.resolve(colors);
+    }
     if (loading) return loading;
     loading = fetch('data/colors.json', { cache: 'no-store' })
       .then(response => {
@@ -67,6 +71,19 @@
         .toLowerCase()
         .includes(state.query);
       return collectionMatch && familyMatch && searchMatch;
+    });
+  }
+
+  function syncCategoryCounts() {
+    const container = document.querySelector('#collections');
+    if (!container || !colors) return;
+    const counts = new Map();
+    for (const color of colors) counts.set(color.collection, (counts.get(color.collection) || 0) + 1);
+
+    container.querySelectorAll('.chip').forEach(button => {
+      const value = button.dataset.value || allCategory();
+      const count = isAll(value, allCategory()) ? colors.length : (counts.get(value) || 0);
+      button.textContent = `${categoryOf(value)} · ${count}`;
     });
   }
 
@@ -157,6 +174,7 @@
     const count = document.querySelector('#library-count');
     if (count) count.textContent = T('library.count').replace('{count}', String(filtered.length));
     if (grid) grid.innerHTML = filtered.slice(start, start + PAGE_SIZE).map(card).join('') || `<div class="empty wide">${T('library.empty')}</div>`;
+    syncCategoryCounts();
     renderControls(totalPages);
   }
 
@@ -169,7 +187,10 @@
 
     const state = getFilterState();
     const signature = JSON.stringify(state);
-    if (filterSignature === signature && pagination.querySelector('.library-page-list')) return;
+    if (filterSignature === signature && pagination.querySelector('.library-page-list')) {
+      syncCategoryCounts();
+      return;
+    }
     filterSignature = signature;
 
     const token = ++renderToken;
@@ -177,6 +198,7 @@
       .then(() => {
         if (token !== renderToken || !location.hash.startsWith('#/library')) return;
         currentPage = 1;
+        syncCategoryCounts();
         setPage(1, getFiltered(state));
       })
       .catch(() => {});
