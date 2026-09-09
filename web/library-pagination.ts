@@ -1,38 +1,14 @@
 (() => {
   'use strict';
 
-  const PAGE_SIZE = 48;
   const app = document.querySelector('#app');
-
   if (!app) return;
 
-  const ensureFamilyAll = () => {
-    if (!location.hash.startsWith('#/library')) return;
-    const families = document.querySelector('#families');
-    if (!families || families.querySelector('[data-family-all="true"]')) return;
-
-    const allKey = window.colorMeta?.familyAllKey || 'all';
-    const locale = window.ColorPaletteI18n?.locale === 'en-US';
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'chip';
-    button.dataset.value = allKey;
-    button.dataset.familyAll = 'true';
-    button.textContent = locale ? 'All' : '全部';
-
-    families.prepend(button);
-    button.addEventListener('click', () => {
-      families.querySelectorAll('.chip').forEach(item => item.classList.remove('active'));
-      button.classList.add('active');
-      window.route?.();
-    });
-  };
-
   const render = () => {
-    ensureFamilyAll();
+    if (!location.hash.startsWith('#/library')) return;
 
     const pagination = document.querySelector('#library-pagination');
-    if (!pagination || !location.hash.startsWith('#/library')) return;
+    if (!pagination) return;
 
     const summary = pagination.querySelector(':scope > span');
     const previous = pagination.querySelector('[data-page="prev"]');
