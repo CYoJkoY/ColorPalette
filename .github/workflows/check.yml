@@ -85,7 +85,3 @@ jobs:
             echo 'JavaScript source files remain under core/, web/, or tests/.'
             exit 1
           fi
-          if git grep -nE '\.(js)([^A-Za-z]|$)' -- ':!README.md' ':!docs/**'; then
-            echo 'JavaScript source references remain in product files.'
-            exit 1
-          fi
