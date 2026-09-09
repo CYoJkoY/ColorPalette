@@ -13,7 +13,7 @@
 **A local-first color workspace for extracting, understanding, relating, and creating colors.**
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
-[![Platform: GitHub Pages](https://img.shields.io/badge/Platform: GitHub%20Pages-222222.svg)](https://pages.github.com/)
+[![Platform: GitHub Pages](https://img.shields.io/badge/Platform-GitHub%20Pages-222222.svg)](https://pages.github.com/)
 [![Language: JavaScript](https://img.shields.io/badge/Language-JavaScript-F7DF1E.svg)](https://developer.mozilla.org/docs/Web/JavaScript)
 
 [Live site](https://cyojkoy.github.io/ColorPalette/) · [Source](https://github.com/CYoJkoY/ColorPalette) · [Support](https://cyojkoy.github.io/Payment/)
@@ -29,7 +29,7 @@ ColorPalette is a static, browser-first application for practical color work. Im
 | Workflow | Purpose |
 | :--- | :--- |
 | **Extract** | Read representative colors from a local image. |
-| **Explore** | Search a curated library of 734 named colors. |
+| **Explore** | Search a large named-color library assembled from curated and perceptually balanced sources. |
 | **Analyze** | Inspect HEX, RGB, HSL, OKLab/OKLCH, contrast, and relationships. |
 | **Create** | Generate, edit, reorder, save, and export palettes. |
 | **Keep** | Store palettes, favorites, and recent colors in browser `localStorage`. |
@@ -38,7 +38,7 @@ No account or application server is required for the core workflows.
 
 ## Named color library
 
-The dataset contains **734 named colors** across six collections:
+ColorPalette combines its existing curated collections with three additional layers of color data:
 
 - Basic colors
 - CSS standard colors
@@ -46,8 +46,12 @@ The dataset contains **734 named colors** across six collections:
 - Traditional Japanese colors
 - Art and pigment references
 - Modern design color scales
+- Open Named Colors from `meodai/color-names`
+- OKLab Balanced Colors from `meodai/colornames-oklab`
 
-The modern design collection adds **242 interface-oriented colors** organized into 22 hue and neutral scales, with shades from 50 through 950. These are intended as reusable design references for UI, dashboards, products, and prototyping.
+The `meodai/color-names` dataset provides a large human-curated collection of named colors. The `colornames-oklab` dataset contributes 4,444 perceptually distributed colors covering the Rec.2020 gamut, with sRGB, Display-P3, and Rec.2020 tiers. citeturn272628search1turn272628search3
+
+These external datasets are fetched at build time by `web/build-data.js` and merged into the static `web/data/colors.json`. The browser never depends on the upstream services at runtime, so the deployed application still reads its color data locally.
 
 Historical and cultural HEX values are digital reference values; they are not claims of one physically exact pigment standard.
 
@@ -75,7 +79,7 @@ Repository
 │   ├── i18n.js
 │   ├── locales/         # zh-CN / en-US locale resources
 │   └── build-data.js    # Generates browser color data
-├── core/                # Framework-free color algorithms and color library
+├── core/                # Framework-free color algorithms and curated color library
 │   └── modern-colors.js # Modern UI-oriented color scales
 ├── tests/               # Node.js algorithm tests
 ├── assets/readme/       # README artwork and support graphics
@@ -94,6 +98,8 @@ node web/build-data.js
 python -m http.server 8000 --directory web
 ```
 
+`web/build-data.js` retrieves the two external datasets during generation. An internet connection is therefore required when regenerating `web/data/colors.json`.
+
 Open `http://localhost:8000/` in a browser. Serve through HTTP because the color data is loaded with `fetch()`.
 
 Run the algorithm tests with:
@@ -103,6 +109,15 @@ node tests/color.test.js
 ```
 
 GitHub Actions also checks locale parity, generated browser data, JavaScript syntax, and required assets.
+
+## External data attribution
+
+ColorPalette imports data from:
+
+- `meodai/color-names` — large human-curated color name collection. The project describes its current dataset as containing more than 30,000 curated color names. citeturn272628search3
+- `meodai/colornames-oklab` — 4,444 perceptually distributed OKLab color names covering Rec.2020. The upstream project is MIT licensed. citeturn272628search1
+
+These datasets remain attributed to their upstream projects and are incorporated as build-time source data rather than re-hosted as mutable third-party runtime services.
 
 ## Deployment
 
