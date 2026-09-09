@@ -39,11 +39,24 @@
     });
   }
 
+  function syncFamilyFilter(button: Element) {
+    const container = button.closest('#families');
+    if (!container) return;
+    container.querySelectorAll('.chip').forEach(chip => {
+      chip.classList.toggle('active', chip === button);
+    });
+  }
+
   window.ColorPaletteUIMotion = { playRouteMotion, playStateMotion, playThemeMotion };
 
   window.addEventListener('hashchange', () => requestAnimationFrame(playRouteMotion));
   window.addEventListener('colorpalette:localechange', () => requestAnimationFrame(playRouteMotion));
   window.addEventListener('colorpalette:themechange', playThemeMotion);
+
+  document.addEventListener('click', event => {
+    const target = event.target instanceof Element ? event.target.closest('#families .chip') : null;
+    if (target) requestAnimationFrame(() => syncFamilyFilter(target));
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', playRouteMotion, { once: true });
