@@ -54,11 +54,12 @@ jobs:
           test -s site/ui-shell.js
           test -s site/app-locale.js
           test -s site/library-pagination.js
+          test -s site/cloud-sync.js
           test -s site/locales/zh-CN.js
           test -s site/locales/en-US.js
           test -s site/data/colors.json
           if find site -name '*.ts' -print -quit | grep -q .; then echo 'TypeScript source leaked into Pages artifact'; exit 1; fi
-          node -e "const fs=require('fs'); const html=fs.readFileSync('site/index.html','utf8'); for (const src of ['app-locale.js','preferences-lite.js','i18n.js','ui-shell.js','library-pagination.js']) if(!html.includes(src)) throw new Error('Missing script '+src); const d=require('./site/data/colors.json'); if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty'); const cjk=/[\\u4e00-\\u9fff]/; const hexSuffix=/#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})(?:\\b|$)/; if(d.colors.some(c=>typeof c.nameEn!=='string'||!c.nameEn.trim()||cjk.test(c.nameEn)||hexSuffix.test(c.nameEn))) throw new Error('Generated English color names are invalid'); const minimums={'基础色':100,'CSS 标准色':148,'中国传统色':700,'日本传统色':240,'艺术与颜料':100}; for(const [name,min] of Object.entries(minimums)){const n=d.colors.filter(c=>c.collection===name).length; if(n<min) throw new Error(name+' count '+n+' is below '+min); console.log(name+': '+n)} console.log('Pages bundle contains '+d.colors.length+' locale-safe colors')"
+          node -e "const fs=require('fs'); const html=fs.readFileSync('site/index.html','utf8'); for (const src of ['app-locale.js','preferences-lite.js','i18n.js','ui-shell.js','library-pagination.js','cloud-sync.js']) if(!html.includes(src)) throw new Error('Missing script '+src); const d=require('./site/data/colors.json'); if(!Array.isArray(d.colors)||!d.colors.length) throw new Error('Generated color data is empty'); const cjk=/[\\u4e00-\\u9fff]/; const hexSuffix=/#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})(?:\\b|$)/; if(d.colors.some(c=>typeof c.nameEn!=='string'||!c.nameEn.trim()||cjk.test(c.nameEn)||hexSuffix.test(c.nameEn))) throw new Error('Generated English color names are invalid'); const minimums={'基础色':100,'CSS 标准色':148,'中国传统色':700,'日本传统色':240,'艺术与颜料':100}; for(const [name,min] of Object.entries(minimums)){const n=d.colors.filter(c=>c.collection===name).length; if(n<min) throw new Error(name+' count '+n+' is below '+min); console.log(name+': '+n)} console.log('Pages bundle contains '+d.colors.length+' locale-safe colors')"
       - name: Disable Jekyll processing
         run: touch site/.nojekyll
       - name: Upload Pages artifact

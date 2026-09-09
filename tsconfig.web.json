@@ -23,6 +23,7 @@
     "web/library-pagination.ts",
     "web/palette-studio-controls.ts",
     "web/ui-motion.ts",
-    "web/favorites-workspace.ts"
+    "web/favorites-workspace.ts",
+    "web/cloud-sync.ts"
   ]
 }
