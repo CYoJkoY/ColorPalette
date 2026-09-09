@@ -186,6 +186,39 @@
     return commit(input, ['h', 's', 'l'].includes(target) ? 'hsl' : 'rgb');
   };
 
+  const syncColorPicker = picker => {
+    if (!picker || picker.dataset.liveColorReady === '1') return;
+    picker.dataset.liveColorReady = '1';
+    picker.style.touchAction = 'none';
+    picker.oninput = () => {
+      if (!isCreateRoute()) return;
+      const color = hexToRgb(picker.value);
+      if (!color) return;
+      const hsl = rgbToHsl(color.r, color.g, color.b);
+      const h = findInput('h');
+      const s = findInput('s');
+      const l = findInput('l');
+      const r = findInput('r');
+      const g = findInput('g');
+      const b = findInput('b');
+      const hex = findInput('hex');
+      if (!h || !s || !l || !r || !g || !b || !hex) return;
+      h.value = String(hsl.h);
+      s.value = String(hsl.s);
+      l.value = String(hsl.l);
+      r.value = String(color.r);
+      g.value = String(color.g);
+      b.value = String(color.b);
+      hex.value = picker.value.toUpperCase();
+      refreshFields('rgb');
+    };
+    picker.addEventListener('change', () => {
+      if (!isCreateRoute()) return;
+      const hexInput = findInput('hex');
+      if (hexInput) hexInput.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  };
+
   const start = (event, button) => {
     if (!isCreateRoute()) return;
     event.preventDefault();
@@ -217,6 +250,7 @@
       button.style.touchAction = 'none';
       button.style.userSelect = 'none';
     });
+    if (isCreateRoute()) syncColorPicker(document.querySelector('#colorPicker'));
   };
 
   document.addEventListener('pointerdown', event => {
