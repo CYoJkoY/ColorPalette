@@ -13,7 +13,7 @@
 **A local-first color workspace for extracting, understanding, relating, and creating colors.**
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
-[![Platform: GitHub Pages](https://img.shields.io/badge/Platform-GitHub%20Pages-222222.svg)](https://pages.github.com/)
+[![Platform: GitHub Pages](https://img.shields.io/badge/Platform: GitHub%20Pages-222222.svg)](https://pages.github.com/)
 [![Language: JavaScript](https://img.shields.io/badge/Language-JavaScript-F7DF1E.svg)](https://developer.mozilla.org/docs/Web/JavaScript)
 
 [Live site](https://cyojkoy.github.io/ColorPalette/) · [Source](https://github.com/CYoJkoY/ColorPalette) · [Support](https://cyojkoy.github.io/Payment/)
@@ -29,7 +29,7 @@ ColorPalette is a static, browser-first application for practical color work. Im
 | Workflow | Purpose |
 | :--- | :--- |
 | **Extract** | Read representative colors from a local image. |
-| **Explore** | Search a curated library of 492 named colors. |
+| **Explore** | Search a curated library of 734 named colors. |
 | **Analyze** | Inspect HEX, RGB, HSL, OKLab/OKLCH, contrast, and relationships. |
 | **Create** | Generate, edit, reorder, save, and export palettes. |
 | **Keep** | Store palettes, favorites, and recent colors in browser `localStorage`. |
@@ -38,13 +38,16 @@ No account or application server is required for the core workflows.
 
 ## Named color library
 
-The dataset contains **492 named colors** across five collections:
+The dataset contains **734 named colors** across six collections:
 
 - Basic colors
 - CSS standard colors
 - Traditional Chinese colors
 - Traditional Japanese colors
 - Art and pigment references
+- Modern design color scales
+
+The modern design collection adds **242 interface-oriented colors** organized into 22 hue and neutral scales, with shades from 50 through 950. These are intended as reusable design references for UI, dashboards, products, and prototyping.
 
 Historical and cultural HEX values are digital reference values; they are not claims of one physically exact pigment standard.
 
@@ -73,6 +76,7 @@ Repository
 │   ├── locales/         # zh-CN / en-US locale resources
 │   └── build-data.js    # Generates browser color data
 ├── core/                # Framework-free color algorithms and color library
+│   └── modern-colors.js # Modern UI-oriented color scales
 ├── tests/               # Node.js algorithm tests
 ├── assets/readme/       # README artwork and support graphics
 ├── docs/
