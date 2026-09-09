@@ -25,10 +25,6 @@
 
   function playThemeMotion() {
     if (reduceMotion()) return;
-    // A theme change already invalidates styles across a large rendered grid.
-    // Animating the entire body adds another compositing pass and makes pages
-    // with hundreds of color cards noticeably stutter. Keep the theme change
-    // itself synchronous and animate only the compact theme control.
     const button = document.querySelector('#theme-switch');
     if (!button) return;
     requestAnimationFrame(() => {
@@ -56,6 +52,15 @@
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target.closest('#families .chip') : null;
     if (target) requestAnimationFrame(() => syncFamilyFilter(target));
+
+    const colorCard = event.target instanceof Element ? event.target.closest('.color-card[data-open]') : null;
+    if (colorCard) {
+      const rawHex = colorCard.getAttribute('data-open') || '';
+      if (rawHex) {
+        event.preventDefault();
+        location.hash = `#/detail?hex=${encodeURIComponent(rawHex)}`;
+      }
+    }
   });
 
   if (document.readyState === 'loading') {
