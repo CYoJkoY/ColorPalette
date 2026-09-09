@@ -1,5 +1,9 @@
 (() => {
   const FALLBACK = 'zh-CN';
+  const EXTRA_RELATIONS = {
+    'zh-CN': { pastel: '粉彩', vivid: '鲜艳', grayscale: '灰阶' },
+    'en-US': { pastel: 'Pastel', vivid: 'Vivid', grayscale: 'Grayscale' }
+  };
   const EXTRA_RELATION_DESCRIPTIONS = {
     'zh-CN': {
       pastel: '提高明度并降低饱和度，形成柔和、轻盈的粉彩配色。',
@@ -12,20 +16,6 @@
       grayscale: 'Removes hue and saturation, leaving only different levels of gray.'
     }
   };
-  const SOURCE_NAMES = {
-    'zh-CN': {
-      'cht-colors': '中国传统色参考',
-      'Japanese traditional color references': '日本传统色参考',
-      'meodai/color-names': '公开命名颜色库',
-      'meodai/colornames-oklab': 'OKLab 均匀色命名库'
-    },
-    'en-US': {
-      'cht-colors': 'Traditional Chinese color references',
-      'Japanese traditional color references': 'Japanese traditional color references',
-      'meodai/color-names': 'Open named color library',
-      'meodai/colornames-oklab': 'OKLab balanced color library'
-    }
-  };
 
   function localeCode() {
     const language = window.ColorPalettePreferences?.language;
@@ -34,7 +24,12 @@
 
   function locale() {
     const locales = window.ColorPaletteLocales || {};
-    return locales[localeCode()] || locales[FALLBACK] || { ui: {}, relations: {}, modes: {}, relationDescriptions: {} };
+    const base = locales[localeCode()] || locales[FALLBACK] || { ui: {}, relations: {}, modes: {}, relationDescriptions: {}, sourceNames: {} };
+    return {
+      ...base,
+      relations: { ...base.relations, ...EXTRA_RELATIONS[localeCode()] },
+      relationDescriptions: { ...base.relationDescriptions, ...EXTRA_RELATION_DESCRIPTIONS[localeCode()] }
+    };
   }
 
   function getPath(source, path) {
@@ -55,7 +50,7 @@
   }
 
   function relationDescription(key) {
-    return String(getPath(locale(), `relationDescriptions.${key}`) ?? EXTRA_RELATION_DESCRIPTIONS[localeCode()]?.[key] ?? key);
+    return value(`relationDescriptions.${key}`);
   }
 
   function mode(key) {
@@ -65,8 +60,8 @@
   function sourceName(raw) {
     const source = String(raw || '').trim();
     if (!source) return '';
-    const explicit = SOURCE_NAMES[localeCode()]?.[source];
-    if (explicit) return explicit;
+    const explicit = locale().sourceNames?.[source];
+    if (explicit) return String(explicit);
     if (localeCode() === 'en-US') return source;
     if (/japanese/i.test(source)) return '日本传统色参考';
     if (/meodai\/color-names/i.test(source)) return '公开命名颜色库';

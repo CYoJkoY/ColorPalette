@@ -79,7 +79,6 @@
     if (!container || !colors) return;
     const counts = new Map();
     for (const color of colors) counts.set(color.collection, (counts.get(color.collection) || 0) + 1);
-
     container.querySelectorAll('.chip').forEach(button => {
       const value = button.dataset.value || allCategory();
       const count = isAll(value, allCategory()) ? colors.length : (counts.get(value) || 0);
@@ -92,35 +91,12 @@
   }
 
   function pageItems(totalPages, page) {
-    if (totalPages <= MAX_VISIBLE_PAGES) {
-      return Array.from({ length: totalPages }, (_, index) => index + 1);
-    }
-
+    if (totalPages <= MAX_VISIBLE_PAGES) return Array.from({ length: totalPages }, (_, index) => index + 1);
     const items = [];
-    const appendRange = (start, end) => {
-      for (let value = start; value <= end; value += 1) items.push(value);
-    };
-
-    if (page <= 5) {
-      appendRange(1, 7);
-      items.push('ellipsis');
-      items.push(totalPages);
-      return items;
-    }
-
-    if (page >= totalPages - 4) {
-      items.push(1);
-      items.push('ellipsis');
-      appendRange(totalPages - 6, totalPages);
-      return items;
-    }
-
-    items.push(1);
-    items.push('ellipsis');
-    appendRange(page - 2, page + 2);
-    items.push('ellipsis');
-    items.push(totalPages);
-    return items;
+    const appendRange = (start, end) => { for (let value = start; value <= end; value += 1) items.push(value); };
+    if (page <= 5) { appendRange(1, 7); items.push('ellipsis', totalPages); return items; }
+    if (page >= totalPages - 4) { items.push(1, 'ellipsis'); appendRange(totalPages - 6, totalPages); return items; }
+    items.push(1, 'ellipsis'); appendRange(page - 2, page + 2); items.push('ellipsis', totalPages); return items;
   }
 
   function renderControls(totalPages) {
@@ -139,7 +115,6 @@
         <input id="library-page-input" class="library-page-input" type="number" inputmode="numeric" min="1" max="${totalPages}" value="${currentPage}" aria-label="${locale ? 'Target page' : '目标页码'}">
         <button class="button library-page-jump-button" type="button" data-page-jump>${locale ? 'Go' : '跳转'}</button>
       </div>
-      <span class="library-page-summary">${currentPage} / ${totalPages}</span>
       <button class="button" type="button" data-page="next" ${currentPage >= totalPages ? 'disabled' : ''}>${locale ? 'Next' : '下一页'}</button>`;
 
     const goTo = target => {
@@ -151,18 +126,14 @@
 
     pagination.querySelector('[data-page="prev"]')?.addEventListener('click', () => goTo(currentPage - 1));
     pagination.querySelector('[data-page="next"]')?.addEventListener('click', () => goTo(currentPage + 1));
-    pagination.querySelectorAll('[data-page-number]').forEach(button => {
-      button.addEventListener('click', () => goTo(Number(button.dataset.pageNumber)));
-    });
+    pagination.querySelectorAll('[data-page-number]').forEach(button => button.addEventListener('click', () => goTo(Number(button.dataset.pageNumber))));
 
     const input = pagination.querySelector('#library-page-input');
     const submit = () => {
       const target = Math.max(1, Math.min(totalPages, Number(input?.value) || currentPage));
       goTo(target);
     };
-    input?.addEventListener('keydown', event => {
-      if (event.key === 'Enter') submit();
-    });
+    input?.addEventListener('keydown', event => { if (event.key === 'Enter') submit(); });
     pagination.querySelector('[data-page-jump]')?.addEventListener('click', submit);
   }
 
@@ -187,30 +158,21 @@
 
     const state = getFilterState();
     const signature = JSON.stringify(state);
-    if (filterSignature === signature && pagination.querySelector('.library-page-list')) {
-      syncCategoryCounts();
-      return;
-    }
+    if (filterSignature === signature && pagination.querySelector('.library-page-list')) { syncCategoryCounts(); return; }
     filterSignature = signature;
-
     const token = ++renderToken;
-    loadColors()
-      .then(() => {
-        if (token !== renderToken || !location.hash.startsWith('#/library')) return;
-        currentPage = 1;
-        syncCategoryCounts();
-        setPage(1, getFiltered(state));
-      })
-      .catch(() => {});
+    loadColors().then(() => {
+      if (token !== renderToken || !location.hash.startsWith('#/library')) return;
+      currentPage = 1;
+      syncCategoryCounts();
+      setPage(1, getFiltered(state));
+    }).catch(() => {});
   }
 
   const queueSync = () => {
     if (syncQueued) return;
     syncQueued = true;
-    requestAnimationFrame(() => {
-      syncQueued = false;
-      sync();
-    });
+    requestAnimationFrame(() => { syncQueued = false; sync(); });
   };
 
   const observer = new MutationObserver(() => queueSync());
@@ -232,19 +194,8 @@
     }
   });
 
-  window.addEventListener('hashchange', () => {
-    filterSignature = '';
-    currentPage = 1;
-    queueSync();
-  });
-  window.addEventListener('colorpalette:localechange', () => {
-    filterSignature = '';
-    queueSync();
-  });
-  window.addEventListener('localechange', () => {
-    filterSignature = '';
-    queueSync();
-  });
-
+  window.addEventListener('hashchange', () => { filterSignature = ''; currentPage = 1; queueSync(); });
+  window.addEventListener('colorpalette:localechange', () => { filterSignature = ''; queueSync(); });
+  window.addEventListener('localechange', () => { filterSignature = ''; queueSync(); });
   queueSync();
 })();
