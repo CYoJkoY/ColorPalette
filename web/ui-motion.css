@@ -30,26 +30,11 @@ body,
   transition-timing-function: var(--motion-ease);
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  overflow-x: hidden;
-}
-
-#app {
-  min-height: 48vh;
-}
-
-#app.cp-route-enter {
-  animation: cp-route-enter var(--motion-enter) var(--motion-ease) both;
-}
-
-#app.cp-motion-ready > * {
-  animation: cp-content-enter var(--motion-enter) var(--motion-ease) both;
-}
-
+html { scroll-behavior: smooth; }
+body { overflow-x: hidden; }
+#app { min-height: 48vh; }
+#app.cp-route-enter { animation: cp-route-enter var(--motion-enter) var(--motion-ease) both; }
+#app.cp-motion-ready > * { animation: cp-content-enter var(--motion-enter) var(--motion-ease) both; }
 #app.cp-motion-ready > *:nth-child(2) { animation-delay: 50ms; }
 #app.cp-motion-ready > *:nth-child(3) { animation-delay: 90ms; }
 #app.cp-motion-ready > *:nth-child(4) { animation-delay: 120ms; }
@@ -63,30 +48,28 @@ body {
 #app .palette-row,
 #app .result-row,
 #app .contrast-card,
-#app .step {
-  will-change: auto;
-}
+#app .step { will-change: auto; }
 
 #app .card,
-#app .panel {
-  transform: translateZ(0);
-}
+#app .panel { transform: translateZ(0); }
 
 #app .card:hover,
 #app .button:hover,
-#app .chip:hover,
 #app .nav a:hover,
-#app .library-entry:hover {
-  transform: translateY(-2px);
+#app .library-entry:hover { transform: translateY(-2px); }
+
+/* Chip rows are horizontally scrollable. A vertical transform makes the browser
+   create a clipped paint area, so use a lifted shadow instead of translating chips. */
+#app .chip:hover {
+  transform: none;
+  box-shadow: 0 4px 10px rgba(24,24,27,.10);
 }
 
 #app .card:active,
 #app .button:active,
-#app .chip:active,
 #app .nav a:active,
-#app .library-entry:active {
-  transform: translateY(0) scale(.985);
-}
+#app .library-entry:active { transform: translateY(0) scale(.985); }
+#app .chip:active { transform: none; box-shadow: none; }
 
 #app .swatch,
 #app .detail-color,
@@ -98,19 +81,9 @@ body {
 }
 
 #app .color-card:hover .swatch,
-#app .library-card:hover .swatch {
-  transform: scale(1.025);
-  filter: saturate(1.04);
-}
-
-#app .library-entry b {
-  display: inline-block;
-  transition: transform var(--motion-normal) var(--motion-ease);
-}
-
-#app .library-entry:hover b {
-  transform: translateX(4px);
-}
+#app .library-card:hover .swatch { transform: scale(1.025); filter: saturate(1.04); }
+#app .library-entry b { display: inline-block; transition: transform var(--motion-normal) var(--motion-ease); }
+#app .library-entry:hover b { transform: translateX(4px); }
 
 #app .input:focus,
 #app .search-input:focus,
@@ -126,58 +99,35 @@ body {
   box-shadow: 0 0 0 4px rgba(124, 58, 237, .13);
 }
 
-.range {
-  cursor: ew-resize;
-  transition: filter var(--motion-fast) var(--motion-ease);
-}
-
+.range { cursor: ew-resize; transition: filter var(--motion-fast) var(--motion-ease); }
 .range:hover,
-.range:focus-visible {
-  filter: saturate(1.15);
-}
-
-.preference-switch:hover {
-  transform: translateY(-1px);
-}
-
-.preference-switch:active {
-  transform: translateY(0) scale(.985);
-}
-
-.preference-thumb {
-  transition: left var(--motion-normal) var(--motion-ease-soft), transform var(--motion-normal) var(--motion-ease-soft), background-color var(--motion-fast) linear;
-}
-
-.toast {
-  animation: cp-toast-in 240ms var(--motion-ease) both;
-}
+.range:focus-visible { filter: saturate(1.15); }
+.preference-switch:hover { transform: translateY(-1px); }
+.preference-switch:active { transform: translateY(0) scale(.985); }
+.preference-thumb { transition: left var(--motion-normal) var(--motion-ease-soft), transform var(--motion-normal) var(--motion-ease-soft), background-color var(--motion-fast) linear; }
+.toast { animation: cp-toast-in 240ms var(--motion-ease) both; }
 
 @keyframes cp-route-enter {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes cp-content-enter {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes cp-toast-in {
   from { opacity: 0; transform: translate(-50%, 8px) scale(.97); }
   to { opacity: 1; transform: translate(-50%, 0) scale(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
     scroll-behavior: auto !important;
   }
 }
-
 @media (max-width: 900px) {
   #app.cp-motion-ready > * { animation-delay: 0ms; }
 }
