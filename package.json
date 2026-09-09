@@ -1,0 +1,19 @@
+{
+  "name": "colorpalette",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Local-first color workspace",
+  "license": "GPL-3.0",
+  "scripts": {
+    "build": "npm run build:core && npm run build:web && npm run build:data",
+    "build:core": "tsc -p tsconfig.json",
+    "build:web": "tsc -p tsconfig.web.json",
+    "build:data": "tsx web/build-data.ts",
+    "test": "tsx tests/color.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  }
+}

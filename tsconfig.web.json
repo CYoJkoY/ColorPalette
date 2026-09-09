@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "None",
+    "moduleResolution": "Classic",
+    "outDir": "web-dist",
+    "strict": false,
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "lib": ["ES2022", "DOM"]
+  },
+  "files": [
+    "web/locales/zh-CN.ts",
+    "web/locales/en-US.ts",
+    "web/i18n.ts",
+    "web/ui-shell.ts",
+    "web/preferences-lite.ts",
+    "web/app-locale.ts",
+    "web/library-pagination.ts",
+    "web/palette-studio-controls.ts",
+    "web/ui-motion.ts"
+  ]
+}
