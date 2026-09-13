@@ -22,6 +22,15 @@ jobs:
           npx tsc --noEmit -p tsconfig.web.json
       - name: Build web TypeScript
         run: npm run build:web
+      - name: Reject undefined identifiers in web sources
+        run: |
+          npx tsc --noEmit -p tsconfig.web.json --noCheck false 2>&1 | tee ts-web.log || true
+          if grep -q 'TS2304' ts-web.log; then
+            echo 'Undefined identifier found in web sources'
+            grep 'TS2304' ts-web.log
+            exit 1
+          fi
+          echo 'No undefined identifiers in web sources'
       - name: Validate JSON
         run: |
           find . -name '*.json' -not -path './.git/*' -not -path './node_modules/*' -print0 | xargs -0 -r -n1 node -e "JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'))"
@@ -45,6 +54,7 @@ jobs:
           test -s web-dist/i18n.js
           test -s web-dist/ui-shell.js
           test -s web-dist/app-locale.js
+          test -s web-dist/extractor-fix.js
           test -s web-dist/locales/zh-CN.js
           test -s web-dist/locales/en-US.js
       - name: Validate locale resources

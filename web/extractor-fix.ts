@@ -7,7 +7,7 @@
   const isExtractorRoute = () => location.hash.replace(/^#/, '').split('?')[0] === '/extractor';
   const t = (key, fallback) => String(window.ColorPaletteI18n?.data?.ui?.[key] ?? fallback);
   const hex = (r, g, b) => `#${[r, g, b].map(value => Math.max(0, Math.min(255, Math.round(value))).toString(16).padStart(2, '0')).join('').toUpperCase()}`;
-  const escapeHtml = value => value.replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char] || char));
+  const escapeHtml = value => value.replace(/[&<>\"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#39;' }[char] || char));
 
   let objectUrl = '';
 
@@ -180,7 +180,11 @@
     renderResults();
   };
 
-  window.addEventListener('hashchange', render);
+  window.addEventListener('hashchange', event => {
+    if (!isExtractorRoute()) return;
+    event.stopImmediatePropagation();
+    render();
+  }, true);
   window.addEventListener('colorpalette:localechange', () => {
     if (isExtractorRoute()) render();
   });
