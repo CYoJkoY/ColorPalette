@@ -3,6 +3,7 @@
 
   const app = document.querySelector('#app');
   const STORE = 'colorpalette-web-v2';
+  const MAX_PALETTE_COLORS = window.ColorPaletteMaxPaletteColors || 10;
   const DATA = () => window.ColorPaletteI18n?.data || {};
   const EN = () => window.ColorPaletteI18n?.locale === 'en-US';
   const T = (key: string) => String(DATA().ui?.[key] ?? key);
@@ -22,7 +23,7 @@
   };
 
   const saveState = (state: State) => localStorage.setItem(STORE, JSON.stringify(state));
-  const renderSwatches = (values: string[] = []) => `<div class="mini-palette">${values.slice(0, 8).map(value => `<div style="background:${esc(value)}">${esc(value)}</div>`).join('')}</div>`;
+  const renderSwatches = (values: string[] = []) => `<div class="mini-palette">${values.slice(0, MAX_PALETTE_COLORS).map(value => `<div style="background:${esc(value)}">${esc(value)}</div>`).join('')}</div>`;
   const colorName = (item: Favorite) => EN() && item.name ? item.name : (item.name || T('color.custom'));
   const routePath = () => (location.hash.replace(/^#/, '').split('?')[0] || '/home');
   const isOwnedRoute = () => routePath() === '/favorites' || routePath() === '/workspace';

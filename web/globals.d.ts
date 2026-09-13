@@ -5,4 +5,3 @@ interface Window {
 }
 
 declare function renderResults(): void;
-declare function renderWorkspace(): void;
