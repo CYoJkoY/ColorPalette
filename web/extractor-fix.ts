@@ -10,6 +10,8 @@
   const escapeHtml = value => value.replace(/[&<>\"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#39;' }[char] || char));
 
   let objectUrl = '';
+  const MAX_PALETTE_COLORS = window.ColorPaletteMaxPaletteColors || 10;
+  const notifyStateChange = () => window.dispatchEvent(new CustomEvent('colorpalette:statechange'));
 
   const loadState = () => {
     try {
@@ -26,7 +28,7 @@
     const palette = {
       id: `palette-${now}`,
       name: t('extractor.paletteName', 'Extracted Palette'),
-      colors: colors.slice(0, 8),
+      colors: colors.slice(0, MAX_PALETTE_COLORS),
       source: 'image-extractor',
       createdAt: now,
       updatedAt: now
@@ -35,6 +37,7 @@
     const raw = JSON.parse(localStorage.getItem('colorpalette-web-v2') || '{}');
     raw.palettes = state.palettes;
     localStorage.setItem('colorpalette-web-v2', JSON.stringify(raw));
+    notifyStateChange();
   };
 
   const render = () => {
@@ -133,7 +136,7 @@
         }
         extracted = [...buckets.entries()]
           .sort((a, b) => b[1] - a[1])
-          .slice(0, 8)
+          .slice(0, MAX_PALETTE_COLORS)
           .map(([color, count]) => ({ hex: color, count }));
         renderResults();
       };
